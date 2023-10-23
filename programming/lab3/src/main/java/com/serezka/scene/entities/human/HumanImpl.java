@@ -1,6 +1,9 @@
 package com.serezka.scene.entities.human;
 
+import com.serezka.scene.entities.action.Action;
 import com.serezka.scene.entities.place.Place;
+import com.serezka.scene.entities.qualifers.Qualifer;
+import com.serezka.scene.entities.util.HumanUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -43,13 +46,28 @@ public class HumanImpl implements Human {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public String action(Action action) {
+        return String.join(" ", this.name, "исполнил", action.getName());
     }
 
     @Override
-    public String getName(String prefix) {
-        return String.join(" ", prefix, this.name);
+    public String actionWith(Action action, Human... humans) {
+        return String.join(" ", HumanUtils.toString(humans), "и", this.name, "исполнили", action.getName());
+    }
+
+    @Override
+    public String qualify(Qualifer qualifer) {
+        return String.join(" ", this.name, "выразил", qualifer.getName());
+    }
+
+    @Override
+    public String qualifyWith(Qualifer qualifer, Human... humans) {
+        return String.join(" ", HumanUtils.toString(humans), "и", this.name, "выразили", qualifer.getName());
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 
     @Override

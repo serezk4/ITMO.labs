@@ -2,7 +2,10 @@ package com.serezka.scene.entities.human.list;
 
 import com.serezka.scene.entities.human.Gender;
 import com.serezka.scene.entities.human.HumanImpl;
+import com.serezka.scene.entities.place.Place;
 import com.serezka.scene.entities.place.list.CarlsonRoof;
+
+import java.util.Objects;
 
 public class Carlson extends HumanImpl {
     private Carlson() {

@@ -4,6 +4,6 @@ import com.serezka.scene.entities.action.ActionImpl;
 
 public class DontClimbOnRoofs extends ActionImpl {
     public DontClimbOnRoofs() {
-        super("не лазает по крышам");
+        super("лазает по крышам");
     }
 }

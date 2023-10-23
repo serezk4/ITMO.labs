@@ -5,20 +5,20 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Live extends ActionImpl {
-    String with = "";
+public class Sit extends ActionImpl {
+    String where = "";
 
-    public Live() {
-        super("живет");
+    public Sit() {
+        super("сидеть");
     }
 
-    public Live(String with) {
+    public Sit(String where) {
         this();
-        this.with = "с " + with;
+        this.where=where;
     }
 
     @Override
     public String getName() {
-        return super.getName() + with;
+        return super.getName() + where;
     }
 }

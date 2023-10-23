@@ -17,11 +17,6 @@ public class PlaceImpl implements Place {
     }
 
     @Override
-    public String getName(String prefix) {
-        return String.join(" ", prefix, " ", this.name);
-    }
-
-    @Override
     public String toString() {
         return "Место {" +
                 "name='" + name + '\'' +

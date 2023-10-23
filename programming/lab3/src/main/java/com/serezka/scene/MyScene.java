@@ -15,52 +15,36 @@ public class MyScene extends Scene {
 
     @Override
     public String build() {
-        history.add(Kid.getInstance().getName("У"))
-                .add(new EyesRounded().executeFrom(Organ.EYES.getName()))
-                .add(new Astonishment().getName("от"))
-                .add(".");
+        history.add(Kid.getInstance().qualify(new Scared()))
+                .add(Kid.getInstance().action(new TakeBreath()))
+                .add(Kid.getInstance().qualify(new Despair()))
+                .add(Carlson.getInstance().action(new TakeAway()))
+                .add(Rulle.getInstance().actionWith(new Notice(), Fille.getInstance()))
+                .add(Kid.getInstance().action(new ClenchFists()))
+                .add(Kid.getInstance().action(new HoldTears()))
+                .add(Kid.getInstance().action(new StoppedWorking()))
+                .add(Kid.getInstance().action(new Tried()))
+                .add(Kid.getInstance().action(new Hear()))
+                .add(Rulle.getInstance().action(new Say()));
 
-        history.add("Может,")
-                .add(new Mishear().executeFrom(Kid.getInstance().getGender().getPrefix()))
-                .add("?");
+        history.add(Kid.getInstance().action(new EyesRounded()))
+                .add(Kid.getInstance().action(new Mishear()))
+                .add(Rulle.getInstance().actionWith(new Think(), Fille.getInstance()))
+                .add(Carlson.getInstance().action(new Live(Svantesoni.getInstance().getName())))
+                .add(Carlson.getInstance().qualify(new Always()))
+                .add(Carlson.getInstance().action(new CanHide()))
+                .add(CarlsonRoof.getInstance().getName())
+                .add(Rulle.getInstance().actionWith(new DidntTrackDownOfHim(), Fille.getInstance()))
+                .add(Sweep.getInstance().action(new DontClimbOnRoofs()))
+                .add(Rulle.getInstance().actionWith(new DontUnderstood(), Fille.getInstance()))
+                .add(Carlson.getInstance().qualify(new PoorGuy()))
+                .add(Carlson.getInstance().action(new CantHide()));
 
-        history.add("Неужели")
-                .add(new Think().executeFromAndUse(new Indeed(), Fille.getInstance(), Rulle.getInstance()))
-                .add(",").add("что")
-                .add(new Live().executeFrom(Carlson.getInstance())).add(Svantesoni.getInstance().getName("у"))
-                .add("?");
+        history.add(Fille.getInstance().action(new KeepSilent()))
+                .add(Fille.getInstance().actionWith(new Sit("на скамейка"), Fille.getInstance()))
+                .add(Fille.getInstance().action(new Look()))
+                .add(Kid.getInstance().getName());
 
-        history.add("Какое счастье")
-                .add("!");
-
-        history.add(new Mean().executeFrom("Это"))
-                .add(",").add("что")
-                .add(new CanHide().executeFromAndUse(new Always(), Carlson.getInstance())).add("у себя дома")
-                .add("и")
-                .add(new StayThere().execute()).add(new InSafety().use())
-                .add(".");
-
-        history.add(new DidntTrackDownOfHim().executeFrom(Fille.getInstance(), Rulle.getInstance()))
-                .add("!");
-
-        history.add(new ItsNotSoEasy().use(), ".");
-
-        history.add("Ведь никто,")
-                .add(Sweep.getInstance().getName("кроме"))
-                .add(",", new DontClimbOnRoofs().execute(), ".");
-
-        history.add("Итак,")
-                .add(new DontUnderstood().executeFrom(Fille.getInstance(), Rulle.getInstance()))
-                .add(CarlsonRoof.getInstance().getName("про"), ",")
-                .add("и тем не менее").add(new Awful().getName("все это"))
-                .add(".");
-
-        history.add(Carlson.getInstance().getName("Бедняга"))
-                .add(",").add(new FeelLike().use()).add(new HaveTo().executeFrom("ему")).add(",")
-                .add("если всерьез начнется за ним охота").add("!");
-
-        history.add(new CantHide().executeFromAndUse(new Never(), "Этот дурачок"))
-                .add(".");
 
         return history.getResult();
     }

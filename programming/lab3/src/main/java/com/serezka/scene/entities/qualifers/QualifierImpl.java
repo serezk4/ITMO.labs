@@ -1,8 +1,5 @@
-package com.serezka.scene.entities.action;
+package com.serezka.scene.entities.qualifers;
 
-import com.serezka.scene.entities.qualifers.Qualifer;
-import com.serezka.scene.entities.human.Human;
-import com.serezka.scene.entities.util.HumanUtils;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -11,18 +8,18 @@ import java.util.Objects;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
-public class ActionImpl implements Action {
-    String action;
+public class QualifierImpl implements Qualifer {
+    String qualifier;
 
     @Override
     public String getName() {
-        return this.action;
+        return this.qualifier;
     }
 
     @Override
     public String toString() {
-        return "Действие {" +
-                "action='" + action + '\'' +
+        return "Qualifer {" +
+                "qualifier='" + qualifier + '\'' +
                 '}';
     }
 
@@ -30,12 +27,12 @@ public class ActionImpl implements Action {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ActionImpl action1 = (ActionImpl) o;
-        return Objects.equals(action, action1.action);
+        QualifierImpl qualifer = (QualifierImpl) o;
+        return Objects.equals(qualifier, qualifer.qualifier);
     }
 
     @Override
     public int hashCode() {
-        return action.hashCode();
+        return Objects.hash(qualifier);
     }
 }

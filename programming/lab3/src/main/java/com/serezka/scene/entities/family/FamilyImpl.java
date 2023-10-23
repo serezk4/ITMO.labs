@@ -22,11 +22,6 @@ public class FamilyImpl implements Family {
     }
 
     @Override
-    public String getName(String prefix) {
-        return String.join(" ", prefix, this.name);
-    }
-
-    @Override
     public List<Human> getPeoples() {
         return this.peoples;
     }

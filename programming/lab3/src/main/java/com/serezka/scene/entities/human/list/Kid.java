@@ -14,9 +14,4 @@ public class Kid extends HumanImpl {
         if (instance == null) instance = new Kid();
         return instance;
     }
-
-    @Override
-    public String getName(String prefix) {
-        return String.join(" ", prefix, super.getName() + "а");
-    }
 }
