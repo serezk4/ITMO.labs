@@ -14,12 +14,11 @@ public class ToFib {
         writer.append("введите число в десятичной системе счисления: ").flush();
 
         String input = reader.readLine();
-        if (!input.matches("\\d+") || Long.parseLong(input) <= 0) {
+        long number;
+        if (!input.matches("\\d+") || (number = Long.parseLong(input)) <= 0) {
             System.err.println("введите число > 0!");
             return;
         }
-
-        long number = Long.parseLong(input);
 
         List<Long> fib = getFib(number);
         int[] used = new int[fib.size()];
