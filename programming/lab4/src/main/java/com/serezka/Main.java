@@ -3,7 +3,6 @@ package com.serezka;
 import com.serezka.scene.MyScene;
 import com.serezka.scene.exceptions.EmptyStoryException;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main {

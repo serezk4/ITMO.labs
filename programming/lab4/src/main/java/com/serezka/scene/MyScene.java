@@ -13,28 +13,29 @@ import com.serezka.scene.entities.qualifers.list.Despair;
 import com.serezka.scene.entities.qualifers.list.PoorGuy;
 import com.serezka.scene.entities.qualifers.list.Scared;
 import com.serezka.scene.exceptions.EmptyStoryException;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Properties;
 
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MyScene extends Scene {
-    private final TextBuilder history = TextBuilder.getInstance();
+    TextBuilder history = TextBuilder.getInstance();
+
+    // init
+    Human kid = Kid.getInstance();
+    Human carlson = Carlson.getInstance();
+    Human fille = Fille.getInstance();
+    Human rulle = Rulle.getInstance();
+    Human sweep = Sweep.getInstance();
+
+    Place carlsonRoof = CarlsonRoof.getInstance();
+
+    Family svantesoni = Svantesoni.getInstance();
 
     @Override
     public String build() throws EmptyStoryException, IOException {
-        // init
-        Human kid = Kid.getInstance();
-        Human carlson = Carlson.getInstance();
-        Human fille = Fille.getInstance();
-        Human rulle = Rulle.getInstance();
-        Human sweep = Sweep.getInstance();
-
-        Place carlsonRoof = CarlsonRoof.getInstance();
-
-        Family svantesoni = Svantesoni.getInstance();
-
         history.add(kid.qualify(new Scared()))
                 .add(kid.action(new TakeBreath()))
                 .add(kid.qualify(new Despair()))

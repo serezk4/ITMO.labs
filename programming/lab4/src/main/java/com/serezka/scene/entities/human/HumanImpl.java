@@ -57,22 +57,22 @@ public class HumanImpl implements Human {
 
     @Override
     public String action(Action action) {
-        return String.join(" ", this.name, "исполнил", action.getName());
+        return String.join(" ", this.name,  action.getName());
     }
 
     @Override
     public String actionWith(Action action, Human... humans) {
-        return String.join(" ", HumanUtils.toString(humans), "и", this.name, "исполнили", action.getName());
+        return String.join(" ", HumanUtils.toString(humans), "и", this.name, action.getName());
     }
 
     @Override
     public String qualify(Qualifer qualifer) {
-        return String.join(" ", this.name, "выразил", qualifer.getName());
+        return String.join(" ", this.name, qualifer.getName());
     }
 
     @Override
     public String qualifyWith(Qualifer qualifer, Human... humans) {
-        return String.join(" ", HumanUtils.toString(humans), "и", this.name, "выразили", qualifer.getName());
+        return String.join(" ", HumanUtils.toString(humans), "и", this.name, qualifer.getName());
     }
 
     @Override
