@@ -1,18 +1,20 @@
 package com.serezka.scene.entities.action;
 
-import com.serezka.scene.entities.qualifers.Qualifer;
-import com.serezka.scene.entities.human.Human;
-import com.serezka.scene.entities.util.HumanUtils;
+import com.serezka.scene.exceptions.IllegalArgumentException;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class ActionImpl implements Action {
     String action;
+
+    public ActionImpl(String action) {
+        if (action == null || action.isBlank()) throw new IllegalArgumentException();
+
+        this.action = action;
+    }
 
     @Override
     public String getName() {

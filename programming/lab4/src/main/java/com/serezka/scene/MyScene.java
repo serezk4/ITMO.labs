@@ -3,10 +3,13 @@ package com.serezka.scene;
 import com.serezka.Scene;
 import com.serezka.scene.entities.action.list.*;
 import com.serezka.scene.entities.family.list.Svantesoni;
-import com.serezka.scene.entities.human.Organ;
 import com.serezka.scene.entities.human.list.*;
 import com.serezka.scene.entities.place.list.CarlsonRoof;
-import com.serezka.scene.entities.qualifers.list.*;
+import com.serezka.scene.entities.qualifers.list.Always;
+import com.serezka.scene.entities.qualifers.list.Despair;
+import com.serezka.scene.entities.qualifers.list.PoorGuy;
+import com.serezka.scene.entities.qualifers.list.Scared;
+import com.serezka.scene.exceptions.EmptyStoryException;
 
 import java.util.Objects;
 
@@ -14,7 +17,7 @@ public class MyScene extends Scene {
     private final TextBuilder history = TextBuilder.getInstance();
 
     @Override
-    public String build() {
+    public String build() throws EmptyStoryException {
         history.add(Kid.getInstance().qualify(new Scared()))
                 .add(Kid.getInstance().action(new TakeBreath()))
                 .add(Kid.getInstance().qualify(new Despair()))
@@ -45,6 +48,8 @@ public class MyScene extends Scene {
                 .add(Fille.getInstance().action(new Look()))
                 .add(Kid.getInstance().getName());
 
+
+        if (history.getResult().isBlank()) throw new EmptyStoryException();
 
         return history.getResult();
     }

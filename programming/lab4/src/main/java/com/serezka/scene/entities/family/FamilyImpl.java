@@ -1,5 +1,6 @@
 package com.serezka.scene.entities.family;
 
+import com.serezka.scene.entities.family.exceptions.EmptyFamilyException;
 import com.serezka.scene.entities.human.Human;
 import com.serezka.scene.entities.place.Place;
 import lombok.AccessLevel;
@@ -10,11 +11,18 @@ import java.util.List;
 import java.util.Objects;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
- @RequiredArgsConstructor
 public class FamilyImpl implements Family {
     String name;
     List<Human> peoples;
     Place house;
+
+    public FamilyImpl(String name, List<Human> peoples, Place house) {
+        if (peoples == null || peoples.isEmpty()) throw new EmptyFamilyException();
+
+        this.name = name;
+        this.peoples = peoples;
+        this.house = house;
+    }
 
     @Override
     public String getName() {

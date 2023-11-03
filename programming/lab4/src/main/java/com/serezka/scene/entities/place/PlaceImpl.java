@@ -1,5 +1,6 @@
 package com.serezka.scene.entities.place;
 
+import com.serezka.scene.exceptions.IllegalArgumentException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -7,9 +8,14 @@ import lombok.experimental.FieldDefaults;
 import java.util.Objects;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class PlaceImpl implements Place {
     String name;
+
+    public PlaceImpl(String name) {
+        if (name == null || name.isBlank()) throw new IllegalArgumentException();
+
+        this.name = name;
+    }
 
     @Override
     public String getName() {

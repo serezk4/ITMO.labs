@@ -1,23 +1,33 @@
 package com.serezka.scene.entities.human;
 
 import com.serezka.scene.entities.action.Action;
+import com.serezka.scene.entities.human.exceptions.AgeException;
 import com.serezka.scene.entities.place.Place;
 import com.serezka.scene.entities.qualifers.Qualifer;
 import com.serezka.scene.entities.util.HumanUtils;
+import com.serezka.scene.exceptions.IllegalArgumentException;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Objects;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
 public class HumanImpl implements Human {
     String name;
     int age;
 
     Place home;
     Gender gender;
+
+    public HumanImpl(String name, int age, Place home, Gender gender) {
+        if (age > 150 || age < 0) throw new AgeException();
+        if (name == null || name.isBlank() || gender == null) throw new IllegalArgumentException();
+
+        this.name = name;
+        this.age = age;
+        this.home = home;
+        this.gender = gender;
+    }
 
     @Override
     public String describe() {
