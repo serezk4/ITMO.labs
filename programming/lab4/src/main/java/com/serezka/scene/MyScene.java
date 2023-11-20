@@ -1,8 +1,6 @@
 package com.serezka.scene;
 
-import com.serezka.Scene;
 import com.serezka.scene.entities.action.Actions;
-import com.serezka.scene.entities.family.Families;
 import com.serezka.scene.entities.family.Family;
 import com.serezka.scene.entities.family.FamilyImpl;
 import com.serezka.scene.entities.human.Human;
@@ -30,15 +28,16 @@ public class MyScene extends Scene {
 
     Place carlsonRoof = Places.CarlsonRoof.getInstance();
 
-    Family svantesoni = new FamilyImpl("Свантесоны", List.of(Humans.Fille.getInstance(), Humans.Rulle.getInstance()), new Places.House()) {
-        @Override
-        public String getName() {
-            return "Свантесонов";
-        }
-    };
-
     @Override
     public String build() throws EmptyStoryException {
+        // anonymous class
+        final Family svantesoni = new FamilyImpl("Свантесоны", List.of(Humans.Fille.getInstance(), Humans.Rulle.getInstance()), new Places.House()) {
+            @Override
+            public String getName() {
+                return "Свантесонов";
+            }
+        };
+
         history.add(kid.qualify(new Qualifers.Scared()))
                 .add(kid.action(new Actions.TakeBreath()))
                 .add(kid.qualify(new Qualifers.Despair()))
