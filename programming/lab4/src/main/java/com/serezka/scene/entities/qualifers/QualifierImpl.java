@@ -12,14 +12,19 @@ public class QualifierImpl implements Qualifer {
     String qualifier;
 
     public QualifierImpl(String qualifier) {
-        if (qualifier == null || qualifier.isBlank()) throw new IllegalArgumentException();
-
         this.qualifier = qualifier;
+
+        validate();
     }
 
     @Override
     public String getName() {
         return this.qualifier;
+    }
+
+    @Override
+    public void validate() throws IllegalArgumentException {
+        if (qualifier == null || qualifier.isBlank()) throw new IllegalArgumentException();
     }
 
     @Override

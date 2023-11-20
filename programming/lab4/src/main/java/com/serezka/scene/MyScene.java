@@ -1,17 +1,14 @@
 package com.serezka.scene;
 
 import com.serezka.Scene;
-import com.serezka.scene.entities.action.list.*;
+import com.serezka.scene.entities.action.Actions;
+import com.serezka.scene.entities.family.Families;
 import com.serezka.scene.entities.family.Family;
-import com.serezka.scene.entities.family.list.Svantesoni;
 import com.serezka.scene.entities.human.Human;
-import com.serezka.scene.entities.human.list.*;
+import com.serezka.scene.entities.human.Humans;
 import com.serezka.scene.entities.place.Place;
-import com.serezka.scene.entities.place.list.CarlsonRoof;
-import com.serezka.scene.entities.qualifers.list.Always;
-import com.serezka.scene.entities.qualifers.list.Despair;
-import com.serezka.scene.entities.qualifers.list.PoorGuy;
-import com.serezka.scene.entities.qualifers.list.Scared;
+import com.serezka.scene.entities.place.Places;
+import com.serezka.scene.entities.qualifers.Qualifers;
 import com.serezka.scene.exceptions.EmptyStoryException;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -24,46 +21,46 @@ public class MyScene extends Scene {
     TextBuilder history = TextBuilder.getInstance();
 
     // init
-    Human kid = Kid.getInstance();
-    Human carlson = Carlson.getInstance();
-    Human fille = Fille.getInstance();
-    Human rulle = Rulle.getInstance();
-    Human sweep = Sweep.getInstance();
+    Human kid = Humans.Kid.getInstance();
+    Human carlson = Humans.Carlson.getInstance();
+    Human fille = Humans.Fille.getInstance();
+    Human rulle = Humans.Rulle.getInstance();
+    Human sweep = Humans.Sweep.getInstance();
 
-    Place carlsonRoof = CarlsonRoof.getInstance();
+    Place carlsonRoof = Places.CarlsonRoof.getInstance();
 
-    Family svantesoni = Svantesoni.getInstance();
+    Family svantesoni = Families.Svantesoni.getInstance();
 
     @Override
     public String build() throws EmptyStoryException, IOException {
-        history.add(kid.qualify(new Scared()))
-                .add(kid.action(new TakeBreath()))
-                .add(kid.qualify(new Despair()))
-                .add(carlson.action(new TakeAway()))
-                .add(rulle.actionWith(new Notice(), fille))
-                .add(kid.action(new ClenchFists()))
-                .add(kid.action(new HoldTears()))
-                .add(kid.action(new StoppedWorking()))
-                .add(kid.action(new Tried()))
-                .add(kid.action(new Hear()))
-                .add(rulle.action(new Say()));
+        history.add(kid.qualify(new Qualifers.Scared()))
+                .add(kid.action(new Actions.TakeBreath()))
+                .add(kid.qualify(new Qualifers.Despair()))
+                .add(carlson.action(new Actions.TakeAway()))
+                .add(rulle.actionWith(new Actions.Notice(), fille))
+                .add(kid.action(new Actions.ClenchFists()))
+                .add(kid.action(new Actions.HoldTears()))
+                .add(kid.action(new Actions.StoppedWorking()))
+                .add(kid.action(new Actions.Tried()))
+                .add(kid.action(new Actions.Hear()))
+                .add(rulle.action(new Actions.Say()));
 
-        history.add(kid.action(new EyesRounded()))
-                .add(kid.action(new Mishear()))
-                .add(rulle.actionWith(new Think(), fille))
-                .add(carlson.action(new Live(svantesoni.getName())))
-                .add(carlson.qualify(new Always()))
-                .add(carlson.action(new CanHide()))
+        history.add(kid.action(new Actions.EyesRounded()))
+                .add(kid.action(new Actions.Mishear()))
+                .add(rulle.actionWith(new Actions.Think(), fille))
+                .add(carlson.action(new Actions.Live(svantesoni.getName())))
+                .add(carlson.qualify(new Qualifers.Always()))
+                .add(carlson.action(new Actions.CanHide()))
                 .add(carlsonRoof.getName())
-                .add(rulle.actionWith(new DidntTrackDownOfHim(), fille))
-                .add(sweep.action(new DontClimbOnRoofs()))
-                .add(rulle.actionWith(new DontUnderstood(), fille))
-                .add(carlson.qualify(new PoorGuy()))
-                .add(carlson.action(new CantHide()));
+                .add(rulle.actionWith(new Actions.DidntTrackDownOfHim(), fille))
+                .add(sweep.action(new Actions.DontClimbOnRoofs()))
+                .add(rulle.actionWith(new Actions.DontUnderstood(), fille))
+                .add(carlson.qualify(new Qualifers.PoorGuy()))
+                .add(carlson.action(new Actions.CantHide()));
 
-        history.add(fille.action(new KeepSilent()))
-                .add(fille.actionWith(new Sit("на скамейка"), fille))
-                .add(fille.action(new Look()))
+        history.add(fille.action(new Actions.KeepSilent()))
+                .add(fille.actionWith(new Actions.Sit("на скамейка"), fille))
+                .add(fille.action(new Actions.Look()))
                 .add(kid.getName());
 
 

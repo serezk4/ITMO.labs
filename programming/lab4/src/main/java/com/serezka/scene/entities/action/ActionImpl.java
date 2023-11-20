@@ -11,14 +11,19 @@ public class ActionImpl implements Action {
     String action;
 
     public ActionImpl(String action) {
-        if (action == null || action.isBlank()) throw new IllegalArgumentException();
-
         this.action = action;
+
+        validate();
     }
 
     @Override
     public String getName() {
         return this.action;
+    }
+
+    @Override
+    public void validate() throws IllegalArgumentException {
+        if (action == null || action.isBlank()) throw new IllegalArgumentException("action must be not null");
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.serezka.scene.entities.family;
 
-import com.serezka.scene.entities.family.exceptions.EmptyFamilyException;
 import com.serezka.scene.entities.human.Human;
 import com.serezka.scene.entities.place.Place;
+import com.serezka.scene.exceptions.IllegalArgumentException;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.util.List;
@@ -17,16 +16,21 @@ public class FamilyImpl implements Family {
     Place house;
 
     public FamilyImpl(String name, List<Human> peoples, Place house) {
-        if (peoples == null || peoples.isEmpty()) throw new EmptyFamilyException();
-
         this.name = name;
         this.peoples = peoples;
         this.house = house;
+
+        validate();
     }
 
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public void validate() throws IllegalArgumentException {
+        if (peoples == null || peoples.isEmpty()) throw new IllegalArgumentException("family must be non-empty");
     }
 
     @Override

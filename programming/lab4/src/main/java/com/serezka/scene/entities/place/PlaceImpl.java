@@ -12,14 +12,18 @@ public class PlaceImpl implements Place {
     String name;
 
     public PlaceImpl(String name) {
-        if (name == null || name.isBlank()) throw new IllegalArgumentException();
-
         this.name = name;
+        validate();
     }
 
     @Override
     public String getName() {
         return this.name;
+    }
+
+    @Override
+    public void validate() throws IllegalArgumentException {
+        if (name == null || name.isBlank()) throw new IllegalArgumentException();
     }
 
     @Override

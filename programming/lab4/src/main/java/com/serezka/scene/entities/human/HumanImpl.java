@@ -1,7 +1,6 @@
 package com.serezka.scene.entities.human;
 
 import com.serezka.scene.entities.action.Action;
-import com.serezka.scene.entities.human.exceptions.AgeException;
 import com.serezka.scene.entities.place.Place;
 import com.serezka.scene.entities.qualifers.Qualifer;
 import com.serezka.scene.entities.util.HumanUtils;
@@ -20,13 +19,18 @@ public class HumanImpl implements Human {
     Gender gender;
 
     public HumanImpl(String name, int age, Place home, Gender gender) {
-        if (age > 150 || age < 0) throw new AgeException();
-        if (name == null || name.isBlank() || gender == null) throw new IllegalArgumentException();
-
         this.name = name;
         this.age = age;
         this.home = home;
         this.gender = gender;
+
+        validate();
+    }
+
+    @Override
+    public void validate() throws IllegalArgumentException {
+        if (age > 150 || age < 0) throw new IllegalArgumentException("age must be in range: 0 < age < 150");
+        if (name == null || name.isBlank() || gender == null) throw new IllegalArgumentException();
     }
 
     @Override
