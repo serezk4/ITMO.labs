@@ -4,7 +4,6 @@ import com.serezka.scene.exceptions.EmptyStoryException;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
