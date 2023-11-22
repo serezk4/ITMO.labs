@@ -1,36 +1,26 @@
-import java.util.Map;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
-public class Task3 {
-    public static void main(String[] args) {
-        Map<String, String> tests = Map.of(
-                "20 + 22 = 42", "1593 + 1929 = 7049",
-                "20, 20", "20, 1593",
-                "20 20 fewefwef 20 20", "1593 1593 fewefwef 1593 1593",
-                "22 42 _ f we 20", "1929 7049 _ f we 1593"
-        );
-
-
-
-        tests.entrySet().stream()
-                .map(test -> operate(test.getKey()).equals(test.getValue()))
-                .forEach(System.out::println);
+public class Task3 extends Task {
+    public Task3() {
+        super("task #3", """
+                Необходимо выбрать три любых буквы и расстояние между ними. С помощью
+                регулярного выражения нужно найти все слова (последовательность символов
+                ограниченная пробелами), в которых встречаются эти буквы в заданной
+                последовательности и расстояние (например, через один друг от друга).
+                """);
     }
 
-    private static String operate(String val) {
-        StringBuilder result = new StringBuilder();
-        for (String item : val.split(" ")) {
-            if (!item.matches("^\\d+$")) {
-                result.append(item).append(" ");
-                continue;
-            }
-
-            result.append(function(Integer.parseInt(item))).append(" ");
-        }
-
-        return result.toString().trim();
+    @Override
+    public void run() {
+        write(operate(read()));
     }
 
-    private static int function(int x) {
-        return (int) (4 * Math.pow(x, 2) - 7);
+    @Override
+    public String operate(String val) {
+        return Arrays.stream(val.split(" "))
+                .map(String::trim)
+                .filter(token -> token.matches("[^(кКрРаА)]*[Кк][^(кКрРаА)][Рр][^(кКрРаА)][Аа][^(кКрРаА)]*"))
+                .map(token -> token + "\n").collect(Collectors.joining());
     }
 }
