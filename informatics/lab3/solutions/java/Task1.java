@@ -10,9 +10,6 @@ public class Task1 extends Task{
                 """);
     }
 
-//    2 2 4
-//    X -{\
-
     @Override
     public void run() {
         write(operate(read()));
