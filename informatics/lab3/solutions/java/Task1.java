@@ -16,7 +16,6 @@ public class Task1 extends Task{
     @Override
     public void run() {
         write(operate(read()));
-
     }
 
     @Override

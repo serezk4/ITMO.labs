@@ -37,7 +37,7 @@ public abstract class Task {
 
     protected void write(String str) {
         try {
-            Main.writer.append(str).flush();
+            Main.writer.append("answer: ").append(str).append("\n").flush();
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
