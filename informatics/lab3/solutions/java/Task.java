@@ -23,14 +23,10 @@ public abstract class Task {
 
     protected String read() {
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
             StringBuilder input = new StringBuilder();
             String line;
-            while (!(line = reader.readLine()).matches("end|к|e"))
+            while (!(line = Main.reader.readLine()).matches("end|к|e"))
                 input.append(line).append(" ");
-
-            reader.close();
 
             return input.toString();
         } catch (Exception ex) {
@@ -41,9 +37,7 @@ public abstract class Task {
 
     protected void write(String str) {
         try {
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
-            writer.append(str).flush();
-            writer.close();
+            Main.writer.append(str).flush();
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
         }
