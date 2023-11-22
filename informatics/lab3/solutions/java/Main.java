@@ -6,7 +6,7 @@ public class Main {
     public static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
     public static void main(String[] args) throws IOException {
-        final List<Task> tasks = List.of(new Task2(), new Task3());
+        final List<Task> tasks = List.of(new Task1(), new Task2(), new Task3());
 
         String menu = "_- MENU -_\nSelect Task:\n";
         for (int i = 0; i < tasks.size(); i++)
