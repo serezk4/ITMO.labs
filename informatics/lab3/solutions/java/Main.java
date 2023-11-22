@@ -6,6 +6,8 @@ public class Main {
     public static final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
     public static void main(String[] args) throws IOException {
+        writer.append("informatics/lab3 variant 2 2 4").append("\n\n").flush();
+
         final List<Task> tasks = List.of(new Task1(), new Task2(), new Task3());
 
         String menu = "_- MENU -_\nSelect Task:\n";
@@ -18,7 +20,7 @@ public class Main {
             info += "\t" + String.join(" ", i + ".", tasks.get(i).getName(), tasks.get(i).getDescription()) + "\n";
 
         while (true) {
-            writer.append("\n").append(menu).append("[console] $ ").flush();
+            writer.append("\n").append(menu).append("[cons] $ ").flush();
 
             String line = reader.readLine();
 

@@ -1,5 +1,5 @@
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Task3 extends Task {
     public Task3() {
@@ -18,9 +18,12 @@ public class Task3 extends Task {
 
     @Override
     public String operate(String val) {
-        return Arrays.stream(val.split(" "))
-                .map(String::trim)
-                .filter(token -> token.matches("[^(кКрРаА)]*[Кк][^(кКрРаА)][Рр][^(кКрРаА)][Аа][^(кКрРаА)]*"))
-                .map(token -> token + "\n").collect(Collectors.joining());
+        Matcher matcher = Pattern.compile("[Кк][^кКрРаА][Рр][^кКрРаА][Аа]").matcher(val);
+
+        StringBuilder result = new StringBuilder();
+        while (matcher.find())
+            result.append(matcher.group()).append("\n");
+
+        return result.toString();
     }
 }
