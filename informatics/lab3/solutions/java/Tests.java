@@ -12,6 +12,8 @@ public class Tests {
     void task1() {
         Task task1 = new Task1();
 
+        System.out.println("TASK 1");
+
         assertEquals("3", task1.operate("X-{\\ X-{\\ X-{\\"));
         assertEquals("0", task1.operate(":):):):):)"));
         assertEquals("1", task1.operate(":):):)XXX) \"X-{\\"));
@@ -24,6 +26,8 @@ public class Tests {
     void task2() {
         Task task2 = new Task2();
 
+        System.out.println("TASK 2");
+
         assertEquals("ВТ ахаха ахахха ИТМО\n", task2.operate("ВТ ахаха ахахха ИТМО"));
         assertEquals("ВТ ИТМО\n", task2.operate("fwe fwe ВТ ИТМО fwe fwe"));
         assertEquals("", task2.operate("ахахахха ИТМО"));
@@ -35,6 +39,8 @@ public class Tests {
 
     void task3() {
         Task task3 = new Task3();
+
+        System.out.println("TASK 3");
 
         assertEquals("КоРмА", task3.operate("КоРмА КоРкА КоРчмА"));
         assertEquals("", task3.operate("КкРмА КРМА КРара хихи-хаха"));
