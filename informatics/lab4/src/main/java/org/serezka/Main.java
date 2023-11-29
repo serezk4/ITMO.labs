@@ -1,5 +1,9 @@
 package org.serezka;
 
+import org.serezka.parser.formats.YAML;
+
+import java.util.List;
+
 /**
  * @variant: 34
  * @task YAML -> XML, Суббота
@@ -16,6 +20,6 @@ public class Main {
     }
 
     private void run() {
-
+        new YAML().add(List.of("123"));
     }
 }

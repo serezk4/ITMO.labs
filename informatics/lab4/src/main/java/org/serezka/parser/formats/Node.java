@@ -10,9 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Getter @RequiredArgsConstructor
+@Getter
 public class Node {
     Value value;
+
+    public Node(Value value) {
+        this.value = value;
+    }
 
     @NonFinal
     List<Node> children = new ArrayList<>();
