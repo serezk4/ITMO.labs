@@ -14,6 +14,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
+dependencies {
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.30'
+}
+
 test {
     useJUnitPlatform()
 }

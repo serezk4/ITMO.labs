@@ -1,6 +1,5 @@
 package org.serezka;
 
-
 /**
  * @variant: 34
  * @task YAML -> XML, Суббота

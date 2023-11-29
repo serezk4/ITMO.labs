@@ -1,0 +1,8 @@
+person: &details
+  name: Nikita
+  age: 15
+  daun: true
+
+tisha:
+  <<: *details
+  age: 16
