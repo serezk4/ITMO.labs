@@ -10,15 +10,11 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @RequiredArgsConstructor @Getter
 public abstract class Format {
-    StringBuilder data;
+    public abstract void add(List<String> data);
+    public abstract void add(String data);
 
-    public abstract int add(List<String> data);
-    public abstract int add(String data);
+    public abstract void insert(Node node, List<String> data);
+    public abstract void insert(Node node, String data);
 
-    public abstract int insert(int id, List<String> data);
-    public abstract int insert(int id, String data);
-
-    public String get() {
-        return this.data.toString();
-    }
+    public abstract String get();
 }

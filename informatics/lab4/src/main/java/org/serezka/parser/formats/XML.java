@@ -4,23 +4,29 @@ import java.io.Serializable;
 import java.util.List;
 
 public class XML extends Format implements Serializable {
+
     @Override
-    public int add(List<String> data) {
-        return 0;
+    public void add(List<String> data) {
+
     }
 
     @Override
-    public int add(String data) {
-        return 0;
+    public void add(String data) {
+
     }
 
     @Override
-    public int insert(int id, List<String> data) {
-        return 0;
+    public void insert(Node node, List<String> data) {
+
     }
 
     @Override
-    public int insert(int id, String data) {
-        return 0;
+    public void insert(Node node, String data) {
+
+    }
+
+    @Override
+    public String get() {
+        return null;
     }
 }
