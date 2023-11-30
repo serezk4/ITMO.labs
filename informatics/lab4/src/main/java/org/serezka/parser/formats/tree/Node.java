@@ -1,8 +1,7 @@
-package org.serezka.parser.formats;
+package org.serezka.parser.formats.tree;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 
@@ -21,7 +20,16 @@ public class Node {
     @NonFinal
     List<Node> children = new ArrayList<>();
 
-    public Node add(Node node) {
+    public void add(Node node) {
+        children.add(node);
+    }
+
+    public Node append(Node node) {
+        children.add(node);
+        return this;
+    }
+
+    public Node insert(Node node) {
         children.add(node);
         return node;
     }

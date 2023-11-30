@@ -1,7 +1,5 @@
 package org.serezka;
 
-import org.serezka.parser.formats.YAML;
-
 import java.util.List;
 
 /**
@@ -20,6 +18,6 @@ public class Main {
     }
 
     private void run() {
-        new YAML().add(List.of("123"));
+
     }
 }
