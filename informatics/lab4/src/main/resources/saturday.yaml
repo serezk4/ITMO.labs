@@ -1,8 +1,6 @@
-person: &details
-  name: Nikita
-  age: 15
-  daun: true
-
-tisha:
-  <<: *details
-  age: 16
+person:
+  name: John 
+  age:
+    status: young
+    few: 23
+  is_student: >

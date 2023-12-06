@@ -1,7 +1,3 @@
-package org.serezka;
-
-import org.serezka.parser.formats.YAML;
-import org.serezka.parser.parser.YAMLtoXMLConverter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -27,7 +23,9 @@ public class Main {
         StringBuilder data = new StringBuilder();
         while (fileReader.ready()) data.append(fileReader.readLine()).append("\n");
 
-        System.out.println(new YAMLtoXMLConverter().convert(new YAML(data.toString())).get());
+        System.out.println(data.toString());
+
+        System.out.println(YamlToXmlConverter.convertYamlToXml(data.toString()));
 
         // Теперь у вас есть дерево, которое представляет структуру YAML
         // Можете использовать его по своему усмотрению

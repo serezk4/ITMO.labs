@@ -1,33 +1,36 @@
-package org.serezka.parser.parser;
-
-import org.serezka.parser.formats.XML;
-import org.serezka.parser.formats.YAML;
-
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
-public class YAMLtoXMLConverter implements Converter<XML, YAML> {
-    @Override
-    public XML convert(YAML yaml) {
-        return new XML(mapToXml(parse(yaml.get()), ""));
+public class YAMLParser {
+
+    public static void main(String[] args) {
+        try {
+            String filePath = "C:\\Users\\serezk4\\IdeaProjects\\ITMO.labs\\programming\\ITMO.labs\\informatics\\lab4\\src\\main\\resources\\saturday.yaml";
+            String yamlContent = readFile(filePath);
+            long start = System.currentTimeMillis();
+            Map<String, Object> yamlMap = YAMLParser.parse(yamlContent);
+            System.out.println(System.currentTimeMillis() - start);
+            System.out.println(yamlMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    private static String mapToXml(Map<String, Object> map, String parent) {
-        StringBuilder xmlBuilder = new StringBuilder();
-
-        for (Map.Entry<String, Object> entry : map.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-
-            if (value instanceof Map) {
-                xmlBuilder.append(mapToXml((Map<String, Object>) value, key));
-            } else {
-                xmlBuilder.append("  <").append(key).append(">").append(value).append("</").append(key).append(">\n");
+    private static String readFile(String filePath) throws IOException {
+        StringBuilder content = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                content.append(line).append("\n");
             }
         }
-        return "<" + parent + ">\n" + xmlBuilder + "</" + parent + ">\n";
+        return content.toString();
     }
 
-    public Map<String, Object> parse(String yaml) {
+
+    public static Map<String, Object> parse(String yaml) {
         if (yaml.isEmpty()) return Collections.emptyMap();
 
         // append raw data
@@ -91,7 +94,6 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
             if (indentation > indentations.peek() || (indentation == indentations.peek() && data.isEmpty())) {
                 data.push(new HashMap<>(Map.of(key, value)));
                 indentations.push(indentation);
-
                 continue;
             }
 
@@ -147,3 +149,4 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         return count / 2;
     }
 }
+

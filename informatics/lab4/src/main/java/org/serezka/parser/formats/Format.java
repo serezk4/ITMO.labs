@@ -4,16 +4,17 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.serezka.parser.formats.tree.Node;
-
-import java.util.List;
-import java.util.Map;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@RequiredArgsConstructor @Getter
+@Getter
 public abstract class Format {
-    public abstract void format(List<String> list);
-    public abstract void format(Map<String, String> map);
+    final String raw;
 
-    public abstract String get();
+    public Format(String raw) {
+        this.raw = raw;
+    }
+
+    public String get() {
+        return this.raw;
+    };
 }
