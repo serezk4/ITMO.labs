@@ -33,45 +33,17 @@ public class Main {
 
         JFrame frame = new JFrame();
 
-        frame.setLayout(new GridLayout(0, 3));
+        frame.setLayout(new GridLayout(0, 4));
         frame.setBounds(100, 100, 1000, 500);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         JTextArea xml = new JTextArea();
         xml.setFont(new Font("Calibri", Font.BOLD, 20));
         xml.setEditable(false);
+        xml.setBounds(0,0,300,600);
+
 
         JTextArea yaml = new JTextArea();
-        yaml.setText("""
-                schedule:
-                  day:
-                    name: saturday
-                    classes:
-                      opd1:
-                        type: practice
-                        lector: Саржевский Иван Анатольевич
-                        time: 10.00 - 11.30
-                        classroom: 1327
-                        location: Kronverksky pr. 49
-                      opd2:
-                        type: practice
-                        lector: Саржевский Иван Анатольевич
-                        time: 11.40 - 12.50
-                        classroom: 1327
-                        location: Kronverksky pr. 49
-                      history1:
-                        type: lecture
-                        lector: Жиркова Галина Петровна
-                        time: 13.30 - 14.50
-                        classroom: not indicated
-                        location: not indicated
-                      history2:
-                        type: practice
-                        lector: Мартынова Дарья Олеговна
-                        time: 13.30 - 14.50
-                        classroom: not indicated
-                        location: not indicated
-                """);
         yaml.setFont(new Font("Calibri", Font.BOLD, 20));
         yaml.addKeyListener(new KeyListener() {
             private void action() {
@@ -97,7 +69,6 @@ public class Main {
                 action();
             }
         });
-
 
         frame.add(yaml);
         frame.add(xml);
