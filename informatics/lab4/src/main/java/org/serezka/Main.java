@@ -39,6 +39,7 @@ public class Main {
 
         JTextArea xml = new JTextArea();
         xml.setFont(new Font("Calibri", Font.BOLD, 20));
+        xml.setEditable(false);
 
         JTextArea yaml = new JTextArea();
         yaml.setFont(new Font("Calibri", Font.BOLD, 20));

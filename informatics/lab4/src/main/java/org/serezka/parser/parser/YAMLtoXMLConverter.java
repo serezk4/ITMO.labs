@@ -141,9 +141,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
                     }
 
                     if (data.isEmpty()) data.push(glued);
-                    else data.peek().stream()
-                            .filter(currentData -> currentData.getValue() instanceof Map || (currentData.getValue() instanceof String str && (str.isBlank() || str.isEmpty())))
-                            .forEach(filteredData -> filteredData.setValue(glued));
+                    else data.peek().addAll(glued);
                 }
 
                 data.push(new ArrayList<>(List.of(new Data(key, value))));
@@ -154,18 +152,13 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         }
 
         // glue all
-
         while (data.size() > 1 && indentations.size() > 1) {
             List<Data> currData = data.pop();
             IntStream.range(indentations.size() - currData.size() + 1, indentations.size()).forEach(i -> indentations.pop());
 
-            int currIndentation = indentations.pop();
+            indentations.pop();
+            data.peek().get(data.peek().size()-1).setValue(currData);
 
-            if (indentations.peek() == currIndentation) data.peek().addAll(currData);
-            else data.peek()
-                    .stream()
-                    .filter(currentData -> currentData.getValue() instanceof Map || (currentData.getValue() instanceof String str && (str.isBlank() || str.isEmpty())))
-                    .forEach(filteredData -> filteredData.setValue(currData));
         }
 
         while (data.size() > 1) {

@@ -11,9 +11,9 @@ public class YAMLParser {
             String filePath = "C:\\Users\\serezk4\\IdeaProjects\\ITMO.labs\\programming\\ITMO.labs\\informatics\\lab4\\src\\main\\resources\\saturday.yaml";
             String yamlContent = readFile(filePath);
             long start = System.currentTimeMillis();
-            Map<String, Object> yamlMap = YAMLParser.parse(yamlContent);
+            List<Data> yamlMap = YAMLParser.parse(yamlContent);
             System.out.println(System.currentTimeMillis() - start);
-            System.out.println(yamlMap);
+            yamlMap.forEach(d -> System.out.println(d.toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -144,9 +144,7 @@ public class YAMLParser {
                     }
 
                     if (data.isEmpty()) data.push(glued);
-                    else data.peek().stream()
-                            .filter(currentData -> currentData.getValue() instanceof Map || (currentData.getValue() instanceof String str && (str.isBlank() || str.isEmpty())))
-                            .forEach(filteredData -> filteredData.setValue(glued));
+                    else data.peek().addAll(glued);
                 }
 
                 data.push(new ArrayList<>(List.of(new Data(key, value))));
@@ -157,18 +155,13 @@ public class YAMLParser {
         }
 
         // glue all
-
         while (data.size() > 1 && indentations.size() > 1) {
             List<Data> currData = data.pop();
             IntStream.range(indentations.size() - currData.size() + 1, indentations.size()).forEach(i -> indentations.pop());
 
-            int currIndentation = indentations.pop();
+            indentations.pop();
+            data.peek().get(data.peek().size()-1).setValue(currData);
 
-            if (indentations.peek() == currIndentation) data.peek().addAll(currData);
-            else data.peek()
-                    .stream()
-                    .filter(currentData -> currentData.getValue() instanceof Map || (currentData.getValue() instanceof String str && (str.isBlank() || str.isEmpty())))
-                    .forEach(filteredData -> filteredData.setValue(currData));
         }
 
         while (data.size() > 1) {
