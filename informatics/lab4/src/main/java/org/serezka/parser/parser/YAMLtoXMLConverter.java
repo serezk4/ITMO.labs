@@ -131,17 +131,17 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
             }
 
             if (indentation < indentations.peek()) {
-                while (indentations.peek() > indentation) {
+                while (indentations.size() > 1 && indentations.peek() > indentation) {
                     int closestIndentation = indentations.peek() - 1;
                     List<Data> glued = new ArrayList<>();
 
-                    while (indentations.pop() > closestIndentation && !data.isEmpty()) {
-                        IntStream.range(indentations.size() - data.peek().size() + 1, indentations.size()).forEach(i -> indentations.pop());
+                    while (!indentations.isEmpty() && indentations.pop() > closestIndentation && !data.isEmpty()) {
+                        IntStream.range(indentations.size() - data.peek().size(), indentations.size()).forEach(i -> indentations.pop());
                         glued.addAll(data.pop());
                     }
 
                     if (data.isEmpty()) data.push(glued);
-                    else data.peek().addAll(glued);
+                    else data.peek().get(data.peek().size()-1).setValue(glued);
                 }
 
                 data.push(new ArrayList<>(List.of(new Data(key, value))));
@@ -154,17 +154,17 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         // glue all
         while (data.size() > 1 && indentations.size() > 1) {
             List<Data> currData = data.pop();
-            IntStream.range(indentations.size() - currData.size() + 1, indentations.size()).forEach(i -> indentations.pop());
+            int currIndentation = indentations.pop();
 
-            indentations.pop();
-            data.peek().get(data.peek().size()-1).setValue(currData);
-
+            if (!indentations.isEmpty() && indentations.peek() == currIndentation) data.peek().addAll(currData);
+            else data.peek().get(data.peek().size()-1).setValue(currData);
         }
 
         while (data.size() > 1) {
             List<Data> popped = data.pop();
             data.peek().addAll(popped);
         }
+
 
         // return result
         return data.get(0);
