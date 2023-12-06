@@ -31,15 +31,43 @@ public class YAMLParser {
     }
 
 
-    public static Map<String, Object> parse(String yaml) {
-        if (yaml.isEmpty()) return Collections.emptyMap();
+    public static class Data {
+        private final String key;
+        private Object value = "";
+
+        public Data(String key, Object value) {
+            this.key = key;
+            this.value = value;
+        }
+
+        public String getKey() {
+            return key;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Data setValue(Object value) {
+            this.value = value;
+            return this;
+        }
+
+        @Override
+        public String toString() {
+            return key + "=" + value;
+        }
+    }
+
+    public static List<Data> parse(String yaml) {
+        if (yaml.isEmpty()) return Collections.emptyList();
 
         // append raw data
         yaml += "\n ";
 
         // init storage
         Stack<Integer> indentations = new Stack<>();
-        Stack<Map<String, Object>> data = new Stack<>();
+        Stack<List<Data>> data = new Stack<>();
 
         indentations.push(0);
 
@@ -93,13 +121,13 @@ public class YAMLParser {
             }
 
             if (indentation > indentations.peek() || (indentation == indentations.peek() && data.isEmpty())) {
-                data.push(new HashMap<>(Map.of(key, value)));
+                data.push(new ArrayList<>(List.of(new Data(key, value))));
                 indentations.push(indentation);
                 continue;
             }
 
             if (indentation == indentations.peek()) {
-                data.peek().put(key, value);
+                data.peek().add(new Data(key, value));
                 indentations.push(indentation);
 
                 continue;
@@ -108,18 +136,20 @@ public class YAMLParser {
             if (indentation < indentations.peek()) {
                 while (indentations.peek() > indentation) {
                     int closestIndentation = indentations.peek() - 1;
-                    Map<String, Object> glued = new HashMap<>();
+                    List<Data> glued = new ArrayList<>();
 
                     while (indentations.pop() > closestIndentation && !data.isEmpty()) {
                         IntStream.range(indentations.size() - data.peek().size() + 1, indentations.size()).forEach(i -> indentations.pop());
-                        glued.putAll(data.pop());
+                        glued.addAll(data.pop());
                     }
 
                     if (data.isEmpty()) data.push(glued);
-                    else data.peek().forEach((k, v) -> data.peek().put(k, glued));
+                    else data.peek().stream()
+                            .filter(currentData -> currentData.getValue() instanceof Map || (currentData.getValue() instanceof String str && (str.isBlank() || str.isEmpty())))
+                            .forEach(filteredData -> filteredData.setValue(glued));
                 }
 
-                data.push(new HashMap<>(Map.of(key, value)));
+                data.push(new ArrayList<>(List.of(new Data(key, value))));
                 indentations.push(indentation);
 
                 continue;
@@ -129,25 +159,25 @@ public class YAMLParser {
         // glue all
 
         while (data.size() > 1 && indentations.size() > 1) {
-            Map<String, Object> currData = data.pop();
+            List<Data> currData = data.pop();
             IntStream.range(indentations.size() - currData.size() + 1, indentations.size()).forEach(i -> indentations.pop());
 
             int currIndentation = indentations.pop();
 
-            if (indentations.peek() == currIndentation) data.peek().putAll(currData);
-            else data.peek().entrySet()
-                        .stream()
-                        .filter(e -> e.getValue() instanceof Map || (e.getValue() instanceof String s && (s.isEmpty() || s.isBlank())))
-                        .forEach(e -> data.peek().put(e.getKey(), currData));
+            if (indentations.peek() == currIndentation) data.peek().addAll(currData);
+            else data.peek()
+                    .stream()
+                    .filter(currentData -> currentData.getValue() instanceof Map || (currentData.getValue() instanceof String str && (str.isBlank() || str.isEmpty())))
+                    .forEach(filteredData -> filteredData.setValue(currData));
         }
 
         while (data.size() > 1) {
-            Map<String, Object> popped = data.pop();
-            data.peek().putAll(popped);
+            List<Data> popped = data.pop();
+            data.peek().addAll(popped);
         }
 
         // return result
-        return data.pop();
+        return data.get(0);
     }
 
     private static int getIndentationLevel(String line) {
