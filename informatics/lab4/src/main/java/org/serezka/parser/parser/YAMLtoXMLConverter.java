@@ -4,6 +4,7 @@ import org.serezka.parser.formats.XML;
 import org.serezka.parser.formats.YAML;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class YAMLtoXMLConverter implements Converter<XML, YAML> {
     @Override
@@ -28,6 +29,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
     }
 
     public Map<String, Object> parse(String yaml) {
+
         if (yaml.isEmpty()) return Collections.emptyMap();
 
         // append raw data
@@ -52,7 +54,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
 
             if (token.contains("#")) token = token.substring(0, token.indexOf('#'));
 
-            if ((token.isBlank() || token.isEmpty())  && block) {
+            if ((token.isBlank() || token.isEmpty()) && block) {
                 token = String.join(":", cachedKey, cachedValue.toString());
 
                 cachedKey = "";
@@ -91,7 +93,6 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
             if (indentation > indentations.peek() || (indentation == indentations.peek() && data.isEmpty())) {
                 data.push(new HashMap<>(Map.of(key, value)));
                 indentations.push(indentation);
-
                 continue;
             }
 
@@ -105,12 +106,10 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
             if (indentation < indentations.peek()) {
                 while (indentations.peek() > indentation) {
                     int closestIndentation = indentations.peek() - 1;
-
                     Map<String, Object> glued = new HashMap<>();
 
-                    while (indentations.peek() > closestIndentation && !data.isEmpty()) {
-                        indentations.pop();
-                        if (indentations.peek() <= closestIndentation) break;
+                    while (indentations.pop() > closestIndentation && !data.isEmpty()) {
+                        IntStream.range(indentations.size() - data.peek().size() + 1, indentations.size()).forEach(i -> indentations.pop());
                         glued.putAll(data.pop());
                     }
 
@@ -126,14 +125,26 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         }
 
         // glue all
-        indentations.removeElementAt(0);
 
-        while (data.size() > 1) {
-            int currIndentation = indentations.pop();
+        while (data.size() > 1 && indentations.size() > 1) {
             Map<String, Object> currData = data.pop();
+            IntStream.range(indentations.size() - currData.size() + 1, indentations.size()).forEach(i -> indentations.pop());
+
+            System.out.println(data + " " + currData + " " + indentations);
+            int currIndentation = indentations.pop();
 
             if (indentations.peek() == currIndentation) data.peek().putAll(currData);
-            else data.peek().forEach((k,v) -> data.peek().put(k, currData));
+            else
+                data.peek().entrySet()
+                        .stream()
+                        .filter(e -> e.getValue() instanceof Map || (e.getValue() instanceof String s && (s.isEmpty() || s.isBlank())))
+                        .forEach(e -> data.peek().put(e.getKey(), currData));
+        }
+
+
+        while (data.size() > 1) {
+            Map<String, Object> popped = data.pop();
+            data.peek().putAll(popped);
         }
 
         // return result

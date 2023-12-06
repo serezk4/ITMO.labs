@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class YAMLParser {
 
@@ -55,7 +56,7 @@ public class YAMLParser {
 
             if (token.contains("#")) token = token.substring(0, token.indexOf('#'));
 
-            if ((token.isBlank() || token.isEmpty())  && block) {
+            if ((token.isBlank() || token.isEmpty()) && block) {
                 token = String.join(":", cachedKey, cachedValue.toString());
 
                 cachedKey = "";
@@ -107,12 +108,10 @@ public class YAMLParser {
             if (indentation < indentations.peek()) {
                 while (indentations.peek() > indentation) {
                     int closestIndentation = indentations.peek() - 1;
-
                     Map<String, Object> glued = new HashMap<>();
 
-                    while (indentations.peek() > closestIndentation && !data.isEmpty()) {
-                        indentations.pop();
-                        if (indentations.peek() <= closestIndentation) break;
+                    while (indentations.pop() > closestIndentation && !data.isEmpty()) {
+                        IntStream.range(indentations.size() - data.peek().size() + 1, indentations.size()).forEach(i -> indentations.pop());
                         glued.putAll(data.pop());
                     }
 
@@ -128,14 +127,23 @@ public class YAMLParser {
         }
 
         // glue all
-        indentations.removeElementAt(0);
 
-        while (data.size() > 1) {
-            int currIndentation = indentations.pop();
+        while (data.size() > 1 && indentations.size() > 1) {
             Map<String, Object> currData = data.pop();
+            IntStream.range(indentations.size() - currData.size() + 1, indentations.size()).forEach(i -> indentations.pop());
+
+            int currIndentation = indentations.pop();
 
             if (indentations.peek() == currIndentation) data.peek().putAll(currData);
-            else data.peek().forEach((k,v) -> data.peek().put(k, currData));
+            else data.peek().entrySet()
+                        .stream()
+                        .filter(e -> e.getValue() instanceof Map || (e.getValue() instanceof String s && (s.isEmpty() || s.isBlank())))
+                        .forEach(e -> data.peek().put(e.getKey(), currData));
+        }
+
+        while (data.size() > 1) {
+            Map<String, Object> popped = data.pop();
+            data.peek().putAll(popped);
         }
 
         // return result
