@@ -1,27 +1,32 @@
 package org.serezka.parser.parser;
 
-import lombok.Getter;
+
 import org.serezka.parser.formats.XML;
 import org.serezka.parser.formats.YAML;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class YAMLtoXMLConverter implements Converter<XML, YAML> {
     @Override
     public XML convert(YAML yaml) {
-        return new XML(mapToXml(parse(yaml.get()), ""));
+        return new XML(mapToXml(parse(yaml.get())));
     }
 
-    private static String mapToXml(List<Data> dataset, String parent) {
+    private static String mapToXml(Data dataset) {
+        return "<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\n" + helper(dataset.getValue(), dataset.getKey()).replaceAll("=\\[]|\\[|]", "");
+    }
+
+    private static String helper(List<Data> dataset, String parent) {
         StringBuilder xmlBuilder = new StringBuilder();
 
         for (Data data : dataset) {
             String key = data.getKey();
-            Object value = data.getValue();
+            List<Data> value = data.getValue();
 
-            if (value instanceof List) {
-                xmlBuilder.append(mapToXml((List<Data>) value, key));
+            if (key.isEmpty() && value.isEmpty()) continue;
+
+            if (!value.isEmpty() && value.size() > 1) {
+                xmlBuilder.append(helper(value, key));
             } else {
                 xmlBuilder.append("  <").append(key).append(">").append(value).append("</").append(key).append(">\n");
             }
@@ -31,14 +36,31 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
 
     public static class Data {
         private final String key;
-        private Object value = "";
+        private List<Data> value = Collections.emptyList();
 
-        public Data(String key, Object value) {
+        public Data(String key) {
+            this.key = key;
+        }
+
+        public Data(String key, Data value) {
+            this.key = key;
+            this.value = new ArrayList<>(List.of(value));
+        }
+
+        public Data(String key, List<Data> value) {
             this.key = key;
             this.value = value;
         }
 
-        public void setValue(Object value) {
+        public void add(Data data) {
+            this.value.add(data);
+        }
+
+        public void addAll(List<Data> dataset) {
+            this.value.addAll(dataset);
+        }
+
+        public void setValue(List<Data> value) {
             this.value = value;
         }
 
@@ -46,7 +68,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
             return key;
         }
 
-        public Object getValue() {
+        public List<Data> getValue() {
             return value;
         }
 
@@ -56,17 +78,17 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         }
     }
 
-    public static List<Data> parse(String yaml) {
-        if (yaml.isEmpty()) return Collections.emptyList();
+    public static Data parse(String yaml) {
+        if (yaml.isEmpty()) return new Data("");
 
         // append raw data
         yaml += "\n ";
 
         // init storage
         Stack<Integer> indentations = new Stack<>();
-        Stack<List<Data>> data = new Stack<>();
+        Stack<Data> data = new Stack<>();
 
-        indentations.push(0);
+        indentations.push(Integer.MIN_VALUE);
 
         // init cache
         String cachedKey = "";
@@ -117,54 +139,67 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
                 continue;
             }
 
-            if (indentation > indentations.peek() || (indentation == indentations.peek() && data.isEmpty())) {
-                data.push(new ArrayList<>(List.of(new Data(key, value))));
-                indentations.push(indentation);
-                continue;
-            }
 
-            if (indentation == indentations.peek()) {
-                data.peek().add(new Data(key, value));
+            if (indentation >= indentations.peek()) {
+                data.push(new Data(key, new Data(value)));
                 indentations.push(indentation);
 
                 continue;
             }
 
             if (indentation < indentations.peek()) {
-                while (indentations.size() > 1 && indentations.peek() > indentation) {
-                    int closestIndentation = indentations.peek() - 1;
-                    List<Data> glued = new ArrayList<>();
+                List<Data> buffer = new ArrayList<>();
+                int bufferLevel = indentations.peek();
 
-                    while (!indentations.isEmpty() && indentations.pop() > closestIndentation && !data.isEmpty()) {
-                        IntStream.range(indentations.size() - data.peek().size(), indentations.size()).forEach(i -> indentations.pop());
-                        glued.addAll(data.pop());
+                while (bufferLevel > indentation) {
+                    buffer.add(data.pop());
+                    indentations.pop();
+
+                    if (indentations.peek() != bufferLevel) {
+                        Collections.reverse(buffer);
+                        data.peek().addAll(buffer);
+                        buffer.clear();
+                        bufferLevel = indentations.peek();
+                        continue;
                     }
 
-                    if (data.isEmpty()) data.push(glued);
-                    else data.peek().get(data.peek().size()-1).setValue(glued);
                 }
 
-                data.push(new ArrayList<>(List.of(new Data(key, value))));
+                if (!buffer.isEmpty()) {
+                    Collections.reverse(buffer);
+                    data.peek().addAll(buffer);
+                }
+
                 indentations.push(indentation);
+                data.push(new Data(key, new Data(value)));
 
                 continue;
             }
         }
 
-        // glue all
-        while (data.size() > 1 && indentations.size() > 1) {
-            List<Data> currData = data.pop();
-            int currIndentation = indentations.pop();
-
-            if (!indentations.isEmpty() && indentations.peek() == currIndentation) data.peek().addAll(currData);
-            else data.peek().get(data.peek().size()-1).setValue(currData);
-        }
+        List<Data> buffer = new ArrayList<>();
+        int bufferLevel = indentations.pop();
 
         while (data.size() > 1) {
-            List<Data> popped = data.pop();
-            data.peek().addAll(popped);
+
+            buffer.add(data.pop());
+
+            if (indentations.peek() != bufferLevel) {
+                Collections.reverse(buffer);
+                data.peek().addAll(buffer);
+                buffer.clear();
+                bufferLevel = indentations.peek();
+
+                continue;
+            }
+
+            indentations.pop();
         }
 
+        if (!buffer.isEmpty()) {
+            Collections.reverse(buffer);
+            data.peek().addAll(buffer);
+        }
 
         // return result
         return data.get(0);

@@ -1,0 +1,36 @@
+<?xml version=\"1.0\" encoding=\"utf-8\"?>
+<schedule>
+  <day></day>
+<name>
+  <saturday></saturday>
+  <classes></classes>
+<opd1>
+  <type>practice</type>
+  <lector>Саржевский �?ван Анатольевич</lector>
+  <time>10.00 - 11.30</time>
+  <classroom>1327</classroom>
+  <location>Kronverksky pr. 49</location>
+</opd1>
+<opd2>
+  <type>practice</type>
+  <lector>Саржевский �?ван Анатольевич</lector>
+  <time>11.40 - 12.50</time>
+  <classroom>1327</classroom>
+  <location>Kronverksky pr. 49</location>
+</opd2>
+<history1>
+  <type>lecture</type>
+  <lector>Жиркова Галина Петровна</lector>
+  <time>13.30 - 14.50</time>
+  <classroom>not indicated</classroom>
+  <location>not indicated</location>
+</history1>
+<history2>
+  <type>practice</type>
+  <lector>Мартынова Дарья Олеговна</lector>
+  <time>13.30 - 14.50</time>
+  <classroom>not indicated</classroom>
+  <location>not indicated</location>
+</history2>
+</name>
+</schedule>
