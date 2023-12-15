@@ -1,0 +1,32 @@
+------- a ------- 
+
+@task cicrcle the correct form
+@file task#8.png
+
+1) a nurse, the hospital
+2) a horrible day, the car
+3) love stories
+4) theatre, a month
+5) dinner, next friday
+6) a chef, the best cook
+7) the windows, home
+8) dogs, the dogs
+9) school, last week
+10) happiness, money
+
+------- b ------- 
+
+@task complete with a/an, the, or - (no article)
+@file task#8.png
+
+1) the | a | -
+2) the | the | -
+3) an | the | -
+4) the | the | the
+5) - | - | the
+6) - | - | the
+7) a | a | -
+8) a | the | -
+9) the | the | -
+
+

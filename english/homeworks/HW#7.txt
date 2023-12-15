@@ -1,0 +1,56 @@
+---------- Part A ----------
+
+@task Tick (-) the sentences where the bold phrases are right and correct the wrong ones. Write the answers in the column on the right.
+@file task#7a.png
+
+1) quicker
+2) -
+3) -
+4) than
+5) younger
+6) -
+7) -
+8) more modern
+9) better
+10) slower
+11) ever
+12) the worst
+13) -
+14) in
+15) cheaper
+16) -
+17) hotter
+18) as
+19) -
+20) farher
+
+---------- Part B ----------
+
+@task a) complete the crossword
+      b) complete the compound nouns with one word
+@file task#7b.png
+
+a: 
+
+1) platform
+2) van
+3) carriage
+4) scooter
+5) lorry
+6) underground
+7) motorway
+8) tram
+9) coach
+
+b:
+
+1) seat
+2) motorway
+3) traffic
+4) road
+5) bike
+6) gas
+7) rush
+8) taxi
+9) speed
+10) traffic
