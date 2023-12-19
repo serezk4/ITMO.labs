@@ -25,7 +25,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
 
             if (key.isEmpty() && value.isEmpty()) continue;
 
-            if (!value.isEmpty() && value.size() > 1) {
+            if (value.size() > 1) {
                 xmlBuilder.append(helper(value, key));
             } else {
                 xmlBuilder.append("  <").append(key).append(">").append(value).append("</").append(key).append(">\n");
