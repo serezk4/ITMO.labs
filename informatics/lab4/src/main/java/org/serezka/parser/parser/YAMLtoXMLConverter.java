@@ -13,7 +13,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
     }
 
     private static String mapToXml(Data dataset) {
-        return "<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?>\n" + helper(dataset.getValue(), dataset.getKey()).replaceAll("=\\[]|\\[|]", "");
+        return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + helper(dataset.getValue(), dataset.getKey()).replaceAll("=\\[]|\\[|]", "");
     }
 
     private static String helper(List<Data> dataset, String parent) {
@@ -52,24 +52,20 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
             this.value = value;
         }
 
+        public String getKey() {
+            return key;
+        }
+
+        public List<Data> getValue() {
+            return this.value;
+        }
+
         public void add(Data data) {
             this.value.add(data);
         }
 
         public void addAll(List<Data> dataset) {
             this.value.addAll(dataset);
-        }
-
-        public void setValue(List<Data> value) {
-            this.value = value;
-        }
-
-        public String getKey() {
-            return key;
-        }
-
-        public List<Data> getValue() {
-            return value;
         }
 
         @Override
@@ -82,7 +78,7 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         if (yaml.isEmpty()) return new Data("");
 
         // append raw data
-        yaml += "\n ";
+        yaml = "body\n" + yaml+  "\n ";
 
         // init storage
         Stack<Integer> indentations = new Stack<>();
@@ -180,21 +176,23 @@ public class YAMLtoXMLConverter implements Converter<XML, YAML> {
         List<Data> buffer = new ArrayList<>();
         int bufferLevel = indentations.pop();
 
-        while (data.size() > 1) {
-
+        while (indentations.size() > 1) {
             buffer.add(data.pop());
 
             if (indentations.peek() != bufferLevel) {
                 Collections.reverse(buffer);
                 data.peek().addAll(buffer);
+
                 buffer.clear();
-                bufferLevel = indentations.peek();
+                bufferLevel = indentations.pop();
 
                 continue;
             }
 
             indentations.pop();
         }
+
+
 
         if (!buffer.isEmpty()) {
             Collections.reverse(buffer);
