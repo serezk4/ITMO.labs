@@ -53,7 +53,7 @@ class Data:
             self.value.append(data)
 
     def __str__(self):
-        return f"{self.key}={self.value}"
+        return f"{self.key}"
 
 
 def parse(yaml):
