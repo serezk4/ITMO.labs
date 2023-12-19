@@ -35,7 +35,7 @@ def helper(dataset, parent):
         if len(value) > 1:
             xml_builder += helper(value, key)
         else:
-            xml_builder += f"  <{key}>{value}</{key}>\n"
+            xml_builder += f"  <{key}>{value[0]}</{key}>\n"
 
     return f"<{parent}>\n{xml_builder}</{parent}>\n"
 
