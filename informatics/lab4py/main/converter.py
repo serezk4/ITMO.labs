@@ -144,6 +144,6 @@ def get_indentation_level(line):
     return count // 2
 
 
-yaml_data = open('data.yaml', encoding='utf-8', mode='r').read()
+yaml_data = open('../data.yaml', encoding='utf-8', mode='r').read()
 xml_out = open(f"{time.time()}_out.xml", encoding='utf-8', mode='w+')
 xml_out.write(map_to_xml(parse(yaml_data)))
