@@ -1,6 +1,7 @@
 import collections
 import time
 
+
 def map_to_xml(dataset):
     return "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" + helper(dataset.value, dataset.key).replace("=[]|[]", "")
 
@@ -18,7 +19,7 @@ def helper(dataset, parent):
         else:
             xml_builder += f"{'  ' * (data.indentation + 1)}<{key}>{value[0]}</{key}>\n"
 
-    return f"{'  '*data.indentation}<{parent}>\n{xml_builder}{'  '*data.indentation}</{parent}>\n"
+    return f"{'  ' * data.indentation}<{parent}>\n{xml_builder}{'  ' * data.indentation}</{parent}>\n"
 
 
 class Data:
@@ -65,8 +66,10 @@ def parse(yaml):
             cached_value = ""
             block = False
 
+        backslash = '\\'
+
         if block:
-            cached_value += f"{token.strip()} {'\n' if next_line else ''}"
+            cached_value += f"{token.strip()} {f'{backslash}n' if next_line else ''}"
             continue
 
         if not token.strip():
@@ -86,17 +89,18 @@ def parse(yaml):
             next_line = not bool(value.startswith(">-"))
             cached_key = key
             cached_indentation = indentation
-            cached_value += f"{value.replace('>-', '').strip()} {'\n' if next_line else ''}"
+            cached_value += f"{value.replace('>-', '').strip()} {f'{backslash}n' if next_line else ''}"
             continue
 
         if indentation >= indentations[-1]:
-            data.append(Data(indentation, key, [Data(indentation+2, value)]))
+            data.append(Data(indentation, key, [Data(indentation + 2, value)]))
             indentations.append(indentation)
             continue
 
         if indentation < indentations[-1]:
             buffer = []
             buffer_level = indentations[-1]
+
             while buffer_level > indentation:
                 buffer.append(data.pop())
                 indentations.pop()
@@ -111,16 +115,15 @@ def parse(yaml):
             if buffer:
                 buffer.reverse()
                 data[-1].add_all(buffer)
+
             indentations.append(indentation)
-            data.append(Data(indentation, key, [Data(indentation+1, value)]))
+            data.append(Data(indentation, key, [Data(indentation + 1, value)]))
             continue
 
     buffer = []
     buffer_level = indentations.pop()
 
     while len(indentations) > 1:
-
-
         buffer.append(data.pop())
         if indentations[-1] != buffer_level:
             buffer.reverse()
@@ -144,6 +147,11 @@ def get_indentation_level(line):
     return count // 2
 
 
-yaml_data = open('../data.yaml', encoding='utf-8', mode='r').read()
-xml_out = open(f"{time.time()}_out.xml", encoding='utf-8', mode='w+')
-xml_out.write(map_to_xml(parse(yaml_data)))
+def generate():
+    yaml_data = open('../data.yaml', encoding='utf-8', mode='r').read()
+    xml_out = open(f"main_{time.time()}_out.xml", encoding='utf-8', mode='w+')
+    xml_out.write(map_to_xml(parse(yaml_data)))
+
+
+if __name__ == '__main__':
+    generate()
