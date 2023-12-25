@@ -1,0 +1,232 @@
+\documentclass{book}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english,russian]{babel}
+\usepackage{multirow}
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+% Override Figures' ref. names
+\usepackage{graphicx}
+\makeatletter
+\renewcommand{\p@figure}{рисунке\ }
+\makeatother
+
+\newenvironment{forceright}
+  {\par\rightskip=0pt plus 1fil\relax}
+  {\par}
+
+% Math set letters
+\usepackage{amssymb}
+
+% multicol
+\usepackage{multicol}
+\usepackage[margin=1in]{geometry}
+
+% Override Figures' captions
+\usepackage{subcaption}
+\DeclareCaptionLabelFormat{custom}{Рисунок #2}
+\DeclareCaptionLabelSeparator{custom}{ --- }
+\captionsetup
+{
+    labelformat=custom,
+    labelsep=custom
+}
+
+% Add Bibliography to contents
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+
+% geometry
+\usepackage{tikz}
+
+% Other useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{mathtools}% http://ctan.org/pkg/mathtools
+\usepackage[absolute,overlay]{textpos}
+
+% Add the fancyhdr package for headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{96 КНИГА III ПРЕДЛ. IV. ТЕОРЕМА}
+\renewcommand{\headrulewidth}{0pt} % Remove the horizontal line under the header
+\fancyfoot[C]{\thepage}
+
+
+\begin{document}
+
+\begin{multicols}{2}[\columnsep=0cm] 
+\noindent
+
+\begin{tikzpicture}
+    % желтый угол
+    \fill[yellow!70!orange] (0,-1.9) -- (0.7,-2.1) arc(0:13:2) -- cycle;
+
+    % синий угол
+    \fill[cyan!70!black] (0,-1.9) -- (0.6,-1.7) arc(0:85:0.5) -- cycle;
+
+    % пунктирная линия
+    \draw[dashed, line width=2pt] (0, -1.9) -- (0.3, 0.1);
+
+
+    % Красная хорда BD
+    \draw[line width=2pt, red] (-2,-\radius + 2.42) -- (2.95,-1);
+
+     % Черная хорда AC
+    \draw[line width=2pt, black] (-2.95,-1) -- (\radius + 2,-\radius + 2.42);
+
+    \def\radius{\dimexpr0.2\textwidth\relax} 
+    \draw[line width=2pt, cyan!70!black] (0,0) circle (\radius);
+    
+    % Подписи A B C D E
+    \node[above, scale=0.8] at (\radius - 27,-\radius + 4) {C};
+    \node[above, scale=0.8] at (-2, -\radius + 2.7) {B};
+    \node[above, scale=0.8] at (-3.35,-1.1) {A};
+    \node[above, scale=0.8] at (3.2,-1.3) {D};
+    \node[above, scale=0.8] at (0,-2.4) {E};
+    \node[above, scale=0.8] at (0.3, 0.1) {F};
+\end{tikzpicture}
+
+
+\columnbreak
+  
+\noindent
+
+\setlength{\columnsep}{0pt}
+\begin{multicols}{2}[]
+
+\includegraphics[width=80pt, height=80pt]{addition_2/e.png}
+
+\columnbreak
+
+\noindent
+\textit{Если в круге две прямые, не проходящие через центр, пересекаются, они не делят друг друга пополам.}
+
+\end{multicols}
+
+Если одна из прямых проходит через центр, очевидно, она ее не может рассекать пополам другая прямая, не проходящая через центр.
+
+Но если ни одна из прямых 
+\begin{tikzpicture}
+    \draw[line width=2pt, black] (0, 0) -- (1, 0) 
+    node[right, above, pos=1, scale=0.5] {C} 
+    node[left, above, pos=0, scale=0.5] {A};
+\end{tikzpicture}
+или
+\begin{tikzpicture}
+\draw[line width=2pt, red!60!black] (0, 0) -- (1, 0) 
+    node[right, above, pos=1, scale=0.5, black] {B} 
+    node[left, above, pos=0, scale=0.5, black] {D};
+\end{tikzpicture}
+не проходит через центр, проведем
+\begin{tikzpicture}
+\draw[dashed, line width=2pt, black] (0, 0) -- (1, 0) 
+    node[right, above, pos=1, scale=0.5] {F} 
+    node[left, above, pos=0, scale=0.5] {E};
+\end{tikzpicture}
+из центра к точке их пересечения.
+
+\begin{align*}
+    &\text{Если}
+    \begin{tikzpicture}
+        \draw[line width=2pt, black] (0, 0) -- (1, 0) 
+        node[right, above, pos=1, scale=0.5] {C} 
+        node[left, above, pos=0, scale=0.5] {A};
+    \end{tikzpicture}
+    \text{делится пополам,}& \\
+    &\begin{tikzpicture}
+        \draw[dashed, line width=2pt, black] (0, 0) -- (1, 0) 
+        node[right, above, pos=1, scale=0.5] {F} 
+        node[left, above, pos=0, scale=0.5] {E};
+    \end{tikzpicture} 
+    \perp \text{ей (пр. \(\text{Ш}._3\))}& 
+\end{align*}
+
+
+\begin{center}
+\(\therefore\)
+\begin{tikzpicture}
+    % желтый угол
+    \fill[yellow!70!orange] (0,-1.9) -- (0.6780,-2.1) arc(0:20:1.6) -- cycle;
+
+    % синий угол
+    \fill[cyan!70!black] (0,-1.9) -- (0.6,-1.7) arc(0:85:0.5) -- cycle;
+
+    \node[above, scale=0.5] at (0.6780,-2.4) {C};
+    \node[above, scale=0.5] at (0,-2.3) {E};
+    \node[above, scale=0.5] at (0.3, -1.1) {F};
+\end{tikzpicture}
+\(=\)
+\includegraphics[width=20pt, height=20pt]{addition_2/angle (2).png} \\
+и если 
+\begin{tikzpicture}
+\draw[line width=2pt, red!60!black] (0, 0) -- (1, 0) 
+    node[right, above, pos=1, scale=0.5, black] {B} 
+    node[left, above, pos=0, scale=0.5, black] {D};
+\end{tikzpicture}
+делится пополам, \\
+\begin{tikzpicture}
+        \draw[dashed, line width=2pt, black] (0, 0) -- (1, 0) 
+        node[right, above, pos=1, scale=0.5] {F} 
+        node[left, above, pos=0, scale=0.5] {E};
+    \end{tikzpicture} \perp 
+    \begin{tikzpicture}
+\draw[line width=2pt, red!60!black] (0, 0) -- (1, 0) 
+    node[right, above, pos=1, scale=0.5, black] {B} 
+    node[left, above, pos=0, scale=0.5, black] {D};
+\end{tikzpicture}
+ей (пр. \(\text{Ш}._3\))\\
+
+\(\therefore\)
+\begin{tikzpicture}    % синий угол
+    \fill[cyan!70!black] (0,-1.9) -- (0.6,-1.7) arc(0:85:0.5) -- cycle;
+
+    \node[above, scale=0.5] at (0.6780,-2) {D};
+    \node[above, scale=0.5] at (0,-2.14) {E};
+    \node[above, scale=0.5] at (0.3, -1.1) {F};
+\end{tikzpicture} \(=\)
+\includegraphics[width=20pt, height=20pt]{addition_2/angle (2).png} \\
+и \(\therefore\) \begin{tikzpicture}    % синий угол
+    \fill[cyan!70!black] (0,-1.9) -- (0.6,-1.7) arc(0:85:0.5) -- cycle;
+
+    \node[above, scale=0.5] at (0.6780,-2) {D};
+    \node[above, scale=0.5] at (0,-2.14) {E};
+    \node[above, scale=0.5] at (0.3, -1.1) {F};
+\end{tikzpicture} \(=\)
+\begin{tikzpicture}
+    % желтый угол
+    \fill[yellow!70!orange] (0,-1.9) -- (0.6780,-2.1) arc(0:20:1.6) -- cycle;
+
+    % синий угол
+    \fill[cyan!70!black] (0,-1.9) -- (0.6,-1.7) arc(0:85:0.5) -- cycle;
+
+    \node[above, scale=0.5] at (0.6780,-2.4) {C};
+    \node[above, scale=0.5] at (0,-2.3) {E};
+    \node[above, scale=0.5] at (0.3, -1.1) {F};
+\end{tikzpicture} \\
+часть равна целому, что невозможно\\
+\(\therefore\) 
+
+\begin{tikzpicture}
+        \draw[line width=2pt, black] (0, 0) -- (1, 0) 
+        node[right, above, pos=1, scale=0.5] {C} 
+        node[left, above, pos=0, scale=0.5] {A};
+    \end{tikzpicture}
+    \text{и}& \\
+    &\begin{tikzpicture}
+        \draw[dashed, line width=2pt, black] (0, 0) -- (1, 0) 
+        node[right, above, pos=1, scale=0.5] {F} 
+        node[left, above, pos=0, scale=0.5] {E};
+    \end{tikzpicture} 
+
+    не делят друг друга пополам
+\end{center}
+
+
+\end{multicols}
+
+\end{document}
