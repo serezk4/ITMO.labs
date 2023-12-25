@@ -1,0 +1,60 @@
+\documentclass[8pt]{extarticle}
+
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english,russian]{babel}
+\usepackage{multirow}
+
+% multicol package
+\usepackage{multicol}
+\usepackage{ragged2e}
+
+% page number
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\renewcommand{\headrulewidth}{0pt} % Убираем линию вверху страницы
+\renewcommand{\footrulewidth}{0pt} % Убираем линию внизу страницы
+
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+
+% Override Figures' ref. names
+\usepackage{graphicx}
+\makeatletter
+\renewcommand{\p@figure}{рис.\ }
+\makeatother
+
+% Math set letters
+\usepackage{amssymb}
+
+% Override Figures' captions
+\usepackage{subcaption}
+\DeclareCaptionLabelFormat{custom}{рис. 1}
+\DeclareCaptionLabelSeparator{custom}{ --- }
+\captionsetup
+{
+    labelformat=custom,
+    labelsep=custom
+}
+
+% Add Bibliography to contents
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+
+
+
+% Other useful packages
+\usepackage{amsmath}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
+\usepackage{mathtools}% http://ctan.org/pkg/mathtools
+\usepackage[absolute,overlay]{textpos}
+\graphicspath{{kvant/}}
+\usepackage[a4paper,left=2cm,right=2cm,top=1cm,bottom=1cm]{geometry}
+
+\begin{document}
+	\input{title/title}
+    \newgeometry{letterpaper,top=4cm,bottom=2cm,left=49mm,right=49mm,marginparwidth=1.75cm}
+    \input{kvant/kvant1917}
+\end{document}
