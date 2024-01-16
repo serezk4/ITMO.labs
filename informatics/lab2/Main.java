@@ -81,6 +81,8 @@ public class Main {
         try (BufferedReader consoleReader = new BufferedReader(new InputStreamReader(System.in));
              BufferedWriter consoleWriter = new BufferedWriter(new OutputStreamWriter(System.out))) {
 
+            System.err.println("для включения режима отображения всех операций после введенных данных написать 'd'");
+
             consoleWriter.append("Введите 7 цифр [0/1]: ").flush();
             final String enteredValue = consoleReader.readLine().trim();
             if (!enteredValue.matches("[01]{7}(d?)"))
@@ -93,12 +95,12 @@ public class Main {
 
             if (hasError(syndrome)) {
                 String wrongElement = calculatingWrongElement(calculatingIndex(syndrome));
-                consoleWriter.append(String.format("Ошибка в символе %s. Правильное сообщение: %s",
+                consoleWriter.append(String.format("Ошибка в символе %s: Правильное сообщение: %s",
                         wrongElement, returnCorrectMessage(bits, wrongElement))).append("\n").flush();
                 return;
             }
 
-            consoleWriter.append(String.format("Сообщение без ошибок. %s", enteredValue)).append("\n").flush();
+            consoleWriter.append(String.format("Сообщение без ошибок: %s", enteredValue.substring(0,7))).append("\n").flush();
 
         } catch (IOException | InvalidInputException ex) {
             System.err.println(ex.getMessage());
