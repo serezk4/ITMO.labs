@@ -103,9 +103,9 @@ public class MainGUI extends JFrame {
             final int[] bits = Arrays.stream(enteredValue.split("")).limit(7).mapToInt(Integer::parseInt).toArray();
             final int[] syndrome = calculatingSyndrome(bits);
 
-            traceBuilder.append(String.format("s1 = %d ⊕ %d ⊕ %d ⊕ %d = %d", bits[0], bits[2], bits[4], bits[6], syndrome[0])).append("\n");
-            traceBuilder.append(String.format("s2 = %d ⊕ %d ⊕ %d ⊕ %d = %d", bits[1], bits[2], bits[5], bits[6], syndrome[1])).append("\n");
-            traceBuilder.append(String.format("s3 = %d ⊕ %d ⊕ %d ⊕ %d = %d", bits[3], bits[4], bits[5], bits[6], syndrome[2])).append("\n");
+            traceBuilder.append(String.format("s1 = r1 ⊕ i1 ⊕ i2 ⊕ i4 = %d ⊕ %d ⊕ %d ⊕ %d = %d", bits[0], bits[2], bits[4], bits[6], syndrome[0])).append("\n");
+            traceBuilder.append(String.format("s2 = r2 ⊕ i1 ⊕ i3 ⊕ i4 = %d ⊕ %d ⊕ %d ⊕ %d = %d", bits[1], bits[2], bits[5], bits[6], syndrome[1])).append("\n");
+            traceBuilder.append(String.format("s3 = r3 ⊕ i2 ⊕ i3 ⊕ i4 = %d ⊕ %d ⊕ %d ⊕ %d = %d", bits[3], bits[4], bits[5], bits[6], syndrome[2])).append("\n");
 
 
             if (hasError(syndrome)) {
