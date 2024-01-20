@@ -1,5 +1,6 @@
 package com.serezka.lab5.chat;
 
+import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.console_worker.ConsoleWorker;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -7,12 +8,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PropertySource("classpath:chat.properties")
 public class Chat implements Runnable {
     String name;
     String outPattern;
     String inPattern;
+
+    List<Command> commands = new ArrayList<>();
+    public void addCommand(Command command) {commands.add(command);}
 
     ConsoleWorker console;
 
@@ -32,13 +39,24 @@ public class Chat implements Runnable {
         console.send("Chat \"%s\"", name);
 
         for (;;) {
-            console.send("\033[H\033[2J");
+            console.clear();
 
             final String input = console.get(inPattern);
 
+            List<Command> suitableCommands = commands.stream().filter(command -> input.matches(command.getUsage())).toList();
+            if (suitableCommands.isEmpty()) {
+                console.send("введена некорректная команда, help - все команды");
+                help();
+                continue;
+            }
 
 
-            console.send("введена некорректная команда, help - все команды");
+
         }
+    }
+
+    private void help() {
+        // todo
+        console.send("$help$");
     }
 }

@@ -6,4 +6,7 @@ public abstract class ConsoleWorker {
         send(String.format(pattern, vals));
     }
     public abstract String get(String label);
+    public void clear() {
+        send("");
+    }
 }
