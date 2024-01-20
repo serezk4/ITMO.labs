@@ -3,9 +3,9 @@ package com.serezka.lab5.chat.command;
 import com.serezka.lab5.chat.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 
-public class Add extends Command{
-    public Add() {
-        super("add .*", "добавить новый элемент в коллекцию");
+public class RemoveById extends Command {
+    public RemoveById() {
+        super("remove_by_id \\d+", "удалить элемент из коллекции по его id");
     }
 
     @Override

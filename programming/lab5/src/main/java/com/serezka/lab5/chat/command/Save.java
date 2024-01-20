@@ -3,9 +3,9 @@ package com.serezka.lab5.chat.command;
 import com.serezka.lab5.chat.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 
-public class Add extends Command{
-    public Add() {
-        super("add .*", "добавить новый элемент в коллекцию");
+public class Save extends Command{
+    public Save() {
+        super("save", "сохранить коллекцию в файл");
     }
 
     @Override

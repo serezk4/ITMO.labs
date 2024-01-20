@@ -3,9 +3,9 @@ package com.serezka.lab5.chat.command;
 import com.serezka.lab5.chat.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 
-public class Add extends Command{
-    public Add() {
-        super("add .*", "добавить новый элемент в коллекцию");
+public class Reorder extends Command{
+    public Reorder() {
+        super("reorder", "отсортировать коллекцию в порядке, обратном нынешнему");
     }
 
     @Override
