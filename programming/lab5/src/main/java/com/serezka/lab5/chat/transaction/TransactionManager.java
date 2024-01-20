@@ -1,7 +1,6 @@
 package com.serezka.lab5.chat.transaction;
 
-import com.serezka.lab5.chat.transaction.exceptions.TransactionsStackEmptyException;
-
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 public class TransactionManager {
@@ -12,12 +11,12 @@ public class TransactionManager {
     }
 
     public static Transaction get() {
-        if (isEmpty()) throw new TransactionsStackEmptyException();
+        if (isEmpty()) throw new EmptyStackException();
         return transactions.peek();
     }
 
     public static Transaction close() {
-        if (isEmpty()) throw new TransactionsStackEmptyException();
+        if (isEmpty()) throw new EmptyStackException();
         return transactions.pop();
     }
 
