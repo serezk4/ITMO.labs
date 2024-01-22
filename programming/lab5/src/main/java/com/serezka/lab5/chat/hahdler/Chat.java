@@ -62,25 +62,27 @@ public class Chat implements Runnable {
         console.send("Chat \"%s\"", name);
 
         for (;;) {
-            console.skip();
-
-            final String input = console.get(inPattern);
-
-            if (input.matches(".*help.*")) {
-                console.send(getHelp());
-                continue;
-            }
-
-            List<Command> suitableCommands = commands.stream().filter(command -> input.matches(command.getUsage())).toList();
-            if (suitableCommands.isEmpty()) {
-                console.send("введена некорректная команда, help - все команды");
-                continue;
-            }
-
-            if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
-
-            suitableCommands.getFirst().execute(this, new Update(input));
+            execute(console.get(inPattern));
         }
+    }
+
+    public void execute(String input) {
+        console.skip();
+
+        if (input.matches(".*help.*")) {
+            console.send(getHelp());
+            return;
+        }
+
+        List<Command> suitableCommands = commands.stream().filter(command -> input.matches(command.getUsage())).toList();
+        if (suitableCommands.isEmpty()) {
+            console.send("введена некорректная команда, help - все команды");
+            return;
+        }
+
+        if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
+
+        suitableCommands.getFirst().execute(this, new Update(input));
     }
 
     private String getHelp() {
