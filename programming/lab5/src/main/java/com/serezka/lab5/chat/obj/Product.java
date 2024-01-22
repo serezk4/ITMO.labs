@@ -107,6 +107,16 @@ public class Product implements Serializable {
     Person owner;
 
     // helpful methods
+    public double sum() {
+        return id +
+                name.length() +
+                coordinates.sum() +
+                creationDate.length() +
+                price +
+                partNumber.length() +
+                String.valueOf(unitOfMeasure).length() +
+                owner.sum();
+    }
 
     @Override
     public String toString() {

@@ -38,4 +38,8 @@ public class Location implements Serializable {
         if (z==null) throw new RequirementsException("z", "Поле не может быть null");
         this.z = z;
     }
+
+    public double sum() {
+        return x + y + z;
+    }
 }

@@ -58,4 +58,12 @@ public class Person implements Serializable {
     @Setter
     Location location;
 
+    // helpful methods
+    public double sum() {
+        return name.length()+
+                height+
+                String.valueOf(eyeColor).length()+
+                String.valueOf(hairColor).length()+
+                location.sum();
+    }
 }

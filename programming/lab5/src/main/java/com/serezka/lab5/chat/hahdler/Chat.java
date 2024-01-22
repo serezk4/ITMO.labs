@@ -32,7 +32,7 @@ public class Chat implements Runnable {
 
     @NonFinal
     @Getter @Setter
-    List<Product> userData;
+    UserData userData;
 
     @Getter ConsoleWorker console;
 

@@ -26,8 +26,6 @@ public class MinByCoordinates extends Command{
         Product minimalByCoordinates = userData.stream()
                 .min(Comparator.comparingDouble(product -> product.getCoordinates().sum())).get();
 
-
-
-
+        chat.getConsole().send("Результат операции: %n%s", minimalByCoordinates.toString());
     }
 }
