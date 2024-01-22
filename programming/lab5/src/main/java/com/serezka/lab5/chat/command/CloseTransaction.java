@@ -1,7 +1,8 @@
 package com.serezka.lab5.chat.command;
 
-import com.serezka.lab5.chat.Chat;
+import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
+import com.serezka.lab5.chat.transaction.TransactionManager;
 
 public class CloseTransaction extends Command{
     public CloseTransaction() {
@@ -10,6 +11,7 @@ public class CloseTransaction extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-        // TODO
+        chat.getConsole().send("транзакция закрыта и изменения применены");
+        chat.setUserData(TransactionManager.close().getUserData());
     }
 }

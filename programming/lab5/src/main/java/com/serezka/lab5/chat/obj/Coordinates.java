@@ -35,4 +35,7 @@ public class Coordinates implements Serializable {
         if (y == null || y > 182) throw new RequirementsException("y", "Максимальное значение поля: 182, Поле не может быть null");
         this.y = y;
     }
+
+    // utils methods
+    public float sum() {return x+y;}
 }

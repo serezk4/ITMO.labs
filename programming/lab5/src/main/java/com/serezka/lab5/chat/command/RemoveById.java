@@ -1,6 +1,6 @@
 package com.serezka.lab5.chat.command;
 
-import com.serezka.lab5.chat.Chat;
+import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 
 public class RemoveById extends Command {

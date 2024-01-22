@@ -14,10 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Builder
-@AllArgsConstructor @NoArgsConstructor
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @PropertySource("${application.properties}")
-@ToString
 public class Product implements Serializable {
     /**
      * Поле не может быть null
@@ -104,4 +105,32 @@ public class Product implements Serializable {
     @CsvCustomBindByName(column = "owner", converter = PersonConverter.class, required = false)
     @Setter
     Person owner;
+
+    // helpful methods
+
+    @Override
+    public String toString() {
+        return "Product{\n" +
+                "id: " + id + '\n' +
+                "name: " + name + '\n' +
+                "coordinates: " + '\n' +
+                "\t x: " + coordinates.getX() + '\n' +
+                "\t y: " + coordinates.getY() + '\n' +
+                "creationDate: " + creationDate + '\n' +
+                "price: " + price + '\n' +
+                "partNumber: " + partNumber + '\n' +
+                "unitOfMeasure: " + unitOfMeasure + '\n' +
+                "owner: " + '\n' +
+                "\t name: " + owner.getName() + '\n' +
+                "\t height: " + owner.getHeight() + '\n' +
+                "\t eyeColor: " + owner.getEyeColor() + '\n' +
+                "\t hairColor: " + owner.getHairColor() + '\n' +
+                "\t location: " +
+                (owner.getLocation() != null ?
+                        "\t\t x : " + owner.getLocation().getX() + '\n' +
+                                "\t\t y : " + owner.getLocation().getY() + '\n' +
+                                "\t\t z : " + owner.getLocation().getZ() + '\n' : "not specified"
+                ) + '\n' +
+                '}';
+    }
 }

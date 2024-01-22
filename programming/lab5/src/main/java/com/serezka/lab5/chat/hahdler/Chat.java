@@ -1,12 +1,14 @@
-package com.serezka.lab5.chat;
+package com.serezka.lab5.chat.hahdler;
 
 import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.console_worker.ConsoleWorker;
-import com.serezka.lab5.chat.hahdler.Update;
+import com.serezka.lab5.chat.obj.Product;
+import com.serezka.lab5.chat.user.UserData;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import lombok.extern.java.Log;
+import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -28,6 +30,10 @@ public class Chat implements Runnable {
     List<Command> commands = new ArrayList<>();
     public void addCommand(Command command) {commands.add(command);}
 
+    @NonFinal
+    @Getter @Setter
+    List<Product> userData;
+
     @Getter ConsoleWorker console;
 
     public Chat(@Value("${chat.name}") String name,
@@ -40,6 +46,8 @@ public class Chat implements Runnable {
         this.helpPattern = helpPattern;
 
         this.console = console;
+
+        this.userData = UserData.getInstance();
     }
 
 
