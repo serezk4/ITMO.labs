@@ -24,8 +24,7 @@ public class CoordinatesConverter extends AbstractBeanField<Coordinates, String>
             Long y = Long.parseLong(parts[1]);
             return Coordinates.builder().x(x).y(y).build();
         } catch (NumberFormatException e) {
-            log.warn(e.getMessage());
-            return null;
+            throw new CsvDataTypeMismatchException("Неверный формат чисел для локации " + e.getMessage());
         }
     }
 
