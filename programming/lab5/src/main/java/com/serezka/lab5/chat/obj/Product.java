@@ -7,13 +7,17 @@ import com.serezka.lab5.chat.file_worker.converter.PersonConverter;
 import com.serezka.lab5.chat.obj.exceptions.RequirementsException;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter @Builder
 @AllArgsConstructor @NoArgsConstructor
+@PropertySource("${application.properties}")
+@ToString
 public class Product implements Serializable {
     /**
      * Поле не может быть null
@@ -58,7 +62,7 @@ public class Product implements Serializable {
      */
     @CsvBindByName(column = "creation_date", required = true)
     @Setter
-    LocalDateTime creationDate = LocalDateTime.now();
+    String creationDate = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
     // always non null
 
     /**

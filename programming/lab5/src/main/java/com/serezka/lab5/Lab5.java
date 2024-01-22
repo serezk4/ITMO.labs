@@ -6,6 +6,7 @@ import com.serezka.lab5.chat.file_worker.CsvFileWorker;
 import com.serezka.lab5.chat.obj.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,11 +14,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequiredArgsConstructor
+@ToString
 public class Lab5 implements ApplicationRunner {
     Chat chat;
 
@@ -36,9 +39,9 @@ public class Lab5 implements ApplicationRunner {
                         .x(1.3f)
                         .y(14L).build())
                 .price(25.78f)
-                .partNumber("123")
+                .partNumber("12312312313123123123123")
                 .unitOfMeasure(UnitOfMeasure.CENTIMETERS)
-                        .creationDate(LocalDateTime.now())
+                        .creationDate("12.12.2005 12:34")
                 .owner(Person.builder()
                         .eyeColor(Color.BLACK)
                         .hairColor(Color.GREEN)
@@ -51,6 +54,9 @@ public class Lab5 implements ApplicationRunner {
                         .name("test")
                         .build())
                 .build()), "./test.csv");
+
+        List<Product> products = csvFileWorker.read("./test.csv");
+        products.forEach(product -> System.out.println(product.toString()));
 
         // transactions
         chat.addCommand(new BeginTransaction());
