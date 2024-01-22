@@ -11,6 +11,11 @@ public class CloseTransaction extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
+        if (TransactionManager.isEmpty()) {
+            chat.getConsole().send("ошибка! ни одной транзакции не открыто.");
+            return;
+        }
+
         chat.getConsole().send("транзакция закрыта и изменения применены");
         chat.setUserData(TransactionManager.close().getUserData());
     }

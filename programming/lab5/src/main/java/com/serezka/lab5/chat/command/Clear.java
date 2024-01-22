@@ -10,6 +10,6 @@ public class Clear extends Command {
 
     @Override
     public void execute(Chat chat, Update update) {
-        chat.getConsole().send("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        chat.getConsole().clear();
     }
 }

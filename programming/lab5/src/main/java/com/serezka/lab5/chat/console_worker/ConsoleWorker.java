@@ -10,6 +10,10 @@ public abstract class ConsoleWorker {
     public abstract String get(String label);
 
     public void clear() {
+        send("\n".repeat(30));
+    }
+
+    public void skip() {
         send("");
     }
 }

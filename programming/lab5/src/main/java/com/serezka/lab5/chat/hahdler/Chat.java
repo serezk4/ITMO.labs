@@ -3,6 +3,7 @@ package com.serezka.lab5.chat.hahdler;
 import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.console_worker.ConsoleWorker;
 import com.serezka.lab5.chat.obj.Product;
+import com.serezka.lab5.chat.transaction.TransactionManager;
 import com.serezka.lab5.chat.user.UserData;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,9 +31,13 @@ public class Chat implements Runnable {
     List<Command> commands = new ArrayList<>();
     public void addCommand(Command command) {commands.add(command);}
 
-    @NonFinal
-    @Getter @Setter
+    @NonFinal @Setter
     UserData userData;
+
+    public UserData getUserData() {
+        if (!TransactionManager.isEmpty()) return TransactionManager.get().getUserData();
+        return this.userData;
+    }
 
     @Getter ConsoleWorker console;
 
@@ -53,10 +58,11 @@ public class Chat implements Runnable {
 
     @Override
     public void run() {
+        console.clear();
         console.send("Chat \"%s\"", name);
 
         for (;;) {
-            console.clear();
+            console.skip();
 
             final String input = console.get(inPattern);
 
