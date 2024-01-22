@@ -1,16 +1,20 @@
 package com.serezka.lab5.chat.obj;
 
+import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.serezka.lab5.chat.file_worker.converter.CoordinatesConverter;
+import com.serezka.lab5.chat.file_worker.converter.PersonConverter;
 import com.serezka.lab5.chat.obj.exceptions.RequirementsException;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-public class Product {
+@Getter @Builder
+@AllArgsConstructor @NoArgsConstructor
+public class Product implements Serializable {
     /**
      * Поле не может быть null
      * Значение поля должно быть больше 0
@@ -18,23 +22,29 @@ public class Product {
      * Значение этого поля должно генерироваться автоматически
      */
     static Integer counter = 0;
-    final Integer id = counter++;
+
+    @CsvBindByName(column = "id", required = true)
+    @Setter
+    Integer id = counter++;
     // always non null
 
     /**
      * Поле не может быть null
      * Строка не может быть пустой
      */
+    @CsvBindByName(column = "name", required = true)
     String name;
 
     public void setName(String name) {
-        if (name == null || name.isBlank()) throw new RequirementsException("name", "Поле не может быть null, Строка не может быть пустой");
+        if (name == null || name.isBlank())
+            throw new RequirementsException("name", "Поле не может быть null, Строка не может быть пустой");
         this.name = name;
     }
 
     /**
      * Поле не может быть null
      */
+    @CsvCustomBindByName(column = "coordinates", converter = CoordinatesConverter.class, required = true)
     Coordinates coordinates;
 
     public void setCoordinates(Coordinates coordinates) {
@@ -46,12 +56,15 @@ public class Product {
      * Поле не может быть null
      * Значение этого поля должно генерироваться автоматически
      */
-    final LocalDateTime creationDate = LocalDateTime.now();
+    @CsvBindByName(column = "creation_date", required = true)
+    @Setter
+    LocalDateTime creationDate = LocalDateTime.now();
     // always non null
 
     /**
      * Значение поля должно быть больше 0
      */
+    @CsvBindByName(column = "price", required = true)
     float price;
 
     public void setPrice(float price) {
@@ -65,6 +78,7 @@ public class Product {
      * Длина строки должна быть не меньше 13
      * Поле может быть null
      */
+    @CsvBindByName(column = "part_number", required = true)
     String partNumber;
 
     public void setPartNumber(String partNumber) {
@@ -76,12 +90,14 @@ public class Product {
     /**
      * Поле может быть null
      */
+    @CsvBindByName(column = "unit_of_measure", required = false)
     @Setter
     UnitOfMeasure unitOfMeasure;
 
     /**
      * Поле может быть null
      */
+    @CsvCustomBindByName(column = "owner", converter = PersonConverter.class, required = false)
     @Setter
     Person owner;
 }

@@ -10,6 +10,7 @@ public class Exit extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-
+        chat.getConsole().send("выход из программы без сохранения...");
+        System.exit(228);
     }
 }

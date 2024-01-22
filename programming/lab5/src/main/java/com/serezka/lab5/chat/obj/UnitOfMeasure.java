@@ -1,6 +1,8 @@
 package com.serezka.lab5.chat.obj;
 
-public enum UnitOfMeasure {
+import java.io.Serializable;
+
+public enum UnitOfMeasure implements Serializable {
     CENTIMETERS,
     SQUARE_METERS,
     LITERS,
