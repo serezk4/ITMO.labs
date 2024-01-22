@@ -11,7 +11,7 @@ import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter @Builder
-public class Coordinates implements Serializable {
+public class Coordinates implements Serializable, Comparable<Coordinates> {
     /**
      * Максимальное значение поля: 364
      * Поле не может быть null
@@ -37,5 +37,8 @@ public class Coordinates implements Serializable {
     }
 
     // utils methods
-    public float sum() {return x+y;}
+    @Override
+    public int compareTo(Coordinates o) {
+        return x.compareTo(o.getX())+y.compareTo(o.getY());
+    }
 }

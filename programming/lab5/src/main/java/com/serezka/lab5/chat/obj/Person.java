@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter @Builder
-public class Person implements Serializable {
+public class Person implements Serializable, Comparable<Person> {
     /**
      * Поле не может быть null
      * Строка не может быть пустой
@@ -59,11 +59,11 @@ public class Person implements Serializable {
     Location location;
 
     // helpful methods
-    public double sum() {
-        return name.length()+
-                height+
-                String.valueOf(eyeColor).length()+
-                String.valueOf(hairColor).length()+
-                location.sum();
+    @Override
+    public int compareTo(Person o) {
+        return name.compareTo(o.getName())+
+                eyeColor.compareTo(o.getEyeColor())+
+                hairColor.compareTo(o.getHairColor())+
+                location.compareTo(o.getLocation());
     }
 }

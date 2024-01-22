@@ -19,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @PropertySource("${application.properties}")
-public class Product implements Serializable {
+public class Product implements Serializable, Comparable<Product> {
     /**
      * Поле не может быть null
      * Значение поля должно быть больше 0
@@ -70,7 +70,7 @@ public class Product implements Serializable {
      * Значение поля должно быть больше 0
      */
     @CsvBindByName(column = "price", required = true)
-    float price;
+    Float price;
 
     public void setPrice(float price) {
         if (price < 0) throw new RequirementsException("price", "Значение поля должно быть больше 0");
@@ -107,15 +107,16 @@ public class Product implements Serializable {
     Person owner;
 
     // helpful methods
-    public double sum() {
-        return id +
-                name.length() +
-                coordinates.sum() +
-                creationDate.length() +
-                price +
-                partNumber.length() +
-                String.valueOf(unitOfMeasure).length() +
-                owner.sum();
+    @Override
+    public int compareTo(Product o) {
+        return getId().compareTo(o.getId())+
+                getName().compareTo(o.getName())+
+                coordinates.compareTo(o.getCoordinates())+
+                creationDate.compareTo(o.getCreationDate())+
+                price.compareTo(o.getPrice())+
+                partNumber.compareTo(o.getPartNumber())+
+                unitOfMeasure.compareTo(o.getUnitOfMeasure())+
+                owner.compareTo(o.getOwner());
     }
 
     @Override

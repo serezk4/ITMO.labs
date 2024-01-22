@@ -18,7 +18,7 @@ public class UserData extends LinkedList<Product> {
 
     public List<Product> getAscending() {
         return stream()
-                .sorted(Comparator.comparing(Product::sum))
+                .sorted(Product::compareTo)
                 .toList();
     }
 }

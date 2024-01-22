@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter @Builder
-public class Location implements Serializable {
+public class Location implements Serializable, Comparable<Location> {
     /**
      * Поле не может быть null
      */
@@ -26,7 +26,7 @@ public class Location implements Serializable {
 
     @CsvBindByName(column = "y", required = true)
     @Setter
-    double y;
+    Double y;
 
     /**
      * Поле не может быть null
@@ -39,7 +39,9 @@ public class Location implements Serializable {
         this.z = z;
     }
 
-    public double sum() {
-        return x + y + z;
+    // helpful methods
+    @Override
+    public int compareTo(Location o) {
+        return x.compareTo(o.getX())+y.compareTo(o.getY())+z.compareTo(o.getZ());
     }
 }
