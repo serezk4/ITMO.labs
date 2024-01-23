@@ -1,7 +1,7 @@
-package com.serezka.lab5.chat.obj;
+package com.serezka.lab5.chat.object;
 
 import com.opencsv.bean.CsvBindByName;
-import com.serezka.lab5.chat.obj.exceptions.RequirementsException;
+import com.serezka.lab5.chat.object.exceptions.RequirementsException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

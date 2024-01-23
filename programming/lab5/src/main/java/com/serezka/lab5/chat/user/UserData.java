@@ -1,8 +1,7 @@
 package com.serezka.lab5.chat.user;
 
-import com.serezka.lab5.chat.obj.Product;
+import com.serezka.lab5.chat.object.Product;
 
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 

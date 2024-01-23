@@ -1,4 +1,4 @@
-package com.serezka.lab5.chat.console_worker;
+package com.serezka.lab5.chat.io.console;
 
 public abstract class ConsoleWorker {
     public abstract void send(String message);

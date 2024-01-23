@@ -1,10 +1,10 @@
-package com.serezka.lab5.chat.obj;
+package com.serezka.lab5.chat.object;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import com.serezka.lab5.chat.file_worker.converter.CoordinatesConverter;
-import com.serezka.lab5.chat.file_worker.converter.PersonConverter;
-import com.serezka.lab5.chat.obj.exceptions.RequirementsException;
+import com.serezka.lab5.chat.io.format.converter.CoordinatesConverter;
+import com.serezka.lab5.chat.io.format.converter.PersonConverter;
+import com.serezka.lab5.chat.object.exceptions.RequirementsException;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.PropertySource;

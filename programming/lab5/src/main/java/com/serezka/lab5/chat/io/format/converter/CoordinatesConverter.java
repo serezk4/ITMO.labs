@@ -1,9 +1,9 @@
-package com.serezka.lab5.chat.file_worker.converter;
+package com.serezka.lab5.chat.io.format.converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.serezka.lab5.chat.obj.Coordinates;
+import com.serezka.lab5.chat.object.Coordinates;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 

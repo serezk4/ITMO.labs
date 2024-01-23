@@ -1,4 +1,4 @@
-package com.serezka.lab5.chat.console_worker;
+package com.serezka.lab5.chat.io.console;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

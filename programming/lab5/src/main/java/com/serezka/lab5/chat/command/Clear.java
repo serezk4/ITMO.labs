@@ -2,6 +2,7 @@ package com.serezka.lab5.chat.command;
 
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
+import com.serezka.lab5.chat.user.UserData;
 
 public class Clear extends Command {
     public Clear() {
@@ -10,6 +11,12 @@ public class Clear extends Command {
 
     @Override
     public void execute(Chat chat, Update update) {
-        chat.getConsole().clear();
+        if (!chat.getConsole().get("вы уверены, что хотите удалить все записи из коллекции? [y/n]").matches("(y)|(Y)|(yes)|(да)|(д)|")) {
+            chat.getConsole().send("хорошо, данные останутся в покое");
+            return;
+        }
+
+        chat.getUserData().clear();
+        chat.getConsole().send("данные успешно удалены");
     }
 }

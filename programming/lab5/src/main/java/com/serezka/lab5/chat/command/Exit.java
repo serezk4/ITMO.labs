@@ -10,7 +10,13 @@ public class Exit extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-        chat.getConsole().send("выход из программы без сохранения...");
+        chat.getConsole().send("");
+        if (!chat.getConsole().get("прощай, сталкер... данные я твои не сохраню, уверен? [y/n]: ").matches("(y)|(Y)|(yes)|(да)|(д)|")) {
+            chat.getConsole().send("хорошо, побудем еще в этой консольке некоторое время");
+            return;
+        }
+
+        chat.getConsole().send("прощай...");
         System.exit(228);
     }
 }

@@ -1,4 +1,4 @@
-package com.serezka.lab5.chat.obj;
+package com.serezka.lab5.chat.object;
 
 import java.io.Serializable;
 

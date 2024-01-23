@@ -1,16 +1,17 @@
-package com.serezka.lab5.chat.file_worker;
+package com.serezka.lab5.chat.io.format;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import com.serezka.lab5.chat.obj.Product;
+import com.serezka.lab5.chat.object.Product;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,14 +20,26 @@ import java.util.List;
 
 @Component
 @Log4j2
-public class CsvFileWorker extends FileWorker{
+public class CsvFormatWorker implements FormatWorker {
     @Override
-    public List<Product> read(String filePath) {
+    public List<Product> readFile(String filePath) {
         try {
             return new CsvToBeanBuilder<>(Files.newBufferedReader(Path.of(filePath)))
                     .withType(Product.class)
                     .build().parse().stream().map(q -> (Product) q).toList();
         } catch (IOException e) {
+            log.warn(e.getMessage());
+            return Collections.emptyList();
+        }
+    }
+
+    @Override
+    public List<Product> readString(String csvContent) {
+        try {
+            return new CsvToBeanBuilder<>(new StringReader(csvContent))
+                    .withType(Product.class)
+                    .build().parse().stream().map(q -> (Product) q).toList();
+        } catch (Exception e) {
             log.warn(e.getMessage());
             return Collections.emptyList();
         }

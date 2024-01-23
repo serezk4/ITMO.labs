@@ -1,8 +1,8 @@
-package com.serezka.lab5.chat.file_worker.converter;
+package com.serezka.lab5.chat.io.format.converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.serezka.lab5.chat.obj.Location;
+import com.serezka.lab5.chat.object.Location;
 
 public class LocationConverter extends AbstractBeanField<Location, String> {
     @Override

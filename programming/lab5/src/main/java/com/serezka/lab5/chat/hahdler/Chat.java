@@ -1,8 +1,7 @@
 package com.serezka.lab5.chat.hahdler;
 
 import com.serezka.lab5.chat.command.Command;
-import com.serezka.lab5.chat.console_worker.ConsoleWorker;
-import com.serezka.lab5.chat.obj.Product;
+import com.serezka.lab5.chat.io.console.ConsoleWorker;
 import com.serezka.lab5.chat.transaction.TransactionManager;
 import com.serezka.lab5.chat.user.UserData;
 import lombok.AccessLevel;
@@ -59,7 +58,11 @@ public class Chat implements Runnable {
     @Override
     public void run() {
         console.clear();
-        console.send("Chat \"%s\"", name);
+        console.send("""
+                ┓   ┓ ┏━  ┏━┓  ┳┏┳┓┳┳┓┏┓
+                ┃ ┏┓┣┓┗┓  ┃┗┛  ┃ ┃ ┃┃┃┃┃
+                ┗┛┗┻┗┛┗┛  ┗━┛  ┻ ┻ ┛ ┗┗┛
+                """);
 
         for (;;) {
             execute(console.get(inPattern));
@@ -71,23 +74,26 @@ public class Chat implements Runnable {
 
         if (input.matches(".*help.*")) {
             console.send(getHelp());
+            console.skip();
             return;
         }
 
         List<Command> suitableCommands = commands.stream().filter(command -> input.matches(command.getUsage())).toList();
         if (suitableCommands.isEmpty()) {
             console.send("введена некорректная команда, help - все команды");
+            console.skip();
             return;
         }
 
         if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         suitableCommands.getFirst().execute(this, new Update(input));
+        console.skip();
     }
 
     private String getHelp() {
-        return commands.stream()
-                .map(command -> String.format(helpPattern+"%n", command.getUsage(), command.getHelp()))
+        return "Все доступные команды: \n" + commands.stream()
+                .map(command -> String.format("%n"+helpPattern, command.getUsage(), command.getHelp()))
                 .collect(Collectors.joining());
     }
 }

@@ -1,9 +1,9 @@
-package com.serezka.lab5.chat.file_worker.converter;
+package com.serezka.lab5.chat.io.format.converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.serezka.lab5.chat.obj.Color;
-import com.serezka.lab5.chat.obj.Person;
+import com.serezka.lab5.chat.object.Color;
+import com.serezka.lab5.chat.object.Person;
 
 public class PersonConverter extends AbstractBeanField<Person, String> {
     @Override

@@ -2,8 +2,8 @@ package com.serezka.lab5;
 
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.command.*;
-import com.serezka.lab5.chat.file_worker.CsvFileWorker;
-import com.serezka.lab5.chat.obj.*;
+import com.serezka.lab5.chat.io.format.CsvFormatWorker;
+import com.serezka.lab5.chat.object.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -22,7 +22,11 @@ import java.util.List;
 public class Lab5 implements ApplicationRunner {
     Chat chat;
 
-    CsvFileWorker csvFileWorker;
+    CsvFormatWorker csvFileWorker;
+
+    // commands
+    Add add;
+    AddIfMax addIfMax;
 
     public static void main(String[] args) {
         SpringApplication.run(Lab5.class, args);
@@ -53,8 +57,11 @@ public class Lab5 implements ApplicationRunner {
                         .build())
                 .build()), "./test.csv");
 
-        List<Product> products = csvFileWorker.read("./test.csv");
+        List<Product> products = csvFileWorker.readFile("./test.csv");
         products.forEach(product -> System.out.println(product.toString()));
+
+        // funny commands
+        chat.addCommand(new Author());
 
         // transactions
         chat.addCommand(new BeginTransaction());
@@ -62,8 +69,8 @@ public class Lab5 implements ApplicationRunner {
         chat.addCommand(new RollbackTransaction());
 
         // other commands
-        chat.addCommand(new Add());
-        chat.addCommand(new AddIfMax());
+        chat.addCommand(add);
+        chat.addCommand(addIfMax);
         chat.addCommand(new Clear());
         chat.addCommand(new ExecuteScript());
         chat.addCommand(new Exit());
