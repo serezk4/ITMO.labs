@@ -22,66 +22,37 @@ import java.util.List;
 public class Lab5 implements ApplicationRunner {
     Chat chat;
 
-    CsvFormatWorker csvFileWorker;
-
-    // commands
-    Add add;
-    AddIfMax addIfMax;
-
     public static void main(String[] args) {
         SpringApplication.run(Lab5.class, args);
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        csvFileWorker.write(List.of(Product.builder()
-                        .id(200)
-                .name("123")
-                .coordinates(Coordinates.builder()
-                        .x(1.3f)
-                        .y(14L).build())
-                .price(25.78f)
-                .partNumber("12312312313123123123123")
-                .unitOfMeasure(UnitOfMeasure.CENTIMETERS)
-                        .creationDate("12.12.2005 12:34")
-                .owner(Person.builder()
-                        .eyeColor(Color.BLACK)
-                        .hairColor(Color.GREEN)
-                        .height(13L)
-                        .location(Location.builder()
-                                .z(50)
-                                .x(50)
-                                .y(50d)
-                                .build())
-                        .name("test")
-                        .build())
-                .build()), "./test.csv");
-
-        List<Product> products = csvFileWorker.readFile("./test.csv");
-        products.forEach(product -> System.out.println(product.toString()));
-
-        // funny commands
-        chat.addCommand(new Author());
-
-        // transactions
-        chat.addCommand(new BeginTransaction());
-        chat.addCommand(new CloseTransaction());
-        chat.addCommand(new RollbackTransaction());
-
-        // other commands
-        chat.addCommand(add);
-        chat.addCommand(addIfMax);
-        chat.addCommand(new Clear());
-        chat.addCommand(new ExecuteScript());
-        chat.addCommand(new Exit());
-        chat.addCommand(new FilterStartsWithPartNumber());
-        chat.addCommand(new MinByCoordinates());
-        chat.addCommand(new PrintAscending());
-        chat.addCommand(new RemoveById());
-        chat.addCommand(new RemoveGreater());
-        chat.addCommand(new Reorder());
-        chat.addCommand(new Save());
-        chat.addCommand(new UpdateById());
+//        csvFileWorker.write(List.of(Product.builder()
+//                        .id(200)
+//                .name("123")
+//                .coordinates(Coordinates.builder()
+//                        .x(1.3f)
+//                        .y(14L).build())
+//                .price(25.78f)
+//                .partNumber("12312312313123123123123")
+//                .unitOfMeasure(UnitOfMeasure.CENTIMETERS)
+//                        .creationDate("12.12.2005 12:34")
+//                .owner(Person.builder()
+//                        .eyeColor(Color.BLACK)
+//                        .hairColor(Color.GREEN)
+//                        .height(13L)
+//                        .location(Location.builder()
+//                                .z(50)
+//                                .x(50)
+//                                .y(50d)
+//                                .build())
+//                        .name("test")
+//                        .build())
+//                .build()), "./test.csv");
+//
+//        List<Product> products = csvFileWorker.readFile("./test.csv");
+//        products.forEach(product -> System.out.println(product.toString()));
 
         new Thread(chat).start();
     }

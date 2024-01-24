@@ -12,11 +12,11 @@ import java.util.List;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-public class Add extends Command{
+public class AddInline extends Command{
     FormatWorker formatWorker;
 
-    public Add(FormatWorker formatWorker) {
-        super("add .+", "добавить новый элемент в коллекцию");
+    public AddInline(FormatWorker formatWorker) {
+        super("add .+", "добавить новый элемент в коллекцию (через консоль)");
         this.formatWorker = formatWorker;
     }
 

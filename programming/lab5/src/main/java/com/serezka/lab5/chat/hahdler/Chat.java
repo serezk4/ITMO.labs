@@ -27,8 +27,8 @@ public class Chat implements Runnable {
     String inPattern;
     String helpPattern;
 
-    List<Command> commands = new ArrayList<>();
-    public void addCommand(Command command) {commands.add(command);}
+    @Setter @Getter @NonFinal
+    private List<Command> commands = new ArrayList<>();
 
     @NonFinal @Setter
     UserData userData;
