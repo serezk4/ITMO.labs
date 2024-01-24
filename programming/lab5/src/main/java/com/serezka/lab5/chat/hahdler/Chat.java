@@ -1,5 +1,6 @@
 package com.serezka.lab5.chat.hahdler;
 
+import com.serezka.lab5.Arts;
 import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.io.console.ConsoleWorker;
 import com.serezka.lab5.chat.transaction.TransactionManager;
@@ -61,16 +62,9 @@ public class Chat implements Runnable {
 
     @Override
     public void run() {
-        console.clear();
-        console.send("""
-                ┓   ┓ ┏━  ┏━┓  ┳┏┳┓┳┳┓┏┓
-                ┃ ┏┓┣┓┗┓  ┃┗┛  ┃ ┃ ┃┃┃┃┃
-                ┗┛┗┻┗┛┗┛  ┗━┛  ┻ ┻ ┛ ┗┗┛
-                """);
+        console.send(Arts.INIT);
 
-        for (;;) {
-            execute(console.get(inPattern));
-        }
+        for (;;) execute(console.get(inPattern));
     }
 
     public void execute(String input) {
@@ -82,7 +76,8 @@ public class Chat implements Runnable {
             return;
         }
 
-        List<Command> suitableCommands = commands.stream().filter(command -> input.matches(command.getUsage())).toList();
+        List<Command> suitableCommands = commands.stream().filter(command ->
+                input.matches(command.getUsage())).toList();
         if (suitableCommands.isEmpty()) {
             console.send("введена некорректная команда, help - все команды");
             console.skip();
