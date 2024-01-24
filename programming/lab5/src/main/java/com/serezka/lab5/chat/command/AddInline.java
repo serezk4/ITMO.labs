@@ -24,9 +24,9 @@ public class AddInline extends Command {
     @Override
     public void execute(Chat chat, Update update) {
         final String data = update.getMessage().split(" ", 2)[1]
-                .replaceAll("\\+g", formatWorker.writeString(Collections.singletonList(new Product().generate())));;
+                .replaceAll("\\+g", formatWorker.writeString(Collections.singletonList(new Product().generate())));
 
-        List<Integer> existingIds = chat.getUserData().stream().map(Product::getId).toList();
+        List<Integer> existingIds = chat.getData().stream().map(Product::getId).toList();
 
         List<Product> formatted = formatWorker.readString(data)
                 .stream().filter(product -> {
@@ -39,6 +39,6 @@ public class AddInline extends Command {
                 }).toList();
 
         chat.getConsole().send("добавлено %d записей", formatted.size());
-        chat.getUserData().addAll(formatted);
+        chat.getData().addAll(formatted);
     }
 }

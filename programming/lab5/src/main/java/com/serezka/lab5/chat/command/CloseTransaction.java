@@ -19,6 +19,6 @@ public class CloseTransaction extends Command{
         }
 
         chat.getConsole().send("транзакция закрыта и изменения применены");
-        chat.setUserData(TransactionManager.close().getData());
+        chat.setData(TransactionManager.close().getData());
     }
 }

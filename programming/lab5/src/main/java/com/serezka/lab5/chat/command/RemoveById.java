@@ -5,7 +5,6 @@ import com.serezka.lab5.chat.hahdler.Update;
 import com.serezka.lab5.chat.object.Product;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -18,7 +17,7 @@ public class RemoveById extends Command {
     public void execute(Chat chat, Update update) {
         final int inputId = Integer.parseInt(update.getMessage().split(" ", 2)[1]);
 
-        Optional<Product> filtered = chat.getUserData().stream()
+        Optional<Product> filtered = chat.getData().stream()
                 .filter(product -> product.getId() == inputId)
                 .findFirst();
 

@@ -32,22 +32,22 @@ public class AddIfMax extends Command {
         }
 
         Product inputMax = formatted.stream().max(Product::compareTo).orElseThrow();
-        Optional<Product> currMax = chat.getUserData().stream().max(Product::compareTo);
+        Optional<Product> currMax = chat.getData().stream().max(Product::compareTo);
 
-        if (chat.getUserData().stream().map(Product::getId).anyMatch(id -> inputMax.getId().compareTo(id) == 0)) {
+        if (chat.getData().stream().map(Product::getId).anyMatch(id -> inputMax.getId().compareTo(id) == 0)) {
             chat.getConsole().send("в коллекции уже находится элемент с %d id, добавить новый будет невозможно\nпопробуйте еще раз с другими данными.");
             return;
         }
 
         if (currMax.isEmpty()) {
             chat.getConsole().send("кажется, коллекция пуста. элемент будет добавлен.");
-            chat.getUserData().add(inputMax);
+            chat.getData().add(inputMax);
             return;
         }
 
         if (currMax.get().compareTo(inputMax) < 0) {
             chat.getConsole().send("введенный элемент попал в коллекцию");
-            chat.getUserData().add(inputMax);
+            chat.getData().add(inputMax);
             return;
         }
 

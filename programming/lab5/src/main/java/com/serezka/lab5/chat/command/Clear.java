@@ -17,7 +17,7 @@ public class Clear extends Command {
             return;
         }
 
-        chat.getUserData().clear();
+        chat.getData().clear();
         chat.getConsole().send("данные успешно удалены");
     }
 }

@@ -13,14 +13,14 @@ public class View extends Command {
 
     @Override
     public void execute(Chat chat, Update update) {
-        if (chat.getUserData().isEmpty()) {
+        if (chat.getData().isEmpty()) {
             chat.getConsole().send("Коллекция пуста :(\n\nчтобы добавить элементы воспользуйтесь командами, которые описаны в help");
             return;
         }
 
         chat.getConsole().send("текущая коллекция:");
 
-        chat.getUserData()
+        chat.getData()
                 .stream().map(Product::toString)
                 .forEach(chat.getConsole()::send);
     }

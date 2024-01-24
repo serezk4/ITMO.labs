@@ -13,7 +13,7 @@ public class Sort extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-        chat.getUserData().sort(Product::compareTo);
+        chat.getData().sort(Product::compareTo);
         chat.getConsole().send("коллекция успешно отсортирована!");
     }
 }

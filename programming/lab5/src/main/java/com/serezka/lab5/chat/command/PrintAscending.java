@@ -13,13 +13,13 @@ public class PrintAscending extends Command {
 
     @Override
     public void execute(Chat chat, Update update) {
-        Data data = chat.getUserData();
+        Data data = chat.getData();
 
         if (data.isEmpty()) {
             chat.getConsole().send("кажется, коллекция пустая.");
             return;
         }
 
-        chat.getUserData().getAscending().forEach(product -> chat.getConsole().send(product.toString()));
+        chat.getData().getAscending().forEach(product -> chat.getConsole().send(product.toString()));
     }
 }

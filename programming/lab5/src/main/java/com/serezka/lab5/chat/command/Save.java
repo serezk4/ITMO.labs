@@ -1,6 +1,5 @@
 package com.serezka.lab5.chat.command;
 
-import com.github.f4b6a3.uuid.UuidCreator;
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 import com.serezka.lab5.chat.io.format.FormatWorker;
@@ -21,7 +20,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PropertySource("classpath:files.properties")
 @Log4j2
-public class Save extends Command{
+public class Save extends Command {
     FormatWorker formatWorker;
 
     SimpleDateFormat dateFormat;
@@ -44,11 +43,11 @@ public class Save extends Command{
     @Override
     public void execute(Chat chat, Update update) {
         try {
-            final Path path = Paths.get(saveDir + String.format(nameFormat, dateFormat.format(new Date()),
-                    UuidCreator.getRandomBased().toString()).replaceAll(":", ""));
+            final Path path = Paths.get(saveDir +
+                    String.format(nameFormat, dateFormat.format(new Date()), (int) (Math.random() * 1000)));
             if (Files.notExists(path)) Files.createFile(path);
 
-            formatWorker.write(chat.getUserData(), path);
+            formatWorker.write(chat.getData(), path);
 
             chat.getConsole().send("Данные успешно сохранены в файл %s", path.toString());
         } catch (Exception ex) {

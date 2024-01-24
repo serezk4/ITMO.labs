@@ -15,7 +15,7 @@ public class MinByCoordinates extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-        List<Product> userData = chat.getUserData();
+        List<Product> userData = chat.getData();
 
         if (userData.isEmpty()) {
             chat.getConsole().send("кажется, коллекция пустая. найти необходимый объект не получится.");

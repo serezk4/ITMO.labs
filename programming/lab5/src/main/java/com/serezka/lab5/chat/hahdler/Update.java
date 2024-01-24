@@ -6,7 +6,11 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Getter @AllArgsConstructor
+@Getter
 public class Update {
     String message;
+
+    public Update(String message) {
+        this.message = message;
+    }
 }

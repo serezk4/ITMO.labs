@@ -23,4 +23,8 @@ public class TransactionManager {
     public static boolean isEmpty() {
         return transactions.empty();
     }
+
+    public static int depth() {
+        return transactions.size();
+    }
 }

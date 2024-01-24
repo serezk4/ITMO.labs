@@ -3,6 +3,7 @@ package com.serezka.lab5.configuration.chat;
 import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.io.console.ConsoleWorker;
+import com.serezka.lab5.chat.io.format.FormatWorker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,8 +25,9 @@ public class ChatConfiguration {
                      @Value("${chat.out.pattern}") String outPattern,
                      @Value("${chat.in.pattern}") String inPattern,
                      @Value("${chat.help.pattern}") String helpPattern,
-                     @Qualifier("bufferedConsoleWorker") ConsoleWorker console) {
-        Chat chat = new Chat(name, outPattern, inPattern, helpPattern, console);
+                     @Qualifier("bufferedConsoleWorker") ConsoleWorker console,
+                     @Qualifier("csvFormatWorker") FormatWorker formatWorker) {
+        Chat chat = new Chat(name, outPattern, inPattern, helpPattern, console, formatWorker);
         chat.setCommands(commands);
         return chat;
     }

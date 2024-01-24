@@ -37,7 +37,7 @@ public class RemoveGreater extends Command{
         if (formatted.size() > 1)
             chat.getConsole().send("так как было введено больше, чем одна запись, будет взята максимальная.");
 
-        chat.getUserData().removeGreaterThan(max)
+        chat.getData().removeGreaterThan(max)
                 .stream().map(Product::toString)
                 .forEach(chat.getConsole()::send);
     }

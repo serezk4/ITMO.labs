@@ -17,7 +17,7 @@ public class FilterStartsWithPartNumber extends Command {
     public void execute(Chat chat, Update update) {
         final String data = update.getMessage().split(" ", 2)[1];
 
-        List<Product> filtered = chat.getUserData().stream()
+        List<Product> filtered = chat.getData().stream()
                 .filter(product -> product.getPartNumber().startsWith(data))
                 .toList();
 
