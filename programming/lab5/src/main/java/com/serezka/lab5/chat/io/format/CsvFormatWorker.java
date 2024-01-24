@@ -42,8 +42,8 @@ public class CsvFormatWorker implements FormatWorker {
     }
 
     @Override
-    public void write(List<Product> products, String filePath) {
-        try (Writer writer = new FileWriter(filePath)) {
+    public void write(List<Product> products, Path filePath) {
+        try (Writer writer = new FileWriter(filePath.toFile())) {
             StatefulBeanToCsv<Product> beanToCsv = new StatefulBeanToCsvBuilder<Product>(writer)
                     .withSeparator(',')
                     .build();
