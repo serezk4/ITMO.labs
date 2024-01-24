@@ -39,6 +39,6 @@ public class Coordinates implements Serializable, Comparable<Coordinates> {
     // utils methods
     @Override
     public int compareTo(Coordinates o) {
-        return x.compareTo(o.getX())+y.compareTo(o.getY());
+        return x.compareTo(o.getX()) + y.compareTo(o.getY());
     }
 }

@@ -109,14 +109,16 @@ public class Product implements Serializable, Comparable<Product> {
     // helpful methods
     @Override
     public int compareTo(Product o) {
-        return getId().compareTo(o.getId())+
-                getName().compareTo(o.getName())+
-                coordinates.compareTo(o.getCoordinates())+
-                creationDate.compareTo(o.getCreationDate())+
-                price.compareTo(o.getPrice())+
-                partNumber.compareTo(o.getPartNumber())+
-                unitOfMeasure.compareTo(o.getUnitOfMeasure())+
-                owner.compareTo(o.getOwner());
+        return getPrice().compareTo(o.getPrice());
+        //todo сравнивать, допустим, по цене 
+//        return getId().compareTo(o.getId())+
+//                getName().compareTo(o.getName())+
+//                coordinates.compareTo(o.getCoordinates())+
+//                creationDate.compareTo(o.getCreationDate())+
+//                price.compareTo(o.getPrice())+
+//                partNumber.compareTo(o.getPartNumber())+
+//                unitOfMeasure.compareTo(o.getUnitOfMeasure())+
+//                owner.compareTo(o.getOwner());
     }
 
     @Override

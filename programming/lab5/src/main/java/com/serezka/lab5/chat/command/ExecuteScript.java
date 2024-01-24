@@ -3,12 +3,14 @@ package com.serezka.lab5.chat.command;
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@Component
 @Log4j2
 public class ExecuteScript extends Command{
     public ExecuteScript() {

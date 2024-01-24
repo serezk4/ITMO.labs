@@ -5,7 +5,9 @@ import com.serezka.lab5.chat.hahdler.Update;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.springframework.stereotype.Component;
 
+@Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Getter
 public abstract class Command {

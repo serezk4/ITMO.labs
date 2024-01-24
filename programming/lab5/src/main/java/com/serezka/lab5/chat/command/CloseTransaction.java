@@ -3,7 +3,9 @@ package com.serezka.lab5.chat.command;
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 import com.serezka.lab5.chat.transaction.TransactionManager;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CloseTransaction extends Command{
     public CloseTransaction() {
         super("(close transaction)|(close)", "закрыть транзакцию и применить изменения");

@@ -3,7 +3,9 @@ package com.serezka.lab5.chat.command;
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
 import com.serezka.lab5.chat.transaction.TransactionManager;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RollbackTransaction extends Command{
     public RollbackTransaction() {
         super("(rollback transaction)|(rollback)", "закрыть транзакцию и не сохранять изменения");

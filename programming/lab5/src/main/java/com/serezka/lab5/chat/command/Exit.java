@@ -2,7 +2,9 @@ package com.serezka.lab5.chat.command;
 
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Exit extends Command{
     public Exit() {
         super("exit", "завершить программу (без сохранения в файл)");
