@@ -18,7 +18,6 @@ import java.util.List;
 @PropertySource("classpath:chat.properties")
 @RequiredArgsConstructor
 public class ChatConfiguration {
-
     @Bean
     public Chat chat(List<Command> commands,
                      @Value("${chat.name}") String name,

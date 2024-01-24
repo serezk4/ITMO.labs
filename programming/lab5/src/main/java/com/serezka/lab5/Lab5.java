@@ -1,9 +1,6 @@
 package com.serezka.lab5;
 
 import com.serezka.lab5.chat.hahdler.Chat;
-import com.serezka.lab5.chat.command.*;
-import com.serezka.lab5.chat.io.format.CsvFormatWorker;
-import com.serezka.lab5.chat.object.*;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -12,8 +9,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.List;
 
 @SpringBootApplication
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -28,32 +23,6 @@ public class Lab5 implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        csvFileWorker.write(List.of(Product.builder()
-//                        .id(200)
-//                .name("123")
-//                .coordinates(Coordinates.builder()
-//                        .x(1.3f)
-//                        .y(14L).build())
-//                .price(25.78f)
-//                .partNumber("12312312313123123123123")
-//                .unitOfMeasure(UnitOfMeasure.CENTIMETERS)
-//                        .creationDate("12.12.2005 12:34")
-//                .owner(Person.builder()
-//                        .eyeColor(Color.BLACK)
-//                        .hairColor(Color.GREEN)
-//                        .height(13L)
-//                        .location(Location.builder()
-//                                .z(50)
-//                                .x(50)
-//                                .y(50d)
-//                                .build())
-//                        .name("test")
-//                        .build())
-//                .build()), "./test.csv");
-//
-//        List<Product> products = csvFileWorker.readFile("./test.csv");
-//        products.forEach(product -> System.out.println(product.toString()));
-
         new Thread(chat).start();
     }
 }

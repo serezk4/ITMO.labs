@@ -7,11 +7,14 @@ import com.serezka.lab5.chat.io.format.converter.PersonConverter;
 import com.serezka.lab5.chat.object.exceptions.RequirementsException;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.Tolerate;
 import org.springframework.context.annotation.PropertySource;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
@@ -19,7 +22,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @PropertySource("${application.properties}")
-public class Product implements Serializable, Comparable<Product> {
+public class Product implements Serializable, Comparable<Product>, Generatable<Product> {
     /**
      * Поле не может быть null
      * Значение поля должно быть больше 0
@@ -29,6 +32,7 @@ public class Product implements Serializable, Comparable<Product> {
     static Integer counter = 0;
 
     @CsvBindByName(column = "id", required = true)
+    @Builder.Default
     @Setter
     Integer id = counter++;
     // always non null
@@ -62,6 +66,7 @@ public class Product implements Serializable, Comparable<Product> {
      * Значение этого поля должно генерироваться автоматически
      */
     @CsvBindByName(column = "creation_date", required = true)
+    @Builder.Default
     @Setter
     String creationDate = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
     // always non null
@@ -136,5 +141,30 @@ public class Product implements Serializable, Comparable<Product> {
                                 "\t\t z : " + owner.getLocation().getZ() + '\n' : "not specified"
                 ) + '\n' +
                 '}';
+    }
+
+    @Override
+    public Product generate() {
+        return Product.builder()
+                .name(IntStream.range(0, 100).map(q -> 'q').mapToObj(String::valueOf).collect(Collectors.joining()))
+                .coordinates(Coordinates.builder()
+                        .x((float) (Math.random() * 364))
+                        .y((long) (Math.random() * 182))
+                        .build())
+                .price((float) (1 + Math.random() * 400))
+                .partNumber(IntStream.range(13, 40).mapToObj(String::valueOf).collect(Collectors.joining()))
+                .unitOfMeasure(UnitOfMeasure.values()[(int) (Math.random() * UnitOfMeasure.values().length)])
+                .owner(Person.builder()
+                        .name("Josh")
+                        .height(152L)
+                        .eyeColor(Color.BLACK)
+                        .hairColor(Color.WHITE)
+                        .location(Location.builder()
+                                .x((int) (Math.random() * 1000))
+                                .y(Math.random() * 1000)
+                                .z((int) (Math.random() * 1000))
+                                .build())
+                        .build())
+                .build();
     }
 }
