@@ -1,4 +1,4 @@
-package com.serezka.lab5.configuration;
+package com.serezka.lab5.configuration.chat;
 
 import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.hahdler.Chat;

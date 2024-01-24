@@ -8,11 +8,12 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-public class AddInline extends Command{
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class AddInline extends Command {
     FormatWorker formatWorker;
 
     public AddInline(FormatWorker formatWorker) {
@@ -22,8 +23,20 @@ public class AddInline extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-        String data = update.getMessage().split(" ", 2)[1];
-        List<Product> formatted = formatWorker.readString(data);
+        final String data = update.getMessage().split(" ", 2)[1]
+                .replaceAll("\\+g", formatWorker.writeString(Collections.singletonList(new Product().generate())));;
+
+        List<Integer> existingIds = chat.getUserData().stream().map(Product::getId).toList();
+
+        List<Product> formatted = formatWorker.readString(data)
+                .stream().filter(product -> {
+                    if (!existingIds.contains(product.getId())) return true;
+
+                    chat.getConsole().send("в коллекции уже находится элемент с %d id, добавить новый будет невозможно" +
+                                    "\nпопробуйте еще раз с другими данными.", product.getId());
+                    return false;
+
+                }).toList();
 
         chat.getConsole().send("добавлено %d записей", formatted.size());
         chat.getUserData().addAll(formatted);

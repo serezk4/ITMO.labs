@@ -9,17 +9,13 @@ import com.serezka.lab5.chat.object.Product;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.Writer;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
-@Component
-@Log4j2
+@Component @Log4j2
 public class CsvFormatWorker implements FormatWorker {
     @Override
     public List<Product> readFile(String filePath) {
@@ -55,6 +51,21 @@ public class CsvFormatWorker implements FormatWorker {
             beanToCsv.write(products);
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             log.warn(e.getMessage());
+        }
+    }
+
+    @Override
+    public String writeString(List<Product> products) {
+        try (Writer writer = new StringWriter()) {
+            StatefulBeanToCsv<Product> beanToCsv = new StatefulBeanToCsvBuilder<Product>(writer)
+                    .withSeparator(',')
+                    .build();
+
+            beanToCsv.write(products);
+            return writer.toString();
+        } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
+            log.warn(e.getMessage());
+            return "";
         }
     }
 }

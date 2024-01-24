@@ -2,7 +2,7 @@ package com.serezka.lab5.chat.command;
 
 import com.serezka.lab5.chat.hahdler.Chat;
 import com.serezka.lab5.chat.hahdler.Update;
-import com.serezka.lab5.chat.user.UserData;
+import com.serezka.lab5.chat.user.Data;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,14 +13,13 @@ public class PrintAscending extends Command {
 
     @Override
     public void execute(Chat chat, Update update) {
-        UserData userData = chat.getUserData();
+        Data data = chat.getUserData();
 
-        if (userData.isEmpty()) {
+        if (data.isEmpty()) {
             chat.getConsole().send("кажется, коллекция пустая.");
             return;
         }
 
-        chat.getUserData().getAscending()
-                .forEach(System.out::println);
+        chat.getUserData().getAscending().forEach(product -> chat.getConsole().send(product.toString()));
     }
 }

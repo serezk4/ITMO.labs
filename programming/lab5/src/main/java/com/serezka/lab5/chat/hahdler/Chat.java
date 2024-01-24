@@ -4,7 +4,7 @@ import com.serezka.lab5.Arts;
 import com.serezka.lab5.chat.command.Command;
 import com.serezka.lab5.chat.io.console.ConsoleWorker;
 import com.serezka.lab5.chat.transaction.TransactionManager;
-import com.serezka.lab5.chat.user.UserData;
+import com.serezka.lab5.chat.user.Data;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,10 +15,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +32,10 @@ public class Chat implements Runnable {
     private List<Command> commands = new ArrayList<>();
 
     @NonFinal @Setter
-    UserData userData;
+    Data userData;
 
-    public UserData getUserData() {
-        if (!TransactionManager.isEmpty()) return TransactionManager.get().getUserData();
+    public Data getUserData() {
+        if (!TransactionManager.isEmpty()) return TransactionManager.get().getData();
         return this.userData;
     }
 
@@ -56,7 +52,7 @@ public class Chat implements Runnable {
 
         this.console = console;
 
-        this.userData = UserData.getInstance();
+        this.userData = Data.getInstance();
     }
 
 

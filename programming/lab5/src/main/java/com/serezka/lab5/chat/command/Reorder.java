@@ -12,6 +12,8 @@ public class Reorder extends Command{
 
     @Override
     public void execute(Chat chat, Update update) {
-        // todo
+        chat.getConsole().send("коллекция успешно отсортирована в обратном порядке!");
+
+        chat.getUserData().reorder();
     }
 }

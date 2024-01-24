@@ -9,4 +9,5 @@ public interface FormatWorker {
     List<Product> readString(String str);
 
     void write(List<Product> products, String filePath);
+    String writeString(List<Product> products);
 }
