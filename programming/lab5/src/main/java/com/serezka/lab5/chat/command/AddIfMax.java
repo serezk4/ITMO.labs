@@ -34,7 +34,7 @@ public class AddIfMax extends Command {
         Product inputMax = formatted.stream().max(Product::compareTo).orElseThrow();
         Optional<Product> currMax = chat.getData().stream().max(Product::compareTo);
 
-        if (chat.getData().stream().map(Product::getId).anyMatch(id -> inputMax.getId().compareTo(id) == 0)) {
+        if (chat.getData().stream().map(Product::getId).anyMatch(inputMax.getId()::equals)) {
             chat.getConsole().send("в коллекции уже находится элемент с %d id, добавить новый будет невозможно\nпопробуйте еще раз с другими данными.");
             return;
         }
