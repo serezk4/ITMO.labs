@@ -10,6 +10,7 @@ import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.ip.tcp.TcpInboundGateway;
+import org.springframework.integration.ip.tcp.TcpSendingMessageHandler;
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory;
 import org.springframework.integration.ip.tcp.serializer.TcpCodecs;
@@ -36,8 +37,10 @@ public class TCPServerConfiguration {
     @Bean
     public TcpInboundGateway tcpInGateway(AbstractServerConnectionFactory connectionFactory) {
         TcpInboundGateway inGateway = new TcpInboundGateway();
+
         inGateway.setConnectionFactory(connectionFactory);
         inGateway.setRequestChannelName("inboundChannel");
+
         return inGateway;
     }
 
@@ -50,5 +53,18 @@ public class TCPServerConfiguration {
     @ServiceActivator(inputChannel = "inboundChannel")
     public MessageHandler handler(Handler handler) {
         return handler::handle;
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "outboundChannel")
+    public MessageHandler tcpOutboundAdapter(AbstractServerConnectionFactory connectionFactory) {
+        TcpSendingMessageHandler adapter = new TcpSendingMessageHandler();
+        adapter.setConnectionFactory(connectionFactory);
+        return adapter;
+    }
+
+    @Bean
+    public MessageChannel outboundChannel() {
+        return new DirectChannel();
     }
 }
