@@ -23,10 +23,14 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-integration'
+	implementation group: 'org.springframework.integration', name: 'spring-integration-ip', version: '6.2.1'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.integration:spring-integration-test'
+	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
+	implementation group: 'com.github.f4b6a3', name: 'uuid-creator', version: '5.3.2'
+
 }
 
 tasks.named('test') {
