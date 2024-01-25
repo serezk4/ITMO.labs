@@ -70,7 +70,7 @@ public class Chat implements Runnable {
     public void run() {
         console.send(Arts.INIT);
 
-        for (; ; )
+        for (;;)
             execute(console.get(inPattern)
                     .replaceAll("\\+gen", formatWorker.writeString(Collections.singletonList(new Product().generate()))));
     }
