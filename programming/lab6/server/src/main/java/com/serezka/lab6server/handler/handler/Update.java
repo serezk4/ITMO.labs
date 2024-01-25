@@ -1,12 +1,15 @@
 package com.serezka.lab6server.handler.handler;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.serezka.lab6server.handler.object.Product;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.NonFinal;
+
+import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-@Getter @RequiredArgsConstructor
-public class Update {
-    String message;
+@Getter @Setter @RequiredArgsConstructor @AllArgsConstructor
+public class Update implements Serializable {
+    @NonFinal Product product;
+    private String operation;
 }

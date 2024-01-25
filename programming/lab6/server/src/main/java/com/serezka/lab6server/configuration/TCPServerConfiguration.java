@@ -1,5 +1,6 @@
 package com.serezka.lab6server.configuration;
 
+import com.serezka.lab6server.handler.handler.Handler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,7 @@ import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.ip.tcp.TcpInboundGateway;
 import org.springframework.integration.ip.tcp.connection.AbstractServerConnectionFactory;
 import org.springframework.integration.ip.tcp.connection.TcpNetServerConnectionFactory;
+import org.springframework.integration.ip.tcp.serializer.TcpCodecs;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHandler;
 
@@ -22,7 +24,13 @@ public class TCPServerConfiguration {
     @Bean
     public AbstractServerConnectionFactory serverConnectionFactory(@Value("${server.port}") int port) {
         log.info("selected port: {}", port);
-        return new TcpNetServerConnectionFactory(port);
+
+        TcpNetServerConnectionFactory factory = new TcpNetServerConnectionFactory(port);
+
+        factory.setSerializer(TcpCodecs.lengthHeader4());
+        factory.setDeserializer(TcpCodecs.lengthHeader4());
+
+        return factory;
     }
 
     @Bean
@@ -40,12 +48,7 @@ public class TCPServerConfiguration {
 
     @Bean
     @ServiceActivator(inputChannel = "inboundChannel")
-    public MessageHandler handler() {
-        return message -> {
-            String payload = new String((byte[]) message.getPayload());
-            System.out.println("Received: " + payload);
-            // здесь вы можете определить логику ответа на полученное сообщение
-            // например, отправить ответ "hello"
-        };
+    public MessageHandler handler(Handler handler) {
+        return handler::handle;
     }
 }
