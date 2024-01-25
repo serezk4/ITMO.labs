@@ -1,6 +1,6 @@
 package com.serezka.lab6server.handler.io.console;
 
-import com.serezka.lab5.chat.transaction.TransactionManager;
+import com.serezka.lab6server.handler.transaction.TransactionManager;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;

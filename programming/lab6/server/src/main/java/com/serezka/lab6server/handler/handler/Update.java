@@ -11,5 +11,5 @@ import java.io.Serializable;
 @Getter @Setter @RequiredArgsConstructor @AllArgsConstructor
 public class Update implements Serializable {
     @NonFinal Product product;
-    private String operation;
+    private String message;
 }

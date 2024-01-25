@@ -32,9 +32,7 @@ public class Chat implements Runnable {
     String inPattern;
     String helpPattern;
 
-    @Setter
-    @Getter
-    @NonFinal
+    @Setter @Getter @NonFinal
     private List<Command> commands = new ArrayList<>();
 
     @NonFinal @Setter

@@ -5,7 +5,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
-import com.serezka.lab5.chat.object.Product;
+import com.serezka.lab6server.handler.object.Product;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 

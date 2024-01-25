@@ -1,4 +1,4 @@
-package com.serezka.lab6server.configuration;
+package com.serezka.lab6server.configuration.server;
 
 import com.serezka.lab6server.handler.handler.Handler;
 import lombok.extern.log4j.Log4j2;
