@@ -1,4 +1,13 @@
-# Реализация
+# `чуть-чуть про` Реализацию
+
+### Библиотеки & Стек
+
++ `Spring Boot`
++ `opencsv`
++ `uuid-creator` от [f4b6a3](https://github.com/f4b6a3)
++ `lombok`
+
+`Java: 21`
 
 ### Команды
 
