@@ -25,13 +25,13 @@ public class TCPClientConfiguration {
     }
 
     @Bean(name = "serverReader")
-    public BufferedReader serverReader(@Qualifier("clientSocket") Socket socket) throws IOException {
-        return new BufferedReader(new InputStreamReader(socket.getInputStream()));
+    public InputStream serverInputStream(@Qualifier("clientSocket") Socket socket) throws IOException {
+        return socket.getInputStream();
     }
 
     @Bean(name = "serverWriter")
-    public BufferedWriter serverWriter(@Qualifier("clientSocket") Socket socket) throws IOException {
-        return new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+    public OutputStream serverOutputStream(@Qualifier("clientSocket") Socket socket) throws IOException {
+        return socket.getOutputStream();
     }
 
     @Bean

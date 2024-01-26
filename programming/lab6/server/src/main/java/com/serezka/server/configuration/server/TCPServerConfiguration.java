@@ -19,6 +19,12 @@ public class TCPServerConfiguration {
     public ServerSocket serverSocket(@Value("${server.port}") int port,
                                      @Value("${server.connections.max}") int maxConnections) throws IOException {
         log.info("initialized server on port {} with max connections {}", port, maxConnections);
-        return new ServerSocket(port, maxConnections);
+
+        ServerSocket serverSocket = new ServerSocket(port, maxConnections);
+        serverSocket.setSoTimeout(10000);
+
+        log.info("successfully initialized server!");
+
+        return serverSocket;
     }
 }

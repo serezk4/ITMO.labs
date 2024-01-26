@@ -1,6 +1,6 @@
 package com.serezka.server;
 
-import com.serezka.server.handler.io.channel.TCPChannelWorker;
+import com.serezka.server.controller.io.channel.tcp.TCPChannelWorker;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
