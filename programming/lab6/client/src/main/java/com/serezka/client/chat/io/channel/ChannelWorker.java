@@ -12,32 +12,21 @@ import java.util.List;
 public interface ChannelWorker {
     // # SEND METHODS #
 
-    void send(Response response);
+    void send(Payload response);
 
     default void send(String text) {
-        send(new Response(text));
+        send(new Payload(text, null, null));
     }
 
-    default void send(String text, List<Product> products) {
-        send(new Response(text, products));
+
+    default void send(String command, Product product) {
+        send(new Payload(command, product, null));
     }
 
-    default void send(String text, Product product) {
-        send(new Response(text, Collections.singletonList(product)));
-    }
-
-    default void send(List<Product> products) {
-        send("Результат", products);
-    }
-
-    default void send(Product product) {
-        send("Результат", Collections.singletonList(product));
-    }
-
-    default void sendf(String text, Object... args) {
-        send(String.format(text, args));
+    default void send(String command, String string) {
+        send(new Payload(command, null, string));
     }
 
     // # GET METHODS #
-    Payload get();
+    Response get();
 }

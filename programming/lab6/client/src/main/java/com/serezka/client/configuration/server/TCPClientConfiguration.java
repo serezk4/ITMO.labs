@@ -20,7 +20,9 @@ public class TCPClientConfiguration {
     public Socket clientSocket(@Value("${server.port}") int port,
                                @Value("${server.address}") String address) throws IOException {
         log.info("trying connect to {}:{}", address, port);
-        return new Socket(address, port);
+        Socket clientSocket = new Socket(address, port);
+        log.info("successfully connected to server!");
+        return clientSocket;
     }
 
     @Bean(name = "serverReader")

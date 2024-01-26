@@ -35,21 +35,21 @@ public class TCPChannelWorker implements ChannelWorker {
     }
 
     @Override
-    public void send(Response response) {
+    public void send(Payload payload) {
         try {
-            reponseSerializerDeserializer.serialize(response, clientSocket.getOutputStream());
+            payloadSerializerDeserializer.serialize(payload, clientSocket.getOutputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
         }
     }
 
     @Override
-    public Payload get() {
+    public Response get() {
         try {
-            return payloadSerializerDeserializer.deserialize(clientSocket.getInputStream());
+            return reponseSerializerDeserializer.deserialize(clientSocket.getInputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
-            return Payload.empty();
+            return Response.empty();
         }
     }
 }
