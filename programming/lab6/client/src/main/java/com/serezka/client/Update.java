@@ -1,9 +1,8 @@
 package com.serezka.client;
 
-import com.serezka.client.object.Product;
+import com.serezka.client.chat.object.Product;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

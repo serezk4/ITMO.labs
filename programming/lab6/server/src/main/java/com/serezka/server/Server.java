@@ -1,6 +1,6 @@
 package com.serezka.server;
 
-import com.serezka.server.controller.io.channel.tcp.TCPChannelWorker;
+import com.serezka.server.controller.handler.Handler;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Server implements ApplicationRunner {
-	TCPChannelWorker tcpChannelWorker;
+	Handler handler;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Server.class, args);
@@ -21,6 +21,6 @@ public class Server implements ApplicationRunner {
 
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-		new Thread(tcpChannelWorker).start();
+		new Thread(handler).start();
 	}
 }

@@ -10,12 +10,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.messaging.Message;
 
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class Handler {
+@Log4j2
+public class Handler implements Runnable {
     @Getter
     List<Command> commands;
 
@@ -41,12 +43,20 @@ public class Handler {
         this.commands = commands;
     }
 
-    public String handle(Message<?> message) {
-        try {
-            System.out.println("123");
-        } catch (Exception ex) {
+    @Override
+    public void run() {
+        log.info("starting handling...");
+
+        for (;;) {
+            handle();
         }
-        return "123";
+    }
+
+
+    public void handle() {
+        Payload payload = channel.get();
+
+        System.out.println(payload.getCommand());
     }
 }
 
