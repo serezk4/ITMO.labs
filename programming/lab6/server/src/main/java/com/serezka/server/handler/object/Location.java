@@ -2,16 +2,15 @@ package com.serezka.server.handler.object;
 
 import com.opencsv.bean.CsvBindByName;
 import com.serezka.server.handler.object.exceptions.RequirementsException;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Builder
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor @Data
 public class Location implements Serializable, Comparable<Location> {
     /**
      * Поле не может быть null

@@ -30,6 +30,7 @@ dependencies {
 	testImplementation 'org.springframework.integration:spring-integration-test'
 	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
 	implementation group: 'com.github.f4b6a3', name: 'uuid-creator', version: '5.3.2'
+	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
 }
 
 tasks.named('test') {

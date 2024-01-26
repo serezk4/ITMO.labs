@@ -2,20 +2,20 @@ package com.serezka.client.object;
 
 import com.opencsv.bean.CsvBindByName;
 import com.serezka.client.object.exceptions.RequirementsException;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Builder
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor @Data
 public class Location implements Serializable, Comparable<Location> {
     /**
      * Поле не может быть null
      */
+    @CsvBindByName(column = "x", required = true)
     Integer x;
 
     public Integer setX(Integer x) {
@@ -23,12 +23,14 @@ public class Location implements Serializable, Comparable<Location> {
         return x;
     }
 
+    @CsvBindByName(column = "y", required = true)
     @Setter
     Double y;
 
     /**
      * Поле не может быть null
      */
+    @CsvBindByName(column = "z", required = true)
     Integer z;
 
     public void setZ(Integer z) {

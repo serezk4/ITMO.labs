@@ -2,15 +2,14 @@ package com.serezka.server.handler.object;
 
 import com.opencsv.bean.CsvBindByName;
 import com.serezka.server.handler.object.exceptions.RequirementsException;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Builder
+@Builder
+@AllArgsConstructor @NoArgsConstructor @Data
 public class Coordinates implements Serializable, Comparable<Coordinates> {
     /**
      * Максимальное значение поля: 364

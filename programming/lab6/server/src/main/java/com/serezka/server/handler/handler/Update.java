@@ -4,12 +4,15 @@ import com.serezka.server.handler.object.Product;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
-@Getter @Setter @RequiredArgsConstructor @AllArgsConstructor
+@Component
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Getter @Setter @RequiredArgsConstructor @AllArgsConstructor @Data
 public class Update implements Serializable {
-    @NonFinal Product product;
+    Product product;
     private String message;
+
 }

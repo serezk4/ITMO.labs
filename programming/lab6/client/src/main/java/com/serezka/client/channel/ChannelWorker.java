@@ -1,12 +1,9 @@
-package com.serezka.server.handler.io.channel;
+package com.serezka.client.channel;
 
-import com.serezka.server.handler.handler.Update;
 
-import java.net.Socket;
+import com.serezka.client.Update;
 
 public interface ChannelWorker extends Runnable {
-    Socket acceptClient();
-
     void send(String text);
 
     default void send(String text, Object... args) {

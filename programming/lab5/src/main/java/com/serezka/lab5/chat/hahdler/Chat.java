@@ -76,8 +76,6 @@ public class Chat implements Runnable {
     public void execute(String input) {
         console.skip();
 
-        System.out.println(input);
-
         if (input.matches(".*help.*")) {
             console.send(getHelp());
             console.skip();

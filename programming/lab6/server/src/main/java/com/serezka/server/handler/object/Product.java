@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
+@Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
