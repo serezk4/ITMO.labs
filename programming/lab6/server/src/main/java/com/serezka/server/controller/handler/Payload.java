@@ -15,4 +15,8 @@ public class Payload implements Serializable {
 
     Product product;
     String string;
+
+    public static Payload empty() {
+        return new Payload();
+    }
 }

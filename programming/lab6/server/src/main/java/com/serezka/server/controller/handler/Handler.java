@@ -5,7 +5,6 @@ import com.serezka.server.controller.io.channel.ChannelWorker;
 import com.serezka.server.controller.io.format.FormatWorker;
 import com.serezka.server.controller.transaction.TransactionManager;
 import com.serezka.server.controller.user.Data;
-import com.serezka.server.controller.seralizator.JsonSerializer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,6 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import org.springframework.messaging.Message;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

@@ -1,5 +1,6 @@
 package com.serezka.server.controller.io.channel;
 
+import com.serezka.server.controller.handler.Payload;
 import com.serezka.server.controller.handler.Response;
 import com.serezka.server.controller.object.Product;
 
@@ -7,8 +8,10 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.List;
 
-public interface ChannelWorker extends Runnable {
+public interface ChannelWorker {
     Socket acceptClient();
+
+    // # SEND METHODS #
 
     void send(Response response);
 
@@ -35,4 +38,7 @@ public interface ChannelWorker extends Runnable {
     default void sendf(String text, Object... args) {
         send(String.format(text, args));
     }
+
+    // # GET METHODS #
+    Payload get();
 }

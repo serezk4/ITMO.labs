@@ -4,7 +4,7 @@ import com.serezka.server.controller.command.Command;
 import com.serezka.server.controller.handler.Handler;
 import com.serezka.server.controller.io.channel.ChannelWorker;
 import com.serezka.server.controller.io.format.FormatWorker;
-import com.serezka.server.controller.seralizator.JsonSerializer;
+import com.serezka.server.controller.serializer.JsonPayloadSerializerDeserializer;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ public class HandlerConfiguration {
     public Handler handler(List<Command> commands,
                            ChannelWorker channelWorker,
                            @Qualifier("csvFormatWorker") FormatWorker formatWorker,
-                           JsonSerializer jsonSerializer) {
+                           JsonPayloadSerializerDeserializer jsonPayloadSerializerDeserializer) {
         return new Handler(formatWorker, channelWorker, commands);
     }
 }
