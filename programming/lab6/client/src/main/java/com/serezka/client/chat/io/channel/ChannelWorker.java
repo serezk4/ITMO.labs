@@ -1,6 +1,5 @@
 package com.serezka.client.chat.io.channel;
 
-
 import com.serezka.client.chat.handler.Payload;
 import com.serezka.client.chat.handler.Response;
 import com.serezka.client.chat.object.Product;
@@ -9,24 +8,27 @@ import java.net.Socket;
 import java.util.Collections;
 import java.util.List;
 
-public interface ChannelWorker {
-    // # SEND METHODS #
+public abstract class ChannelWorker {
+    public abstract void connect();
+    public abstract void disconnect();
+    public abstract void reconnect();
 
-    void send(Payload response);
+    // send
 
-    default void send(String text) {
+    public abstract void send(Payload payload);
+
+    public void send(String text) {
         send(new Payload(text, null, null));
     }
 
-
-    default void send(String command, Product product) {
+    public void send(String command, Product product) {
         send(new Payload(command, product, null));
     }
 
-    default void send(String command, String string) {
+    public void send(String command, String string) {
         send(new Payload(command, null, string));
     }
 
-    // # GET METHODS #
-    Response get();
+    // get
+    public abstract Response get();
 }

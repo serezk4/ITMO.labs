@@ -1,7 +1,6 @@
 package com.serezka.client.configuration.server;
 
 
-import com.serezka.client.Update;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;

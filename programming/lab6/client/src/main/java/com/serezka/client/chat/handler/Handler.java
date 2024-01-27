@@ -20,16 +20,15 @@ public class Handler implements Runnable {
         this.consoleWorker = consoleWorker;
     }
 
-    public String handle(Message<?> message) {
-        try {
-//            channelWorker.send(new Update(new Product().generate(), "213"));
-        } catch (Exception ex) {
-        }
+    public String handle(Response response) {
         return "123";
     }
 
     @Override
     public void run() {
-        channelWorker.send(new Payload(consoleWorker.get("test"), null, ""));
+        for (;;) {
+            channelWorker.send(Payload.connected());
+            handle(channelWorker.get());
+        }
     }
 }

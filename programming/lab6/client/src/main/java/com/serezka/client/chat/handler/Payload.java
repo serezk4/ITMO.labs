@@ -17,4 +17,8 @@ public class Payload implements Serializable {
     public static Payload empty() {
         return new Payload();
     }
+
+    public static Payload connected() {
+        return new Payload("connected", null, null);
+    }
 }
