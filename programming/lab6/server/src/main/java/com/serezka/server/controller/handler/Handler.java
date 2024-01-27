@@ -47,14 +47,14 @@ public class Handler implements Runnable {
     public void run() {
         log.info("starting handling...");
 
-        for (;;) {
-            handle();
-        }
+        handle();
     }
 
 
     public void handle() {
         Payload payload = channel.get();
+
+        System.out.println(payload.getCommand());
 
 //        System.out.println(payload.getCommand());
     }

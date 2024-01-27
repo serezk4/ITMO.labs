@@ -1,6 +1,7 @@
 package com.serezka.client.chat.handler;
 
 import com.serezka.client.chat.io.channel.ChannelWorker;
+import com.serezka.client.chat.io.console.ConsoleWorker;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,15 +13,15 @@ import org.springframework.stereotype.Component;
 public class Handler implements Runnable {
 
     ChannelWorker channelWorker;
+    ConsoleWorker consoleWorker;
 
-    public Handler(@Qualifier("TCPChannelWorker") ChannelWorker channelWorker) {
+    public Handler(ChannelWorker channelWorker, ConsoleWorker consoleWorker) {
         this.channelWorker = channelWorker;
+        this.consoleWorker = consoleWorker;
     }
 
     public String handle(Message<?> message) {
-        try
-
-        {
+        try {
 //            channelWorker.send(new Update(new Product().generate(), "213"));
         } catch (Exception ex) {
         }
@@ -29,6 +30,6 @@ public class Handler implements Runnable {
 
     @Override
     public void run() {
-
+        channelWorker.send(new Payload(consoleWorker.get("test"), null, ""));
     }
 }
