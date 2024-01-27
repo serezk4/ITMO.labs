@@ -9,6 +9,10 @@ public abstract class ConsoleWorker {
 
     public abstract String get(String label);
 
+    public String get(String pattern, Object... vals) {
+        return get(String.format(pattern, vals));
+    }
+
     public void clear() {
         send("\n".repeat(30));
     }

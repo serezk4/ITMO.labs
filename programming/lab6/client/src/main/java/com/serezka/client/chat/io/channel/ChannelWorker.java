@@ -4,16 +4,10 @@ import com.serezka.client.chat.handler.Payload;
 import com.serezka.client.chat.handler.Response;
 import com.serezka.client.chat.object.Product;
 
-import java.net.Socket;
-import java.util.Collections;
-import java.util.List;
-
 public abstract class ChannelWorker {
     public abstract void connect();
     public abstract void disconnect();
     public abstract void reconnect();
-
-    // send
 
     public abstract void send(Payload payload);
 
@@ -29,6 +23,5 @@ public abstract class ChannelWorker {
         send(new Payload(command, null, string));
     }
 
-    // get
     public abstract Response get();
 }

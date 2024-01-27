@@ -20,7 +20,7 @@ public class Server implements ApplicationRunner {
 	}
 
 	@Override
-	public void run(ApplicationArguments args) throws Exception {
+	public void run(ApplicationArguments args) {
 		new Thread(handler).start();
 	}
 }

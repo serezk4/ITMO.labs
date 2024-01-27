@@ -8,10 +8,10 @@ import com.serezka.server.controller.user.Data;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.messaging.Message;
 
 import java.util.List;
 
@@ -21,7 +21,8 @@ public class Handler implements Runnable {
     @Getter
     List<Command> commands;
 
-    @NonFinal @Setter
+    @NonFinal
+    @Setter
     Data data;
 
     public Data getData() {
@@ -43,16 +44,26 @@ public class Handler implements Runnable {
         this.commands = commands;
     }
 
+    @SneakyThrows
     @Override
     public void run() {
         log.info("starting handling...");
 
-        handle();
+        for (; ; ) {
+            if (!channel.isConnected()) {
+                log.info("waiting...");
+                Thread.sleep(1000);
+                continue;
+            }
+
+            handle();
+        }
     }
 
 
     public void handle() {
-        channel.get();
+        System.out.println(channel.get().getCommand());
+        if (true) System.exit(1);
     }
 }
 

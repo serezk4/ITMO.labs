@@ -39,8 +39,6 @@ public class TCPChannelWorker implements ChannelWorker {
 
     @Override
     public void send(Response response) {
-        if (clientSocket == null) clientSocket = acceptClient();
-
         try {
             reponseSerializerDeserializer.serialize(response, clientSocket.getOutputStream());
         } catch (IOException e) {
@@ -50,8 +48,6 @@ public class TCPChannelWorker implements ChannelWorker {
 
     @Override
     public Payload get() {
-        if (clientSocket == null) clientSocket = acceptClient();
-
         try {
             return payloadSerializerDeserializer.deserialize(clientSocket.getInputStream());
         } catch (IOException e) {
@@ -63,10 +59,18 @@ public class TCPChannelWorker implements ChannelWorker {
     @Override
     public Socket acceptClient() {
         try {
+            serverSocket.setSoTimeout(5000);
             return serverSocket.accept();
         } catch (IOException e) {
             log.warn(e.getMessage());
             return null;
         }
+    }
+
+    @Override
+    public boolean isConnected() {
+        if (clientSocket == null || clientSocket.isClosed())
+            return (clientSocket = acceptClient()) != null;
+        return false;
     }
 }

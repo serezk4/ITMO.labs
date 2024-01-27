@@ -5,6 +5,7 @@ import com.serezka.client.chat.handler.Response;
 import com.serezka.client.chat.io.channel.ChannelWorker;
 import com.serezka.client.chat.serializer.SerializerDeserializer;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
@@ -28,8 +29,8 @@ public class TCPChannelWorker extends ChannelWorker {
     SerializerDeserializer<Response> reponseSerializerDeserializer;
 
     // connection properties
-    String address;
-    int port;
+    @Getter String address;
+    @Getter int port;
     int maxReconnections;
     @NonFinal
     int currentReconnections = 0;
@@ -57,7 +58,7 @@ public class TCPChannelWorker extends ChannelWorker {
         try {
             log.info("trying to connect...");
             clientSocket = new Socket();
-            clientSocket.connect(new InetSocketAddress(address, port), 500);
+            clientSocket.connect(new InetSocketAddress(address, port), 2000);
             log.info("successfully connected to server {}:{}", address, port);
         } catch (ConnectException e) {
             log.warn("Error while connecting: {}", e.getMessage());
@@ -82,7 +83,7 @@ public class TCPChannelWorker extends ChannelWorker {
         log.info("[{}/{}] Trying to reconnect...", currentReconnections, maxReconnections);
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             log.warn(e.getMessage());
         }

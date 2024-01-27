@@ -3,6 +3,7 @@ package com.serezka.server.controller.io.channel;
 import com.serezka.server.controller.handler.Payload;
 import com.serezka.server.controller.handler.Response;
 import com.serezka.server.controller.object.Product;
+import lombok.Getter;
 
 import java.net.Socket;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.List;
 
 public interface ChannelWorker {
     Socket acceptClient();
+    boolean isConnected();
 
     // # SEND METHODS #
 

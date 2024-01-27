@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component
 public class Handler implements Runnable {
-
     ChannelWorker channelWorker;
     ConsoleWorker consoleWorker;
 
@@ -20,14 +19,17 @@ public class Handler implements Runnable {
         this.consoleWorker = consoleWorker;
     }
 
-    public String handle(Response response) {
-        return "123";
+    public void handle(Response response) {
+        final String input = consoleWorker.get(" ~ ");
+
+
     }
 
     @Override
     public void run() {
+        channelWorker.send(Payload.connected());
+
         for (;;) {
-            channelWorker.send(Payload.connected());
             handle(channelWorker.get());
         }
     }
