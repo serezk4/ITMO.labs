@@ -34,8 +34,8 @@ String help;
 
 ```
 
-От него наследуются все команды, а так же помечаются аннотацией `@Component`, что позволяет в [ChatConfiguration.java](src/main/java/com/serezka/lab5/configuration/chat/ChatConfiguration.java) через `@ComponentScan(...)` получить и добавить все созданные команды в `Chat.java` 
-[код](src/main/java/com/serezka/lab5/chat/hahdler/Chat.java)
+От него наследуются все команды, а так же помечаются аннотацией `@Component`, что позволяет в [ChatConfiguration.java](src/main/java/com/serezka/lab/configuration/chat/ChatConfiguration.java) через `@ComponentScan(...)` получить и добавить все созданные команды в `Chat.java` 
+[код](src/main/java/com/serezka/lab/lab5/hahdler/Chat.java)
 
 Кусок кода, подтягивающий все команды:
 
@@ -59,18 +59,18 @@ String help;
 Для Java существует библиотека [opencsv](https://opencsv.sourceforge.net/), с помощью которой и
 происходит работа с файлами этого формата в данной реализации
 
-Существует [CsvFormatWorker.java](src/main/java/com/serezka/lab5/chat/io/format/CsvFormatWorker.java),
-который наследуется от [FormatWorker.java](src/main/java/com/serezka/lab5/chat/io/format/FormatWorker.java)
+Существует [CsvFormatWorker.java](src/main/java/com/serezka/lab/lab5/io/format/CsvFormatWorker.java),
+который наследуется от [FormatWorker.java](src/main/java/com/serezka/lab/lab5/io/format/FormatWorker.java)
 и осуществляет непосредственную работу с файлами .csv. Так как
-[Product.java](src/main/java/com/serezka/lab5/chat/object/Product.java) содержит поля, которые не являются
+[Product.java](src/main/java/com/serezka/lab/lab5/object/Product.java) содержит поля, которые не являются
 неизвестными типами для `opencsv`, необходимо дополнительно дописать конвертер:
-[CoordinatesConverter.java](src/main/java/com/serezka/lab5/chat/io/format/converter/CoordinatesConverter.java),
-[PersonConverter.java](src/main/java/com/serezka/lab5/chat/io/format/converter/PersonConverter.java),
-[LocationConverter.java](src/main/java/com/serezka/lab5/chat/io/format/converter/LocationConverter.java).
+[CoordinatesConverter.java](src/main/java/com/serezka/lab/lab5/io/format/converter/CoordinatesConverter.java),
+[PersonConverter.java](src/main/java/com/serezka/lab/lab5/io/format/converter/PersonConverter.java),
+[LocationConverter.java](src/main/java/com/serezka/lab/lab5/io/format/converter/LocationConverter.java).
 
 ### Реализация коллекции
 
-Был создан класс [Data.java](src/main/java/com/serezka/lab5/chat/user/Data.java), который наследуется от 
+Был создан класс [Data.java](src/main/java/com/serezka/lab/lab5/user/Data.java), который наследуется от 
 `LinkedList` и содержит в себе все элементы коллекции.
 
 Так же дополнительно были дописаны методы, которые отделяют команды от
@@ -102,9 +102,9 @@ public List<Product> getAscending() {
 
 ### Реализация транзакций
 
-Существует [Transaction.java](src/main/java/com/serezka/lab5/chat/transaction/Transaction.java), который хранит в себе поле `Data`
+Существует [Transaction.java](src/main/java/com/serezka/lab/lab5/transaction/Transaction.java), который хранит в себе поле `Data`
 
-Так же к нему дописан [TransactionManager.java](src/main/java/com/serezka/lab5/chat/transaction/TransactionManager.java),
+Так же к нему дописан [TransactionManager.java](src/main/java/com/serezka/lab/lab5/transaction/TransactionManager.java),
 который хранит в себе все действующие транзакции.
 
 При попытке получить командой коллекцию `Chat` проверяет, есть ли в `TransactionManager`
