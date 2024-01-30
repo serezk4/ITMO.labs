@@ -79,9 +79,14 @@ public class Chat implements Handler<String> {
     public void handle(String input) {
         console.skip();
 
-        if (input.matches(".*help.*")) {
+        if (input.matches("help")) {
             console.send(getHelp());
             console.skip();
+            return;
+        }
+
+        if (input.matches("cls")) {
+            console.clear();
             return;
         }
 
@@ -102,7 +107,7 @@ public class Chat implements Handler<String> {
         suitableCommands.getFirst().execute(commandBridge);
 
         // replace data from bridge
-        getData().replace(commandBridge.getData());
+//        getData().replace(commandBridge.getData());
 
         // print text
         console.send(commandBridge.getText());
@@ -115,7 +120,7 @@ public class Chat implements Handler<String> {
         // check internal stack
         commandBridge.getInternalQueries().forEach(this::handle);
 
-        console.skip();
+//        console.skip();
     }
 
     private String getHelp() {
