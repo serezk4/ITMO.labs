@@ -49,21 +49,34 @@ public class Handler implements Runnable {
     public void run() {
         log.info("starting handling...");
 
-        for (; ; ) {
+        for (;;) {
             if (!channel.isConnected()) {
-                log.info("waiting...");
-                Thread.sleep(1000);
+                log.info("waiting for client...");
                 continue;
             }
 
-            handle();
+            handle(channel.get());
         }
     }
 
 
-    public void handle() {
-        System.out.println(channel.get().getCommand());
-        if (true) System.exit(1);
+    public void handle(Payload payload) {
+        if (payload == null) {
+            log.warn("payload can't be null!");
+            return;
+        }
+
+        if (payload.getState() == null) {
+            log.warn("payload's field 'state' can't be null!");
+            return;
+        }
+
+        if (payload.getState() == State.CONNECTED) {
+            channel.send(Response.connected());
+            return;
+        }
+
+        log.info("new payload from client: {}", payload.toString());
     }
 }
 

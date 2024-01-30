@@ -42,7 +42,8 @@ public class TCPChannelWorker implements ChannelWorker {
         try {
             reponseSerializerDeserializer.serialize(response, clientSocket.getOutputStream());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.warn(e.getMessage());
+            this.clientSocket = null;
         }
     }
 
@@ -52,6 +53,7 @@ public class TCPChannelWorker implements ChannelWorker {
             return payloadSerializerDeserializer.deserialize(clientSocket.getInputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
+            this.clientSocket = null;
             return Payload.empty();
         }
     }

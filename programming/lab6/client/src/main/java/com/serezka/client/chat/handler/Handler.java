@@ -20,6 +20,8 @@ public class Handler implements Runnable {
     }
 
     public void handle(Response response) {
+
+        System.out.println(response.getMessage());
         final String input = consoleWorker.get(" ~ ");
 
 

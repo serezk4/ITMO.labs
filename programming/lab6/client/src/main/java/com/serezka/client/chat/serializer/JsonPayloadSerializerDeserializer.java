@@ -13,18 +13,19 @@ import java.io.*;
 public class JsonPayloadSerializerDeserializer implements SerializerDeserializer<Payload> {
     private final Gson gson = new Gson();
 
-    @Override @NonNull
+    // todo maybe make this not Serializer... <> and use BufferdReader for params
+
+    @Override
+    @NonNull
     public Payload deserialize(@NonNull InputStream inputStream) throws IOException {
-        try (BufferedReader din = new BufferedReader(new InputStreamReader(inputStream))) {
-            return gson.fromJson(din.readLine(), Payload.class);
-        }
+        BufferedReader din = new BufferedReader(new InputStreamReader(inputStream));
+        return gson.fromJson(din.readLine(), Payload.class);
     }
 
     @Override
     public void serialize(@NonNull Payload payload, @NonNull OutputStream outputStream) throws IOException {
-        try (BufferedWriter dos = new BufferedWriter(new OutputStreamWriter(outputStream))) {
-            dos.write(gson.toJson(payload, Payload.class));
-            dos.flush();
-        }
+        BufferedWriter dos = new BufferedWriter(new OutputStreamWriter(outputStream));
+        dos.write(gson.toJson(payload, Payload.class));
+        dos.flush();
     }
 }

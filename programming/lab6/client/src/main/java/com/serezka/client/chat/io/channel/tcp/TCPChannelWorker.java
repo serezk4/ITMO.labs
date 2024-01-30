@@ -83,7 +83,7 @@ public class TCPChannelWorker extends ChannelWorker {
         log.info("[{}/{}] Trying to reconnect...", currentReconnections, maxReconnections);
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(5000);
         } catch (InterruptedException e) {
             log.warn(e.getMessage());
         }
@@ -114,7 +114,7 @@ public class TCPChannelWorker extends ChannelWorker {
             return reponseSerializerDeserializer.deserialize(clientSocket.getInputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
-            return Response.empty();
+            return new Response();
         }
     }
 }
