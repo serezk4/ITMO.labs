@@ -1,6 +1,6 @@
 package com.serezka.server.configuration.controller.io.channel;
 
-import com.serezka.server.controller.io.channel.ChannelWorker;
+import com.serezka.server.controller.io.server.ChannelWorker;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

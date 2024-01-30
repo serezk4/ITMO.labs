@@ -1,8 +1,8 @@
 package com.serezka.lab5.core.command;
 
-import com.serezka.lab5.chat.hahdler.Update;
-import com.serezka.lab5.chat.object.Product;
-import com.serezka.lab5.chat.user.Data;
+import com.serezka.lab5.core.handler.Update;
+import com.serezka.lab5.core.object.Product;
+import com.serezka.lab5.core.user.Data;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;

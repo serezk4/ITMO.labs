@@ -1,7 +1,6 @@
 package com.serezka.client;
 
 import com.serezka.client.chat.handler.Handler;
-import com.serezka.client.chat.io.channel.tcp.TCPChannelWorker;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

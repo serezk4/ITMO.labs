@@ -1,7 +1,7 @@
 package com.serezka.client.configuration.chat.handler;
 
 import com.serezka.client.chat.handler.Handler;
-import com.serezka.client.chat.io.channel.ChannelWorker;
+import com.serezka.client.chat.io.client.ChannelWorker;
 import com.serezka.client.chat.io.console.ConsoleWorker;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

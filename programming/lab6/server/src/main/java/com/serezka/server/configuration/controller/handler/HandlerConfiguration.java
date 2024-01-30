@@ -2,7 +2,7 @@ package com.serezka.server.configuration.controller.handler;
 
 import com.serezka.server.controller.command.Command;
 import com.serezka.server.controller.handler.Handler;
-import com.serezka.server.controller.io.channel.ChannelWorker;
+import com.serezka.server.controller.io.server.ChannelWorker;
 import com.serezka.server.controller.io.format.FormatWorker;
 import com.serezka.server.controller.serializer.JsonPayloadSerializerDeserializer;
 import org.springframework.beans.factory.annotation.Qualifier;

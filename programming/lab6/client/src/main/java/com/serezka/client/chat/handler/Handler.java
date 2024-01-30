@@ -1,11 +1,9 @@
 package com.serezka.client.chat.handler;
 
-import com.serezka.client.chat.io.channel.ChannelWorker;
+import com.serezka.client.chat.io.client.ChannelWorker;
 import com.serezka.client.chat.io.console.ConsoleWorker;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

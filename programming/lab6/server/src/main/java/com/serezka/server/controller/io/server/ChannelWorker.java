@@ -1,9 +1,8 @@
-package com.serezka.server.controller.io.channel;
+package com.serezka.server.controller.io.server;
 
 import com.serezka.server.controller.handler.Payload;
 import com.serezka.server.controller.handler.Response;
 import com.serezka.server.controller.object.Product;
-import lombok.Getter;
 
 import java.net.Socket;
 import java.util.Collections;

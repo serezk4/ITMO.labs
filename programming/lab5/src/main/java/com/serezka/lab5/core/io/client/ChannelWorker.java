@@ -1,8 +1,8 @@
-package com.serezka.client.chat.io.channel;
+package com.serezka.lab5.core.io.client;
 
-import com.serezka.client.chat.handler.Payload;
-import com.serezka.client.chat.handler.Response;
-import com.serezka.client.chat.object.Product;
+import com.serezka.lab5.core.handler.Payload;
+import com.serezka.lab5.core.handler.Response;
+import com.serezka.lab5.core.object.Product;
 
 public abstract class ChannelWorker {
     public abstract void connect();

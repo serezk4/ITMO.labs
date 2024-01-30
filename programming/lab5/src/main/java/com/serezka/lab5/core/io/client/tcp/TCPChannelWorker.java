@@ -1,9 +1,9 @@
-package com.serezka.client.chat.io.channel.tcp;
+package com.serezka.lab5.core.io.client.tcp;
 
-import com.serezka.client.chat.handler.Payload;
-import com.serezka.client.chat.handler.Response;
-import com.serezka.client.chat.io.channel.ChannelWorker;
-import com.serezka.client.chat.serializer.SerializerDeserializer;
+import com.serezka.lab5.core.handler.Payload;
+import com.serezka.lab5.core.handler.Response;
+import com.serezka.lab5.core.io.client.ChannelWorker;
+import com.serezka.lab5.core.serializer.SerializerDeserializer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -13,8 +13,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
+import java.net.ConnectException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)

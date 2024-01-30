@@ -1,9 +1,9 @@
-package com.serezka.server.controller.io.channel.tcp;
+package com.serezka.lab5.core.io.server.tcp;
 
-import com.serezka.server.controller.handler.Payload;
-import com.serezka.server.controller.handler.Response;
-import com.serezka.server.controller.io.channel.ChannelWorker;
-import com.serezka.server.controller.serializer.SerializerDeserializer;
+import com.serezka.lab5.core.handler.Payload;
+import com.serezka.lab5.core.handler.Response;
+import com.serezka.lab5.core.io.server.ChannelWorker;
+import com.serezka.lab5.core.serializer.SerializerDeserializer;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
