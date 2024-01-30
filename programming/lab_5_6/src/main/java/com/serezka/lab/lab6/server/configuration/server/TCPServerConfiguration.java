@@ -11,7 +11,7 @@ import java.net.ServerSocket;
 
 @Configuration
 @PropertySource("classpath:server.properties")
-@Log4j2
+@Log4j2(topic = "ServerConfiguration")
 public class TCPServerConfiguration {
     @Bean(name = "serverSocket")
     public ServerSocket serverSocket(@Value("${server.port}") int port,

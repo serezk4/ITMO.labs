@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j2;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Log4j2
+@Log4j2(topic = "Server")
 public class Server implements Handler<Payload> {
     @Getter
     List<Command> commands;
