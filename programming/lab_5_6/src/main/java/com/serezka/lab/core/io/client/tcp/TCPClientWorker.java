@@ -113,7 +113,10 @@ public class TCPClientWorker extends ClientWorker {
     @Override
     public void send(Payload payload) {
         try {
-            payloadSerializerDeserializer.serialize(payload, clientSocket.getOutputStream());
+            clientSocket.getOutputStream().write(payloadSerializerDeserializer.serializeToByteArray(payload));
+            clientSocket.getOutputStream().flush();
+
+//            payloadSerializerDeserializer.serialize(payload, clientSocket.getOutputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
         }

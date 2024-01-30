@@ -22,18 +22,20 @@ public class Client implements Handler<Response> {
 
     public void handle(Response response) {
         System.out.println(response.getMessage());
-        final String input = consoleWorker.get(" ~ ");
+//        final String input = consoleWorker.get(" ~ ");
 
 
     }
 
     @Override
     public void run() {
-        for (; ; ) {
+        for (;;) {
             if (!channelWorker.isConnected()) {
                 channelWorker.connect();
                 channelWorker.send(Payload.connected());
             }
+
+            channelWorker.send(Payload.connected());
 
             handle(channelWorker.get());
         }

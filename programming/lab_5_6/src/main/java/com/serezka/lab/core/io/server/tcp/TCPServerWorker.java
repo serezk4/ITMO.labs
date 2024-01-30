@@ -50,6 +50,7 @@ public class TCPServerWorker implements ServerWorker {
     @Override
     public Payload get() {
         try {
+
             return payloadSerializerDeserializer.deserialize(clientSocket.getInputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
@@ -59,23 +60,26 @@ public class TCPServerWorker implements ServerWorker {
     }
 
     @Override
-    public Socket acceptClient() {
+    public void acceptClient() {
         try {
             log.info("accepting client...");
             serverSocket.setSoTimeout(5000);
-            Socket accepted = serverSocket.accept();
-            log.info("client {} accepted", accepted.toString());
-            return accepted;
+            clientSocket = serverSocket.accept();
+
+            if (clientSocket == null) log.warn("client socket can't be null!");
+
+            log.info("client {} accepted", clientSocket.toString());
         } catch (IOException e) {
             log.warn(e.getMessage());
-            return null;
         }
     }
 
     @Override
     public boolean isConnected() {
-        if (clientSocket == null || clientSocket.isClosed())
-            return (clientSocket = acceptClient()) != null;
+        if (clientSocket == null || clientSocket.isClosed()) {
+            acceptClient();
+            return clientSocket != null;
+        }
         return true;
     }
 }

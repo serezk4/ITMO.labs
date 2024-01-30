@@ -4,12 +4,11 @@ import com.serezka.lab.core.handler.Payload;
 import com.serezka.lab.core.handler.Response;
 import com.serezka.lab.core.object.Product;
 
-import java.net.Socket;
 import java.util.Collections;
 import java.util.List;
 
 public interface ServerWorker {
-    Socket acceptClient();
+    void acceptClient();
     boolean isConnected();
 
     // # SEND METHODS #

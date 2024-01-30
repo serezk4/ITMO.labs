@@ -40,8 +40,7 @@ public class Server implements Handler<Payload> {
     @Getter
     ServerWorker channel;
 
-    public Server(FormatWorker formatWorker, ServerWorker channel,
-                  List<Command> commands) {
+    public Server(FormatWorker formatWorker, ServerWorker channel, List<Command> commands) {
         this.formatWorker = formatWorker;
         this.channel = channel;
 
@@ -54,12 +53,7 @@ public class Server implements Handler<Payload> {
         log.info("starting handling...");
 
         for (;;) {
-            if (!channel.isConnected()) {
-                log.info("waiting for client...");
-                continue;
-            }
-
-            channel.get();
+            channel.acceptClient();
 
             handle(channel.get());
         }
