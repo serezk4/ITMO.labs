@@ -2,12 +2,17 @@ package com.serezka.lab;
 
 public class Arts {
 
-    public static final String INIT = """
+//    public static final String INIT = """
+//
+//                help - все команды
+//
+//                ┓   ┓ ┏━  ┏━┓  ┳┏┳┓┳┳┓┏┓
+//                ┃ ┏┓┣┓┗┓  ┃┗┛  ┃ ┃ ┃┃┃┃┃
+//                ┗┛┗┻┗┛┗┛  ┗━┛  ┻ ┻ ┛ ┗┗┛
+//                """;
 
-                help - все команды
-                
-                ┓   ┓ ┏━  ┏━┓  ┳┏┳┓┳┳┓┏┓
-                ┃ ┏┓┣┓┗┓  ┃┗┛  ┃ ┃ ┃┃┃┃┃
-                ┗┛┗┻┗┛┗┛  ┗━┛  ┻ ┻ ┛ ┗┗┛
-                """;
+    public static final String INIT = """
+            help - все команды
+            """;
 }
+

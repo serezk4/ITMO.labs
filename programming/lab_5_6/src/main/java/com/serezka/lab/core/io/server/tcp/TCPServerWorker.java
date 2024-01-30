@@ -61,8 +61,11 @@ public class TCPServerWorker implements ServerWorker {
     @Override
     public Socket acceptClient() {
         try {
+            log.info("accepting client...");
             serverSocket.setSoTimeout(5000);
-            return serverSocket.accept();
+            Socket accepted = serverSocket.accept();
+            log.info("client {} accepted", accepted.toString());
+            return accepted;
         } catch (IOException e) {
             log.warn(e.getMessage());
             return null;
@@ -73,6 +76,6 @@ public class TCPServerWorker implements ServerWorker {
     public boolean isConnected() {
         if (clientSocket == null || clientSocket.isClosed())
             return (clientSocket = acceptClient()) != null;
-        return false;
+        return true;
     }
 }

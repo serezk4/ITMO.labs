@@ -2,6 +2,7 @@ package com.serezka.lab;
 
 import com.serezka.lab.core.io.console.ConsoleWorker;
 import com.serezka.lab.lab5.hahdler.Chat;
+import com.serezka.lab.lab6.client.handler.Client;
 import com.serezka.lab.lab6.server.handler.Server;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @Log4j2
 public class Application implements ApplicationRunner {
     Chat chat;
+
     Server server;
+    Client client;
 
     ConsoleWorker consoleWorker;
 
@@ -30,15 +33,18 @@ public class Application implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        final String mode = consoleWorker.get("select mode [chat/server]: ");
+        log.info("Use gradle 8.5 & Java 21");
 
-        if (mode.equalsIgnoreCase("server")) {
-            new Thread(server).start();
+        final String mode = consoleWorker.get("select lab [5/6]: ");
+
+        if (mode.equals("5")) {
+            new Thread(chat).start();
             return;
         }
 
-        if (mode.equalsIgnoreCase("chat")) {
-            new Thread(chat).start();
+        if (mode.equals("6")) {
+            new Thread(client).start();
+            new Thread(server).start();
             return;
         }
 

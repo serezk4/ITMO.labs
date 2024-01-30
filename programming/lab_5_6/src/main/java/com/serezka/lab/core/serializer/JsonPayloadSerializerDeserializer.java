@@ -7,6 +7,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 @Component
 @Log4j2
@@ -16,14 +17,12 @@ public class JsonPayloadSerializerDeserializer implements SerializerDeserializer
     @Override
     @NonNull
     public Payload deserialize(@NonNull InputStream inputStream) throws IOException {
-        BufferedReader din = new BufferedReader(new InputStreamReader(inputStream));
-        return gson.fromJson(din.readLine(), Payload.class);
+        return gson.fromJson(new String(inputStream.readAllBytes(), StandardCharsets.UTF_8), Payload.class);
     }
 
     @Override
     public void serialize(@NonNull Payload payload, @NonNull OutputStream outputStream) throws IOException {
-        BufferedWriter dos = new BufferedWriter(new OutputStreamWriter(outputStream));
-        dos.write(gson.toJson(payload, Payload.class));
-        dos.flush();
+        outputStream.write(gson.toJson(payload, Payload.class).getBytes(StandardCharsets.UTF_8));
+        outputStream.flush();
     }
 }

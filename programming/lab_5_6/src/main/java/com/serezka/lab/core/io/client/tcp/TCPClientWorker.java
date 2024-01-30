@@ -19,6 +19,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 
+@Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
 public class TCPClientWorker extends ClientWorker {
@@ -31,8 +32,10 @@ public class TCPClientWorker extends ClientWorker {
     SerializerDeserializer<Response> reponseSerializerDeserializer;
 
     // connection properties
-    @Getter String address;
-    @Getter int port;
+    @Getter
+    String address;
+    @Getter
+    int port;
     int maxReconnections;
     @NonFinal
     int currentReconnections = 0;
@@ -47,12 +50,17 @@ public class TCPClientWorker extends ClientWorker {
         this.port = port;
         this.maxReconnections = maxReconnections;
 
-        log.info("trying connect to {}:{}", address, port);
-        connect();
-        log.info("successfully connected to server!");
-
         this.payloadSerializerDeserializer = payloadSerializerDeserializer;
         this.reponseSerializerDeserializer = responseSerializerDeserializer;
+    }
+
+    @Override
+    public boolean isConnected() {
+        if (clientSocket == null || !clientSocket.isConnected()) {
+            connect();
+            return clientSocket != null;
+        }
+        return true;
     }
 
     @Override
@@ -62,6 +70,7 @@ public class TCPClientWorker extends ClientWorker {
             clientSocket = new Socket();
             clientSocket.connect(new InetSocketAddress(address, port), 2000);
             log.info("successfully connected to server {}:{}", address, port);
+            send(Payload.connected());
         } catch (ConnectException e) {
             log.warn("Error while connecting: {}", e.getMessage());
             reconnect();

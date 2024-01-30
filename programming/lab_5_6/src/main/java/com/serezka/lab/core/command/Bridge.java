@@ -5,7 +5,6 @@ import com.serezka.lab.core.object.Product;
 import com.serezka.lab.core.user.Data;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.Stack;
 public class Bridge {
     // input data
     @Getter final Update update;
-    @Getter @Setter Data data;
+    @Getter final Data data;
 
     // internal stack
     @Getter final Stack<String> internalQueries = new Stack<>();

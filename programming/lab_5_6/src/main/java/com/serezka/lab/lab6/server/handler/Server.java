@@ -59,6 +59,8 @@ public class Server implements Handler<Payload> {
                 continue;
             }
 
+            channel.get();
+
             handle(channel.get());
         }
     }

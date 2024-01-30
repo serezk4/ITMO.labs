@@ -5,6 +5,8 @@ import com.serezka.lab.core.handler.Response;
 import com.serezka.lab.core.object.Product;
 
 public abstract class ClientWorker {
+    public abstract boolean isConnected();
+
     public abstract void connect();
     public abstract void disconnect();
     public abstract void reconnect();

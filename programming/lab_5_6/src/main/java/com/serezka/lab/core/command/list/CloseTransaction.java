@@ -19,6 +19,6 @@ public class CloseTransaction extends Command {
         }
 
         bridge.send("транзакция закрыта и изменения применены");
-        bridge.setData(TransactionManager.close().getData());
+        bridge.getData().replace(TransactionManager.close().getData());
     }
 }
