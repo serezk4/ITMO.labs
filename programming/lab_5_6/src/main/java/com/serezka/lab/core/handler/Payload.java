@@ -1,16 +1,14 @@
 package com.serezka.lab.core.handler;
 
 import com.serezka.lab.core.object.Product;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data @AllArgsConstructor @NoArgsConstructor
+@Builder
 public class Payload implements Serializable {
     State state = null;
     String command = null;

@@ -1,22 +1,17 @@
 package com.serezka.lab.lab6.server.handler;
 
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.handler.Payload;
 import com.serezka.lab.core.handler.State;
 import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.transaction.TransactionManager;
 import com.serezka.lab.core.user.Data;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.*;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +22,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("lab6serverHandler")
 @Log4j2(topic = "Server")
-public class Server extends SimpleChannelInboundHandler<Payload> {
+public class Server extends SimpleChannelInboundHandler<Payload> implements Handler<Payload> {
     @Getter
     List<Command> commands;
 
