@@ -1,7 +1,7 @@
-package com.serezka.lab.core.io.decoder;
+package com.serezka.lab.core.io.socket.objects.decoder;
 
 import com.google.gson.Gson;
-import com.serezka.lab.core.handler.Payload;
+import com.serezka.lab.core.io.socket.objects.Payload;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;

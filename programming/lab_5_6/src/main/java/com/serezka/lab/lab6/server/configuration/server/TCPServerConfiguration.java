@@ -1,8 +1,8 @@
 package com.serezka.lab.lab6.server.configuration.server;
 
-import com.serezka.lab.core.handler.Payload;
-import com.serezka.lab.core.handler.Response;
-import com.serezka.lab.core.io.server.tcp.TCPServerWorker;
+import com.serezka.lab.core.io.socket.objects.Payload;
+import com.serezka.lab.core.io.socket.objects.Response;
+import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -13,11 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 
 @Configuration
 @PropertySource("classpath:server.properties")

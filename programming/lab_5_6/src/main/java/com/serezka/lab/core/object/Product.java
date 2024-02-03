@@ -2,8 +2,8 @@ package com.serezka.lab.core.object;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
-import com.serezka.lab.core.io.format.converter.CoordinatesConverter;
-import com.serezka.lab.core.io.format.converter.PersonConverter;
+import com.serezka.lab.core.io.format.csv.converter.CoordinatesConverter;
+import com.serezka.lab.core.io.format.csv.converter.PersonConverter;
 import com.serezka.lab.core.object.exceptions.RequirementsException;
 import lombok.*;
 import lombok.experimental.FieldDefaults;

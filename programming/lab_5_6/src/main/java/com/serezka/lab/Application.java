@@ -1,13 +1,12 @@
 package com.serezka.lab;
 
-import com.serezka.lab.core.io.client.tcp.TCPClientWorker;
+import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker;
 import com.serezka.lab.core.io.console.ConsoleWorker;
-import com.serezka.lab.core.io.server.tcp.TCPServerWorker;
+import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker;
 import com.serezka.lab.lab5.hahdler.Chat;
 import com.serezka.lab.lab6.client.handler.Client;
 import com.serezka.lab.lab6.server.handler.Server;
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
@@ -58,8 +57,10 @@ public class Application implements ApplicationRunner {
         }
 
         if (mode.equals("6")) {
-            new Thread(tcpServerWorker).start();;
-            new Thread(tcpClientWorker).start();
+            tcpServerWorker.init();
+            tcpClientWorker.init();
+//            new Thread(tcpServerWorker).start();;
+//            new Thread(tcpClientWorker).start();
 //            new Thread(server).start();
             return;
         }

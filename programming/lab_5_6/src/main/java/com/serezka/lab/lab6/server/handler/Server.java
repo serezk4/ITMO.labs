@@ -2,8 +2,8 @@ package com.serezka.lab.lab6.server.handler;
 
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.handler.Payload;
-import com.serezka.lab.core.handler.State;
+import com.serezka.lab.core.io.socket.objects.Payload;
+import com.serezka.lab.core.io.socket.objects.State;
 import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.transaction.TransactionManager;
 import com.serezka.lab.core.user.Data;
@@ -42,7 +42,7 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Payload payload) throws Exception {
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Payload payload) {
         if (payload == null) {
             log.warn("payload can't be null!");
             return;

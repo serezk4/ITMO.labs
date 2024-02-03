@@ -1,4 +1,4 @@
-package com.serezka.lab.core.handler;
+package com.serezka.lab.core.io.socket.objects;
 
 public enum State {
     CONNECTED, ERROR, OK

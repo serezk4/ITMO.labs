@@ -2,7 +2,6 @@ package com.serezka.lab.lab6.server.configuration.controller.handler;
 
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.io.server.ServerWorker;
 import com.serezka.lab.lab6.server.handler.Server;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

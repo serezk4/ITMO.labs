@@ -1,8 +1,8 @@
-package com.serezka.lab.core.io.server.tcp;
+package com.serezka.lab.core.io.socket.server.tcp;
 
-import com.serezka.lab.core.handler.Payload;
-import com.serezka.lab.core.handler.Response;
-import com.serezka.lab.core.io.server.ServerWorker;
+import com.serezka.lab.core.io.socket.objects.Payload;
+import com.serezka.lab.core.io.socket.objects.Response;
+import com.serezka.lab.core.io.socket.server.ServerWorker;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -21,8 +21,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
-import java.util.concurrent.TimeUnit;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -56,15 +54,21 @@ public class TCPServerWorker implements ServerWorker {
         init();
     }
 
-    @NonFinal EventLoopGroup bossGroup;
-    @NonFinal EventLoopGroup workerGroup;
+    @NonFinal
+    EventLoopGroup bossGroup;
+    @NonFinal
+    EventLoopGroup workerGroup;
 
-    @NonFinal ServerBootstrap bootstrap;
-    @NonFinal ChannelFuture channelFuture;
+    @NonFinal
+    ServerBootstrap bootstrap;
+    @NonFinal
+    ChannelFuture channelFuture;
 
     @SneakyThrows
     @Override
     public void init() {
+        log.info("initializing server...");
+
         bossGroup = new NioEventLoopGroup();
         workerGroup = new NioEventLoopGroup();
         bootstrap = new ServerBootstrap();
@@ -88,7 +92,10 @@ public class TCPServerWorker implements ServerWorker {
                 });
 
         channelFuture = bootstrap.bind(port).sync();
-        channelFuture.channel().closeFuture().sync();
+//        channelFuture.channel().closeFuture().sync();
+
+
+        log.info("successfully initialized server!");
     }
 
     @Override

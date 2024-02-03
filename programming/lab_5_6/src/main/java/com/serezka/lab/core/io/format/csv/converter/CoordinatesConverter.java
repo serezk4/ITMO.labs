@@ -1,4 +1,4 @@
-package com.serezka.lab.core.io.format.converter;
+package com.serezka.lab.core.io.format.csv.converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;

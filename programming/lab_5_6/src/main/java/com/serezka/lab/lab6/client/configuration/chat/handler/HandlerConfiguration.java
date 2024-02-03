@@ -1,10 +1,6 @@
 package com.serezka.lab.lab6.client.configuration.chat.handler;
 
-import com.serezka.lab.core.io.client.ClientWorker;
-import com.serezka.lab.core.io.console.ConsoleWorker;
 import com.serezka.lab.lab6.client.handler.Client_old;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
