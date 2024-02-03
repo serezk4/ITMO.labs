@@ -4,6 +4,10 @@ import com.serezka.lab.core.handler.Payload;
 import com.serezka.lab.core.handler.Response;
 import com.serezka.lab.core.io.client.ClientWorker;
 import com.serezka.lab.core.io.serializer.SerializerDeserializer;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.MessageToMessageDecoder;
+import io.netty.handler.codec.MessageToMessageEncoder;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -18,6 +22,7 @@ import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
+import java.nio.charset.Charset;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -28,20 +33,17 @@ public class TCPClientWorker extends ClientWorker {
     Socket clientSocket;
 
     // serializer & deserializer for payload & response
-    SerializerDeserializer<Payload> payloadSerializerDeserializer;
-    SerializerDeserializer<Response> reponseSerializerDeserializer;
+    MessageToMessageEncoder<Payload> payloadEncoder;
+    MessageToMessageDecoder<ByteBuf> responseDecoder;
 
     // connection properties
-    @Getter
-    String address;
-    @Getter
-    int port;
+    @Getter String address;
+    @Getter int port;
     int maxReconnections;
-    @NonFinal
-    int currentReconnections = 0;
+    @NonFinal int currentReconnections = 0;
 
-    public TCPClientWorker(@Qualifier("jsonPayloadSerializerDeserializer") SerializerDeserializer<Payload> payloadSerializerDeserializer,
-                           @Qualifier("jsonResponseSerializerDeserializer") SerializerDeserializer<Response> responseSerializerDeserializer,
+    public TCPClientWorker(@Qualifier("jsonPayloadEncoder") MessageToMessageEncoder<Payload> payloadEncoder,
+                           @Qualifier("jsonResponseDecoder") MessageToMessageDecoder<ByteBuf> responseDecoder,
                            @Value("${server.address}") String address, @Value("${server.port}") int port,
                            @Value("${server.reconnections.max}") int maxReconnections) {
         log.info("initializing TCPChannelWorker");
@@ -50,8 +52,8 @@ public class TCPClientWorker extends ClientWorker {
         this.port = port;
         this.maxReconnections = maxReconnections;
 
-        this.payloadSerializerDeserializer = payloadSerializerDeserializer;
-        this.reponseSerializerDeserializer = responseSerializerDeserializer;
+        this.payloadEncoder = payloadEncoder;
+        this.responseDecoder = responseDecoder;
     }
 
     @Override
@@ -61,20 +63,7 @@ public class TCPClientWorker extends ClientWorker {
 
     @Override
     public void connect() {
-        try {
-            log.info("trying to connect...");
-            clientSocket = new Socket();
-            clientSocket.connect(new InetSocketAddress(address, port), 2000);
-            log.info("successfully connected to server {}", clientSocket.getRemoteSocketAddress().toString());
-        } catch (ConnectException e) {
-            log.warn("Error while connecting: {}", e.getMessage());
-            reconnect();
-        } catch (SocketTimeoutException e) {
-            log.warn("Connection: {}.", e.getMessage());
-            reconnect();
-        } catch (IOException e) {
-            log.warn("can't connect: {}", e.getMessage());
-        }
+
     }
 
     @Override
@@ -84,44 +73,32 @@ public class TCPClientWorker extends ClientWorker {
 
     @Override
     public void reconnect() {
-        disconnect();
 
-        log.info("[{}/{}] Trying to reconnect...", currentReconnections, maxReconnections);
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            log.warn(e.getMessage());
-        }
-
-        if (currentReconnections < maxReconnections) {
-            currentReconnections++;
-            connect();
-            return;
-        }
-
-        log.info("reconnection failed, program will be executed");
-        disconnect();
-        System.exit(1337);
     }
 
     @Override
     public void send(Payload payload) {
-        try {
-            clientSocket.getOutputStream().write(payloadSerializerDeserializer.serializeToByteArray(payload));
-            clientSocket.getOutputStream().flush();
-        } catch (IOException e) {
-            log.warn(e.getMessage());
-        }
+
     }
 
     @Override
     public Response get() {
-        try {
-            return reponseSerializerDeserializer.deserialize(clientSocket.getInputStream());
-        } catch (IOException e) {
-            log.warn(e.getMessage());
-            return new Response();
-        }
+        return null;
+    }
+
+    @Override
+    protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf) throws Exception {
+        String message = byteBuf.toString(Charset.defaultCharset());
+        System.out.println("Received Message : " + message);
+    }
+
+    @Override
+    public boolean acceptInboundMessage(Object msg) throws Exception {
+        return super.acceptInboundMessage(msg);
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        super.channelRead(ctx, msg);
     }
 }

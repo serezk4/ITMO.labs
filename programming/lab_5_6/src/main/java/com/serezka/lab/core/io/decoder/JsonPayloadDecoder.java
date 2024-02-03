@@ -15,8 +15,8 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Component
-@PropertySource("${server.properties}")
+@Component("jsonPayloadDecoder")
+@PropertySource("classpath:server.properties")
 public class JsonPayloadDecoder extends MessageToMessageDecoder<ByteBuf> {
     Gson gson;
     Charset charset;

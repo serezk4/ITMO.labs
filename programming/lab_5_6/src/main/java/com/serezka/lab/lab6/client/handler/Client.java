@@ -1,41 +1,50 @@
 package com.serezka.lab.lab6.client.handler;
 
-import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.handler.Response;
-import com.serezka.lab.core.io.client.ClientWorker;
-import com.serezka.lab.core.io.console.ConsoleWorker;
-import lombok.AccessLevel;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.log4j.Log4j2;
+import com.serezka.lab.core.io.client.tcp.TCPClientWorker;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.channel.*;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component
-@Log4j2
-public class Client implements Handler<Response> {
-    ClientWorker channelWorker;
-    ConsoleWorker consoleWorker;
+@PropertySource("classpath:client.properties")
+public class Client {
+    int port;
+    Channel channel;
+    EventLoopGroup workGroup = new NioEventLoopGroup();
 
-    public Client(ClientWorker channelWorker, ConsoleWorker consoleWorker) {
-        this.channelWorker = channelWorker;
-        this.consoleWorker = consoleWorker;
+    TCPClientWorker clientWorker;
+
+    public Client(@Value("${server.port}") int port, TCPClientWorker clientWorker) {
+        this.port = port;
+
+        this.clientWorker = clientWorker;
     }
 
-    public void handle(Response response) {
-        channelWorker.send("help");
-    }
+    public ChannelFuture startup() throws Exception {
+        try {
+            Bootstrap b = new Bootstrap();
+            b.group(workGroup);
+            b.channel(NioSocketChannel.class);
+            b.option(ChannelOption.SO_KEEPALIVE, true);
+            b.handler(new ChannelInitializer<SocketChannel>() {
+                protected void initChannel(SocketChannel socketChannel) throws Exception {
+                    socketChannel.pipeline().addLast(clientWorker);
+                }
+            });
+            ChannelFuture channelFuture = b.connect("127.0.0.1", this.port).sync();
+            this.channel = channelFuture.channel();
 
-    @Override
-    public void run() {
-        for (;;) {
-            if (!channelWorker.isConnected()) {
-                log.info("waiting for server...");
-                channelWorker.connect();
-                continue;
-            }
-
-            channelWorker.send("help");
-            handle(channelWorker.get());
+            return channelFuture;
+        } finally {
         }
+    }
+
+    public void shutdown() {
+        workGroup.shutdownGracefully();
     }
 }

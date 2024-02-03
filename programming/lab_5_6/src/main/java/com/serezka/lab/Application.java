@@ -2,7 +2,7 @@ package com.serezka.lab;
 
 import com.serezka.lab.core.io.console.ConsoleWorker;
 import com.serezka.lab.lab5.hahdler.Chat;
-import com.serezka.lab.lab6.client.handler.Client;
+import com.serezka.lab.lab6.client.handler.Client_old;
 import com.serezka.lab.lab6.server.handler.Server;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class Application implements ApplicationRunner {
     Chat chat;
 
     Server server;
-    Client client;
+    Client_old clientOld;
 
     ConsoleWorker consoleWorker;
 
@@ -43,8 +43,8 @@ public class Application implements ApplicationRunner {
         }
 
         if (mode.equals("6")) {
-            new Thread(client).start();
-            new Thread(server).start();
+            new Thread(clientOld).start();
+//            new Thread(server).start();
             return;
         }
 

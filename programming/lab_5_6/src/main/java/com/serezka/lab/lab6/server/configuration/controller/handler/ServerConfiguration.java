@@ -14,8 +14,7 @@ import java.util.List;
 public class ServerConfiguration {
     @Bean
     public Server server(List<Command> commands,
-                         ServerWorker channelWorker,
                          @Qualifier("csvFormatWorker") FormatWorker formatWorker) {
-        return new Server(formatWorker, channelWorker, commands);
+        return new Server(formatWorker, commands);
     }
 }

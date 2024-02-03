@@ -7,7 +7,7 @@ import com.serezka.lab.core.object.Product;
 import java.util.Collections;
 import java.util.List;
 
-public interface ServerWorker {
+public interface ServerWorker extends Runnable {
     void acceptClient();
     boolean isConnected();
 
