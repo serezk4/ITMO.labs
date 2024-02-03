@@ -1,6 +1,6 @@
 package com.serezka.lab.core.io.socket.objects;
 
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

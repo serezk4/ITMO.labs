@@ -1,10 +1,10 @@
-package com.serezka.lab.core.object;
+package com.serezka.lab.core.database.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import com.serezka.lab.core.io.format.csv.converter.CoordinatesConverter;
 import com.serezka.lab.core.io.format.csv.converter.PersonConverter;
-import com.serezka.lab.core.object.exceptions.RequirementsException;
+import com.serezka.lab.core.database.model.exceptions.RequirementsException;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.PropertySource;
@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter

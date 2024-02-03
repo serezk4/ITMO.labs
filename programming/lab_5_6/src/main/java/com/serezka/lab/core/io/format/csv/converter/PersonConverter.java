@@ -2,8 +2,8 @@ package com.serezka.lab.core.io.format.csv.converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.serezka.lab.core.object.Color;
-import com.serezka.lab.core.object.Person;
+import com.serezka.lab.core.database.model.Color;
+import com.serezka.lab.core.database.model.Person;
 
 public class PersonConverter extends AbstractBeanField<Person, String> {
     @Override

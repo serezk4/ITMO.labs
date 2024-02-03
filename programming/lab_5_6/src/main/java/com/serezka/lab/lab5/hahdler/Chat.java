@@ -7,7 +7,7 @@ import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.handler.Update;
 import com.serezka.lab.core.io.console.ConsoleWorker;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.transaction.TransactionManager;
 import com.serezka.lab.core.user.Data;
 import lombok.AccessLevel;

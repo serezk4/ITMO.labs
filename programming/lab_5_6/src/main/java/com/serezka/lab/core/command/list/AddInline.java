@@ -1,7 +1,7 @@
 package com.serezka.lab.core.command.list;
 
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import lombok.AccessLevel;

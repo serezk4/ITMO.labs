@@ -3,7 +3,7 @@ package com.serezka.lab.core.io.format.csv.converter;
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvConstraintViolationException;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.serezka.lab.core.object.Coordinates;
+import com.serezka.lab.core.database.model.Coordinates;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 

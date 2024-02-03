@@ -21,19 +21,49 @@ repositories {
 	mavenCentral()
 }
 
+
+// test
+dependencies {
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.integration:spring-integration-test'
+
+}
+
+// log
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter') {
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
 	}
 	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+}
+
+// net
+dependencies {
+	implementation group: 'io.netty', name: 'netty-all', version: '4.1.106.Final'
+}
+
+// spring boot things
+dependencies {
+
+}
+
+// usefull things
+dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.integration:spring-integration-test'
-	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
 	implementation group: 'com.github.f4b6a3', name: 'uuid-creator', version: '5.3.2'
+}
+
+// format
+dependencies {
 	implementation group: 'com.google.code.gson', name: 'gson', version: '2.10.1'
-	implementation group: 'io.netty', name: 'netty-all', version: '4.1.106.Final'
+	implementation group: 'com.opencsv', name: 'opencsv', version: '5.9'
+}
+
+// database
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {

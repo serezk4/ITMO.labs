@@ -1,4 +1,4 @@
-package com.serezka.lab.core.object.exceptions;
+package com.serezka.lab.core.database.model.exceptions;
 
 public class RequirementsException extends RuntimeException {
     public RequirementsException(String field, String requirements) {

@@ -1,6 +1,6 @@
 package com.serezka.lab.core.user;
 
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.serezka.lab.core.command.list;
 
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import org.springframework.stereotype.Component;

@@ -2,7 +2,7 @@ package com.serezka.lab.core.io.format.csv.converter;
 
 import com.opencsv.bean.AbstractBeanField;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.serezka.lab.core.object.Location;
+import com.serezka.lab.core.database.model.Location;
 
 public class LocationConverter extends AbstractBeanField<Location, String> {
     @Override

@@ -1,4 +1,4 @@
-package com.serezka.lab.core.object;
+package com.serezka.lab.core.database.model;
 
 import java.io.Serializable;
 

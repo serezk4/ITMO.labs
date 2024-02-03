@@ -6,7 +6,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 

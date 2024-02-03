@@ -1,7 +1,7 @@
-package com.serezka.lab.core.object;
+package com.serezka.lab.core.database.model;
 
 import com.opencsv.bean.CsvBindByName;
-import com.serezka.lab.core.object.exceptions.RequirementsException;
+import com.serezka.lab.core.database.model.exceptions.RequirementsException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package com.serezka.lab.core.io.format;
 
-import com.serezka.lab.core.object.Product;
+import com.serezka.lab.core.database.model.Product;
 
 import java.nio.file.Path;
 import java.util.List;
