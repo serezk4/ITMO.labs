@@ -2,17 +2,21 @@ package com.serezka.lab.core.database.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.serezka.lab.core.database.model.exceptions.RequirementsException;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
+@Entity
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Builder
+@Data
+@NoArgsConstructor @AllArgsConstructor
+@Builder
 public class Person implements Serializable, Comparable<Person> {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
     /**
      * Поле не может быть null
      * Строка не может быть пустой
@@ -55,6 +59,8 @@ public class Person implements Serializable, Comparable<Person> {
      * Поле может быть null
      */
     @CsvBindByName(column = "location")
+    @JoinColumn(name = "locations", referencedColumnName = "id")
+    @OneToMany
     @Setter
     Location location;
 

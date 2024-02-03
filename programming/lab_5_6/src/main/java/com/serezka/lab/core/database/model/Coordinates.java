@@ -2,16 +2,24 @@ package com.serezka.lab.core.database.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.serezka.lab.core.database.model.exceptions.RequirementsException;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
+@Entity
+@Data @AllArgsConstructor @NoArgsConstructor
+
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter @Builder
+@Builder
 public class Coordinates implements Serializable, Comparable<Coordinates> {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
+
     /**
      * Максимальное значение поля: 364
      * Поле не может быть null

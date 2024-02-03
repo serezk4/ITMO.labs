@@ -5,6 +5,7 @@ import com.opencsv.bean.CsvCustomBindByName;
 import com.serezka.lab.core.io.format.csv.converter.CoordinatesConverter;
 import com.serezka.lab.core.io.format.csv.converter.PersonConverter;
 import com.serezka.lab.core.database.model.exceptions.RequirementsException;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.PropertySource;
@@ -15,13 +16,11 @@ import java.util.Date;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-
+@Entity
+@Table(name = "products")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@PropertySource("${application.properties}")
+@Builder @Data
+@AllArgsConstructor @NoArgsConstructor
 public class Product implements Serializable, Comparable<Product>, Generatable<Product> {
     /**
      * Поле не может быть null
@@ -29,12 +28,8 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Значение этого поля должно быть уникальным
      * Значение этого поля должно генерироваться автоматически
      */
-    static Integer counter = 0;
-
-    @CsvBindByName(column = "id", required = true)
-    @Builder.Default
-    @Setter
-    Integer id = counter++;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
     // always non null
 
     /**
@@ -42,6 +37,7 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Строка не может быть пустой
      */
     @CsvBindByName(column = "name", required = true)
+    @Column(nullable = false)
     String name;
 
     public void setName(String name) {
@@ -54,6 +50,8 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Поле не может быть null
      */
     @CsvCustomBindByName(column = "coordinates", converter = CoordinatesConverter.class, required = true)
+    @Column(nullable = false) @OneToMany
+    @JoinColumn(name = "coordinates", referencedColumnName = "id")
     Coordinates coordinates;
 
     public void setCoordinates(Coordinates coordinates) {
@@ -66,6 +64,7 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Значение этого поля должно генерироваться автоматически
      */
     @CsvBindByName(column = "creation_date", required = true)
+    @Column(nullable = false)
     @Builder.Default
     @Setter
     String creationDate = new SimpleDateFormat("dd.MM.yyyy hh:mm").format(new Date());
@@ -89,6 +88,7 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Поле может быть null
      */
     @CsvBindByName(column = "part_number", required = true)
+    @Column(nullable = false)
     String partNumber;
 
     public void setPartNumber(String partNumber) {
@@ -101,6 +101,7 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Поле может быть null
      */
     @CsvBindByName(column = "unit_of_measure", required = false)
+    @Column(nullable = false)
     @Setter
     UnitOfMeasure unitOfMeasure;
 
@@ -108,6 +109,9 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Поле может быть null
      */
     @CsvCustomBindByName(column = "owner", converter = PersonConverter.class, required = false)
+    @Column(nullable = false)
+    @JoinColumn(name = "owners", referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.LAZY)
     @Setter
     Person owner;
 
