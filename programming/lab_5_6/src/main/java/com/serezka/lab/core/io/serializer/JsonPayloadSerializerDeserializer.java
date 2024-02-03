@@ -1,4 +1,4 @@
-package com.serezka.lab.core.serializer;
+package com.serezka.lab.core.io.serializer;
 
 import com.google.gson.Gson;
 import com.serezka.lab.core.handler.Payload;

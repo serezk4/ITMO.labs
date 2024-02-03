@@ -9,6 +9,17 @@ import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.io.server.ServerWorker;
 import com.serezka.lab.core.transaction.TransactionManager;
 import com.serezka.lab.core.user.Data;
+import io.netty.bootstrap.Bootstrap;
+import io.netty.bootstrap.ServerBootstrap;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelInitializer;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
+import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,9 +36,31 @@ public class Server implements Handler<Payload> {
     @Getter
     List<Command> commands;
 
-    @NonFinal
-    @Setter
+    @NonFinal @Setter
     Data data;
+
+    public void init() throws Exception{
+        EventLoopGroup bossGroup = new NioEventLoopGroup();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        try {
+            ServerBootstrap b = new ServerBootstrap();
+            b.group(bossGroup, workerGroup)
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        public void initChannel(SocketChannel ch) throws Exception {
+                            ch.pipeline().addLast("decoder", new StringDecoder());//декодирует приходящие данные в строку
+                            ch.pipeline().addLast("encoder", new StringEncoder());//кодирует строку в биты при отправке
+//                            ch.pipeline().addLast(new PlayerHandler());
+                        }
+                    });
+            ChannelFuture f = b.bind(2228).sync();
+            f.channel().closeFuture().sync();
+        } finally {
+            workerGroup.shutdownGracefully();
+            bossGroup.shutdownGracefully();
+        }
+    }
 
     public Data getData() {
         if (!TransactionManager.isEmpty()) return TransactionManager.get().getData();

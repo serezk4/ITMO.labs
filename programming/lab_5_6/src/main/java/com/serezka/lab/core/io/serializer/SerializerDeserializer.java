@@ -1,4 +1,4 @@
-package com.serezka.lab.core.serializer;
+package com.serezka.lab.core.io.serializer;
 
 import org.springframework.core.serializer.Deserializer;
 import org.springframework.core.serializer.Serializer;

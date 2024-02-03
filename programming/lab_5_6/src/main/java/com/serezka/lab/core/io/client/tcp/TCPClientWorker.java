@@ -3,7 +3,7 @@ package com.serezka.lab.core.io.client.tcp;
 import com.serezka.lab.core.handler.Payload;
 import com.serezka.lab.core.handler.Response;
 import com.serezka.lab.core.io.client.ClientWorker;
-import com.serezka.lab.core.serializer.SerializerDeserializer;
+import com.serezka.lab.core.io.serializer.SerializerDeserializer;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -56,11 +56,7 @@ public class TCPClientWorker extends ClientWorker {
 
     @Override
     public boolean isConnected() {
-        if (clientSocket == null || !clientSocket.isConnected()) {
-            connect();
-            return clientSocket != null;
-        }
-        return true;
+        return !(clientSocket == null || clientSocket.isClosed());
     }
 
     @Override
@@ -69,8 +65,7 @@ public class TCPClientWorker extends ClientWorker {
             log.info("trying to connect...");
             clientSocket = new Socket();
             clientSocket.connect(new InetSocketAddress(address, port), 2000);
-            log.info("successfully connected to server {}:{}", address, port);
-            send(Payload.connected());
+            log.info("successfully connected to server {}", clientSocket.getRemoteSocketAddress().toString());
         } catch (ConnectException e) {
             log.warn("Error while connecting: {}", e.getMessage());
             reconnect();
@@ -115,8 +110,6 @@ public class TCPClientWorker extends ClientWorker {
         try {
             clientSocket.getOutputStream().write(payloadSerializerDeserializer.serializeToByteArray(payload));
             clientSocket.getOutputStream().flush();
-
-//            payloadSerializerDeserializer.serialize(payload, clientSocket.getOutputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
         }

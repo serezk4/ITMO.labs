@@ -1,16 +1,17 @@
 package com.serezka.lab.lab6.client.handler;
 
 import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.handler.Payload;
 import com.serezka.lab.core.handler.Response;
 import com.serezka.lab.core.io.client.ClientWorker;
 import com.serezka.lab.core.io.console.ConsoleWorker;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component
+@Log4j2
 public class Client implements Handler<Response> {
     ClientWorker channelWorker;
     ConsoleWorker consoleWorker;
@@ -21,22 +22,19 @@ public class Client implements Handler<Response> {
     }
 
     public void handle(Response response) {
-        System.out.println(response.getMessage());
-//        final String input = consoleWorker.get(" ~ ");
-
-
+        channelWorker.send("help");
     }
 
     @Override
     public void run() {
         for (;;) {
             if (!channelWorker.isConnected()) {
+                log.info("waiting for server...");
                 channelWorker.connect();
-                channelWorker.send(Payload.connected());
+                continue;
             }
 
-            channelWorker.send(Payload.connected());
-
+            channelWorker.send("help");
             handle(channelWorker.get());
         }
     }

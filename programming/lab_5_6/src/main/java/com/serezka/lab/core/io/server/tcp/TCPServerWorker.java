@@ -3,7 +3,7 @@ package com.serezka.lab.core.io.server.tcp;
 import com.serezka.lab.core.handler.Payload;
 import com.serezka.lab.core.handler.Response;
 import com.serezka.lab.core.io.server.ServerWorker;
-import com.serezka.lab.core.serializer.SerializerDeserializer;
+import com.serezka.lab.core.io.serializer.SerializerDeserializer;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
@@ -50,7 +50,6 @@ public class TCPServerWorker implements ServerWorker {
     @Override
     public Payload get() {
         try {
-
             return payloadSerializerDeserializer.deserialize(clientSocket.getInputStream());
         } catch (IOException e) {
             log.warn(e.getMessage());
@@ -63,6 +62,7 @@ public class TCPServerWorker implements ServerWorker {
     public void acceptClient() {
         try {
             log.info("accepting client...");
+
             serverSocket.setSoTimeout(5000);
             clientSocket = serverSocket.accept();
 
@@ -76,10 +76,6 @@ public class TCPServerWorker implements ServerWorker {
 
     @Override
     public boolean isConnected() {
-        if (clientSocket == null || clientSocket.isClosed()) {
-            acceptClient();
-            return clientSocket != null;
-        }
-        return true;
+        return !(clientSocket == null || clientSocket.isClosed() );
     }
 }
