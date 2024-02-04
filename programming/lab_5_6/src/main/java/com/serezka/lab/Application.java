@@ -54,8 +54,8 @@ public class Application implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         log.info("Use gradle 8.5 & Java 21");
 
-        System.out.println(new Product().generate());
-        productService.save(new Product().generate());
+        System.out.println(Product.generate());
+        productService.save(Product.generate());
 
         final String mode = consoleWorker.get("select lab [5/6]: ");
 
