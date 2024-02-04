@@ -7,7 +7,6 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.database.model.Product;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +14,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,7 +24,7 @@ public class CsvFormatWorker implements FormatWorker<Flat> {
     public Set<Flat> readFile(String filePath) {
         try {
             return new CsvToBeanBuilder<>(Files.newBufferedReader(Path.of(filePath)))
-                    .withType(Product.class)
+                    .withType(Flat.class)
                     .build().parse().stream().map(q -> (Flat) q).collect(Collectors.toSet());
         } catch (IOException e) {
             log.warn(e.getMessage());
@@ -38,7 +36,7 @@ public class CsvFormatWorker implements FormatWorker<Flat> {
     public Set<Flat> readString(String csvContent) {
         try {
             return new CsvToBeanBuilder<>(new StringReader(csvContent))
-                    .withType(Product.class)
+                    .withType(Flat.class)
                     .build().parse().stream().map(q -> (Flat) q).collect(Collectors.toSet());
         } catch (Exception e) {
             log.warn(e.getMessage());

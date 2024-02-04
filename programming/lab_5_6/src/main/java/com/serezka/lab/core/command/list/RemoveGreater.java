@@ -2,7 +2,6 @@ package com.serezka.lab.core.command.list;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import lombok.AccessLevel;
@@ -10,7 +9,6 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 

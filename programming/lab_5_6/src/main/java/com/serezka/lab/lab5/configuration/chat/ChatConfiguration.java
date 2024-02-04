@@ -2,7 +2,6 @@ package com.serezka.lab.lab5.configuration.chat;
 
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.database.service.FlatService;
-import com.serezka.lab.core.database.service.ProductService;
 import com.serezka.lab.lab5.hahdler.Chat;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

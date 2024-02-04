@@ -1,14 +1,10 @@
 package com.serezka.lab.core.command;
 
 import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.database.model.Person;
 import com.serezka.lab.core.handler.Update;
-import com.serezka.lab.core.database.model.Product;
-import com.serezka.lab.core.user.Data;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import org.aspectj.weaver.patterns.HasThisTypePatternTriedToSneakInSomeGenericOrParameterizedTypePatternMatchingStuffAnywhereVisitor;
 
 import java.util.*;
 

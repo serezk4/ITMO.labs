@@ -1,6 +1,6 @@
 package com.serezka.lab.core.io.socket.objects;
 
-import com.serezka.lab.core.database.model.Product;
+import com.serezka.lab.core.database.model.Flat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,12 +13,12 @@ public class Payload implements Serializable {
     State state = null;
     String command = null;
 
-    Product product = null;
+    Flat flat = null;
     String string = null;
 
-    public Payload(String command, Product product, String string) {
+    public Payload(String command, Flat flat, String string) {
         this.command = command;
-        this.product = product;
+        this.flat = flat;
         this.string = string;
     }
 

@@ -1,10 +1,6 @@
 package com.serezka.lab.core.io.format;
 
-import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.database.model.Product;
-
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Set;
 
 public interface FormatWorker<K> {

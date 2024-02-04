@@ -1,12 +1,12 @@
 package com.serezka.lab.lab6.server.handler;
 
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.io.socket.objects.State;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.user.Data;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AccessLevel;
@@ -26,16 +26,9 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
     @Getter
     List<Command> commands;
 
-    @NonFinal @Setter
-    Data data;
+    @Getter FormatWorker<Flat> formatWorker;
 
-    public Data getData() {
-        return this.data;
-    }
-
-    @Getter FormatWorker formatWorker;
-
-    public Server(FormatWorker formatWorker, List<Command> commands) {
+    public Server(FormatWorker<Flat> formatWorker, List<Command> commands) {
         this.formatWorker = formatWorker;
         this.commands = commands;
     }
