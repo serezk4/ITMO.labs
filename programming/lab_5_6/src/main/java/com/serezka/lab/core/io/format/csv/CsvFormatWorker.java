@@ -16,7 +16,8 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
-@Component @Log4j2
+@Component
+@Log4j2
 public class CsvFormatWorker implements FormatWorker {
     @Override
     public List<Product> readFile(String filePath) {
@@ -67,6 +68,22 @@ public class CsvFormatWorker implements FormatWorker {
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             log.warn(e.getMessage());
             return "";
+        }
+    }
+
+    @Override
+    public void removeById(Long id, Path filePath) {
+        try (BufferedReader fileReader = new BufferedReader(new FileReader(filePath.toFile()));
+             BufferedWriter fileWriter = new BufferedWriter(new FileWriter(filePath.toFile()))) {
+            while (fileReader.ready()) {
+                final String line = fileReader.readLine();
+                if (line.startsWith("\"" + id + "\"")) continue;
+                fileWriter.write(line);
+                fileWriter.write("\n");
+            }
+            fileWriter.flush();
+        } catch (IOException e) {
+            log.warn(e.getMessage());
         }
     }
 }

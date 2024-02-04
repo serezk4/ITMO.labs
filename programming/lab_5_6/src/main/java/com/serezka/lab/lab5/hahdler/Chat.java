@@ -17,6 +17,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
@@ -71,13 +72,14 @@ public class Chat implements Handler<String> {
     public void run() {
         console.send(Arts.INIT);
 
-        for (;;)
-            handle(console.get(inPattern)
-                    .replaceAll("\\+gen", formatWorker.writeString(Collections.singletonList(new Product().generate()))));
+        for (;;) {
+            new Product();
+            handle(console.get(inPattern));
+        }
     }
 
-    public void handle(String input) {
-        console.skip();
+    public void handle(String raw) {
+        final String input = raw.replaceAll("-g", formatWorker.writeString(Collections.singletonList(Product.generate())));
 
         if (input.matches("help")) {
             console.send(getHelp());

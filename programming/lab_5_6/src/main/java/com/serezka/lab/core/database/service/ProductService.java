@@ -19,20 +19,20 @@ import java.util.List;
 public class ProductService {
     ProductRepository productRepository;
     FormatWorker formatWorker;
-    Path file;
+    Path filePath;
 
     public ProductService(ProductRepository productRepository,
                           @Qualifier("csvFormatWorker") FormatWorker formatWorker,
-                          @Qualifier("rootFile") Path file) {
+                          @Qualifier("rootFile") Path filePath) {
         this.productRepository = productRepository;
         this.formatWorker = formatWorker;
 
-        this.file = file;
+        this.filePath = filePath;
     }
 
     @Transactional
     public Product save(Product product) {
-        formatWorker.write(Collections.singletonList(product), file);
+        formatWorker.write(Collections.singletonList(product), filePath);
         return productRepository.save(product);
     }
 
@@ -48,6 +48,7 @@ public class ProductService {
 
     @Transactional
     public void removeById(Long id) {
+        formatWorker.removeById(id, filePath);
         productRepository.removeById(id);
     }
 

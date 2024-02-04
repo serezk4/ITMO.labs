@@ -17,7 +17,7 @@ import java.util.List;
 @ComponentScan(basePackages = "com.serezka.lab.core.command")
 @PropertySource("classpath:chat.properties")
 public class ChatConfiguration {
-    @Bean
+    @Bean("lab5")
     public Chat chat(List<Command> commands,
                      @Value("${chat.name}") String name,
                      @Value("${chat.out.pattern}") String outPattern,

@@ -1,0 +1,112 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Light grey background */
+}
+
+#chatContainer {
+    height: calc(100vh - 60px); /* Высота с учетом панели выбора чата */
+    max-width: 800px; /* Максимальная ширина контейнера */
+    margin: auto;
+    margin-top: 60px; /* Отступ сверху для панели выбора чата */
+    padding: 20px; /* Отступы внутри контейнера */
+    display: flex;
+    flex-direction: column;
+    background: #fff; /* Белый фон контейнера */
+    border-radius: 8px; /* Скругление углов */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень контейнера */
+}
+
+#messages {
+    flex-grow: 1; /* Allows messages to take up available space */
+    overflow-y: auto; /* Scrollbar as needed */
+    padding: 20px;
+    border: none; /* Removing border for a more integrated look */
+}
+
+.message {
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.userInput, .botResponse {
+    display: flex;
+    justify-content: flex-end; /* Align user messages to the right */
+    margin-bottom: 10px;
+}
+
+.botResponse {
+    justify-content: flex-start; /* Align bot messages to the left */
+}
+
+.messageContent {
+    max-width: 60%; /* Limiting message width */
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px; /* Spacing around messages */
+}
+
+.userInput .messageContent {
+    background-color: #151515;
+    color: #fff;
+}
+
+.botResponse .messageContent {
+    background-color: #e9ecef;
+}
+
+.system {
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px; /* Spacing around messages */
+}
+
+.system .messageContent {
+    justify-content: center;
+    background-color: #c9c9c9;
+    color: #161616;
+    padding: 10px 15px;
+    border-radius: 20px;
+    margin: 5px; /* Spacing around messages */
+}
+
+#messageInput {
+    flex-shrink: 0; /* Prevents input from shrinking */
+    margin-top: 10px; /* Space between messages and input */
+}
+
+#chatSelector {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: #232323; /* Синий фон */
+    color: #fff; /* Белый текст */
+    line-height: 50px; /* Высота строки для вертикального центрирования текста */
+    text-align: center;
+    font-size: 20px;
+}
+
+.chat-select {
+    margin-left: 10px; /* Отступ слева от текста */
+    padding: 5px 10px; /* Паддинг для удобства выбора */
+    border-radius: 5px; /* Скругление углов */
+    border: 1px solid #ccc; /* Граница */
+    background-color: #fff; /* Белый фон */
+    color: #333; /* Цвет текста */
+}
+
+.btn-black {
+    background-color: black;
+    border-color: black;
+    color: white; /* Ensures the text inside the button is visible */
+}
+
+.btn-black:hover {
+    color: white; /* Keeps the text color white even on hover */
+    background-color: #333; /* Slightly lighter black for hover effect, adjust as needed */
+    border-color: #333; /* Ensure the border color matches the hover background */
+}

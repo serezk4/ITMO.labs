@@ -153,6 +153,8 @@ public class Product implements Serializable, Comparable<Product> {
 
     public static Product generate() {
         final String productName = PRODUCT_NAMES[(int) (PRODUCT_NAMES.length * Math.random())];
+        String partNumber = String.valueOf(productName.hashCode()).repeat(5);
+        partNumber = partNumber.substring(0, Math.min(partNumber.length(), 99));
 
         return Product.builder()
                 .name(productName)
@@ -161,7 +163,7 @@ public class Product implements Serializable, Comparable<Product> {
                         .y((long) (Math.random() * 182))
                         .build())
                 .price((float) (1 + Math.random() * 400))
-                .partNumber(String.valueOf(productName.hashCode()))
+                .partNumber(partNumber)
                 .unitOfMeasure(UnitOfMeasure.values()[(int) (Math.random() * UnitOfMeasure.values().length)])
                 .owner(Person.builder()
                         .name(HUMAN_NAMES[(int) (HUMAN_NAMES.length * Math.random())])

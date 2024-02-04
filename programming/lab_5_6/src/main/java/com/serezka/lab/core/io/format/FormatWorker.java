@@ -11,4 +11,6 @@ public interface FormatWorker {
 
     void write(List<Product> products, Path filePath);
     String writeString(List<Product> products);
+
+    void removeById(Long id, Path filePath);
 }
