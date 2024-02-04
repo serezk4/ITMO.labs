@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
+@Deprecated
+
 @Entity
 @Table(name = "locations")
 @Data @NoArgsConstructor @AllArgsConstructor

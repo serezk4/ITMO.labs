@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Deprecated
+
 @Entity
 @Table(name = "products")
 @FieldDefaults(level = AccessLevel.PRIVATE)

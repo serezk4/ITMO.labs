@@ -8,6 +8,8 @@ import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
+@Deprecated
+
 @Entity
 @Table(name = "persons")
 @FieldDefaults(level = AccessLevel.PRIVATE)
