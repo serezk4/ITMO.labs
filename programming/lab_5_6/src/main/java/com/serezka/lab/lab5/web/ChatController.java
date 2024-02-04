@@ -2,6 +2,7 @@ package com.serezka.lab.lab5.web;
 
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.handler.Update;
 import com.serezka.lab.core.io.format.FormatWorker;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -61,7 +63,7 @@ public class ChatController {
     @PostMapping("/send")
     @ResponseBody
     public Message sendMessage(@RequestParam("message") String message) {
-        final String input = message.replaceAll("-g", formatWorker.writeString(Collections.singletonList(Product.generate())));
+        final String input = message.replaceAll("-g", formatWorker.writeString(Set.of(Flat.generate())));
 
         if (input.matches("help"))
             return new Message(getHelp());

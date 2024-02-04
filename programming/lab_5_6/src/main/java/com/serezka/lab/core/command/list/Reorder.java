@@ -14,7 +14,6 @@ public class Reorder extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        Collections.reverse(bridge.getData());
-        bridge.send("коллекция успешно отсортирована в обратном порядке!");
+        bridge.send("set незя разваренуть todo");
     }
 }

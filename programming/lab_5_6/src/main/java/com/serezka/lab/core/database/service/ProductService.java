@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 
+@Deprecated
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductService {
@@ -32,7 +33,7 @@ public class ProductService {
 
     @Transactional
     public Product save(Product product) {
-        formatWorker.write(Collections.singletonList(product), filePath);
+//        formatWorker.write(Collections.singletonList(product), filePath);
         return productRepository.save(product);
     }
 

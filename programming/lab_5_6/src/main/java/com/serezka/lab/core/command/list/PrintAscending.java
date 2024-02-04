@@ -1,12 +1,17 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.user.Data;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class PrintAscending extends Command {
@@ -16,7 +21,7 @@ public class PrintAscending extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        List<Product> data = bridge.getData();
+        Set<Flat> data = bridge.getData();
 
         if (data.isEmpty()) {
             bridge.send("кажется, коллекция пустая.");
@@ -24,7 +29,7 @@ public class PrintAscending extends Command {
         }
 
         bridge.addNestedProducts(bridge.getData().stream()
-                .sorted(Product::compareTo)
-                .toList());
+                .sorted(Flat::compareTo)
+                .collect(Collectors.toCollection(HashSet::new)));
     }
 }

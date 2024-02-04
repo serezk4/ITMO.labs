@@ -1,5 +1,6 @@
 package com.serezka.lab.core.command;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.model.Person;
 import com.serezka.lab.core.handler.Update;
 import com.serezka.lab.core.database.model.Product;
@@ -7,16 +8,15 @@ import com.serezka.lab.core.user.Data;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
+import org.aspectj.weaver.patterns.HasThisTypePatternTriedToSneakInSomeGenericOrParameterizedTypePatternMatchingStuffAnywhereVisitor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bridge {
     // input data
     @Getter final Update update;
-    @Getter final List<Product> data;
+    @Getter final Set<Flat> data;
 
     // internal stack
     @Getter final Stack<String> internalQueries = new Stack<>();
@@ -30,20 +30,20 @@ public class Bridge {
     }
 
     // constructor
-    public Bridge(Update update, List<Product> data) {
+    public Bridge(Update update, Set<Flat> data) {
         this.update = update;
         this.data = data;
     }
 
     // text
     final StringBuilder builder = new StringBuilder();
-    @Getter final List<Product> nestedProducts = new ArrayList<>();
+    @Getter final Set<Flat> nestedProducts = new HashSet<>();
 
-    public void addNestedProduct(Product nestedProduct) {
+    public void addNestedProduct(Flat nestedProduct) {
         this.nestedProducts.add(nestedProduct);
     }
 
-    public void addNestedProducts(List<Product> nestedProducts) {
+    public void addNestedProducts(Set<Flat> nestedProducts) {
         this.nestedProducts.addAll(nestedProducts);
     }
 

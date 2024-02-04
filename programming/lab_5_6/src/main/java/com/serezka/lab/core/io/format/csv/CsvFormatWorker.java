@@ -5,6 +5,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.database.model.Product;
 import lombok.extern.log4j.Log4j2;
@@ -15,55 +16,57 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @Log4j2
-public class CsvFormatWorker implements FormatWorker {
+public class CsvFormatWorker implements FormatWorker<Flat> {
     @Override
-    public List<Product> readFile(String filePath) {
+    public Set<Flat> readFile(String filePath) {
         try {
             return new CsvToBeanBuilder<>(Files.newBufferedReader(Path.of(filePath)))
                     .withType(Product.class)
-                    .build().parse().stream().map(q -> (Product) q).toList();
+                    .build().parse().stream().map(q -> (Flat) q).collect(Collectors.toSet());
         } catch (IOException e) {
             log.warn(e.getMessage());
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 
     @Override
-    public List<Product> readString(String csvContent) {
+    public Set<Flat> readString(String csvContent) {
         try {
             return new CsvToBeanBuilder<>(new StringReader(csvContent))
                     .withType(Product.class)
-                    .build().parse().stream().map(q -> (Product) q).toList();
+                    .build().parse().stream().map(q -> (Flat) q).collect(Collectors.toSet());
         } catch (Exception e) {
             log.warn(e.getMessage());
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 
     @Override
-    public void write(List<Product> products, Path filePath) {
+    public void write(Set<Flat> flats, Path filePath) {
         try (Writer writer = new FileWriter(filePath.toFile(), true)) {
-            StatefulBeanToCsv<Product> beanToCsv = new StatefulBeanToCsvBuilder<Product>(writer)
+            StatefulBeanToCsv<Flat> beanToCsv = new StatefulBeanToCsvBuilder<Flat>(writer)
                     .withSeparator(',')
                     .build();
 
-            beanToCsv.write(products);
+            beanToCsv.write(flats.stream().toList());
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             log.warn(e.getMessage());
         }
     }
 
     @Override
-    public String writeString(List<Product> products) {
+    public String writeString(Set<Flat> flats) {
         try (Writer writer = new StringWriter()) {
-            StatefulBeanToCsv<Product> beanToCsv = new StatefulBeanToCsvBuilder<Product>(writer)
+            StatefulBeanToCsv<Flat> beanToCsv = new StatefulBeanToCsvBuilder<Flat>(writer)
                     .withSeparator(',')
                     .build();
 
-            beanToCsv.write(products);
+            beanToCsv.write(flats.stream().toList());
             return writer.toString();
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException e) {
             log.warn(e.getMessage());

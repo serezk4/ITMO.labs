@@ -1,5 +1,6 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
@@ -13,7 +14,6 @@ public class Sort extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        bridge.getData().sort(Product::compareTo);
-        bridge.send("коллекция успешно отсортирована!");
+        bridge.send("коллекция успешно отсортирована! тоже незя todo");
     }
 }

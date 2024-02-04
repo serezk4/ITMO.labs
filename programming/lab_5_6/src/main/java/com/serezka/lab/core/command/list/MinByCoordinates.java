@@ -1,11 +1,13 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class MinByCoordinates extends Command {
@@ -15,13 +17,13 @@ public class MinByCoordinates extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        List<Product> userData = bridge.getData();
+        Set<Flat> userData = bridge.getData();
 
         if (userData.isEmpty()) {
             bridge.send("кажется, коллекция пустая. найти необходимый объект не получится.");
             return;
         }
 
-        bridge.addNestedProduct(userData.stream().min(Product::compareTo).get());
+        bridge.addNestedProduct(userData.stream().min(Flat::compareTo).get());
     }
 }

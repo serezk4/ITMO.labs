@@ -1,5 +1,6 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
@@ -10,13 +11,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RemoveGreater extends Command {
-    FormatWorker formatWorker;
+    FormatWorker<Flat> formatWorker;
 
-    public RemoveGreater(FormatWorker formatWorker) {
+    public RemoveGreater(FormatWorker<Flat> formatWorker) {
         super("remove_greater .+", "удалить из коллекции все элементы, превышающие заданный");
 
         this.formatWorker = formatWorker;
@@ -26,18 +29,18 @@ public class RemoveGreater extends Command {
     public void execute(Bridge bridge) {
         final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
 
-        List<Product> formatted = formatWorker.readString(data);
+        Set<Flat> formatted = formatWorker.readString(data);
 
         if (formatted.isEmpty()) {
             bridge.send("ничего не было введено");
             return;
         }
 
-        Product max = Collections.max(formatted);
+        Flat max = Collections.max(formatted);
         if (formatted.size() > 1)
             bridge.send("так как было введено больше, чем одна запись, будет взята максимальная.");
 
-        List<Product> toRemove = bridge.getData().stream().filter(temp -> temp.compareTo(max) > 0).toList();
+        Set<Flat> toRemove = bridge.getData().stream().filter(temp -> temp.compareTo(max) > 0).collect(Collectors.toSet());
         bridge.getData().removeAll(toRemove);
         bridge.addNestedProducts(toRemove);
     }

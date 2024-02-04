@@ -1,5 +1,6 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
@@ -17,7 +18,7 @@ public class RemoveById extends Command {
     public void execute(Bridge bridge) {
         final int inputId = Integer.parseInt(bridge.getUpdate().getMessage().split(" ", 2)[1]);
 
-        Optional<Product> filtered = bridge.getData().stream()
+        Optional<Flat> filtered = bridge.getData().stream()
                 .filter(product -> product.getId() == inputId)
                 .findFirst();
 

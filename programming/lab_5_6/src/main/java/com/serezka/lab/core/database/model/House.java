@@ -1,5 +1,6 @@
 package com.serezka.lab.core.database.model;
 
+import com.serezka.lab.core.database.model.exceptions.RequirementsException;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -27,6 +28,11 @@ public class House {
      */
     @Column(name = "number_of_flats_on_floor")
     Long numberOfFlatsOnFloor;
+
+    public void setNumberOfFlatsOnFloor(Long numberOfFlatsOnFloor) {
+        if (numberOfFlatsOnFloor <= 0) throw new RequirementsException("numberOfFlatsOnFloor", "field must be > 0");
+        this.numberOfFlatsOnFloor = numberOfFlatsOnFloor;
+    }
 
     /**
      * Значение поля должно быть больше 0

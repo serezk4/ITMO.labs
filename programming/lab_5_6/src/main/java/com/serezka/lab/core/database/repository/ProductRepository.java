@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
+@Deprecated
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @NonNull List<Product> findAllByUserId(Long userId);

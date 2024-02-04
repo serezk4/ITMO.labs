@@ -14,8 +14,9 @@ public class FilterStartsWithPartNumber extends Command {
     public void execute(Bridge bridge) {
         final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
 
-        bridge.addNestedProducts(bridge.getData().stream()
-                .filter(product -> product.getPartNumber().startsWith(data))
-                .toList());
+        // todo
+//        bridge.addNestedProducts(bridge.getData().stream()
+//                .filter(product -> product.getPartNumber().startsWith(data))
+//                .toList());
     }
 }

@@ -1,10 +1,10 @@
 package com.serezka.lab.core.io.socket.objects;
 
-import com.serezka.lab.core.database.model.Product;
+import com.serezka.lab.core.database.model.Flat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.util.List;
+import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -13,12 +13,12 @@ public class Response {
     State state = null;
 
     String message = null;
-    List<Product> products = null;
+    Set<Flat> flats = null;
 
-    public Response(String message, List<Product> products) {
+    public Response(String message, Set<Flat> flats) {
         this.state = State.OK;
         this.message = message;
-        this.products = products;
+        this.flats = flats;
     }
 
     public Response(String message) {

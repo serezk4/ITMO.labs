@@ -1,6 +1,7 @@
 package com.serezka.lab.lab5.configuration.chat;
 
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.database.service.FlatService;
 import com.serezka.lab.core.database.service.ProductService;
 import com.serezka.lab.lab5.hahdler.Chat;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,7 @@ public class ChatConfiguration {
     @Bean("lab5")
     public Chat chat(List<Command> commands,
                      @Value("${chat.help.pattern}") String helpPattern,
-                     ProductService productService) {
-        return new Chat(commands, helpPattern, productService);
+                     FlatService flatService) {
+        return new Chat(commands, helpPattern, flatService);
     }
 }

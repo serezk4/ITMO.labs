@@ -2,7 +2,7 @@ package com.serezka.lab.lab5.hahdler;
 
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
-import com.serezka.lab.core.database.service.ProductService;
+import com.serezka.lab.core.database.service.FlatService;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.handler.Update;
 import com.serezka.lab.core.io.socket.objects.Response;
@@ -29,13 +29,13 @@ public class Chat implements Handler<String> {
     @Getter
     private List<Command> commands;
 
-    ProductService productService;
+    FlatService flatService;
 
     public Chat(List<Command> commands, @Value("${chat.help.pattern}") String helpPattern,
-                ProductService productService) {
+                FlatService flatService) {
         this.commands = commands;
         this.helpPattern = helpPattern;
-        this.productService = productService;
+        this.flatService = flatService;
     }
 
     public Response handle(final String input) {
@@ -52,7 +52,7 @@ public class Chat implements Handler<String> {
         if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         // create bridge
-        Bridge commandBridge = new Bridge(new Update(input), productService.findAllByUserId(USER_ID));
+        Bridge commandBridge = new Bridge(new Update(input), flatService.findAllByUserId(USER_ID));
         suitableCommands.getFirst().execute(commandBridge);
 
         // check internal stack
