@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 
 @Entity
+@Table(name = "persons")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @NoArgsConstructor @AllArgsConstructor
@@ -60,7 +61,7 @@ public class Person implements Serializable, Comparable<Person> {
      */
     @CsvBindByName(column = "location")
     @JoinColumn(name = "locations", referencedColumnName = "id")
-    @OneToMany
+    @OneToOne(cascade = CascadeType.ALL)
     @Setter
     Location location;
 

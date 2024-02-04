@@ -29,8 +29,11 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Значение этого поля должно генерироваться автоматически
      */
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer id;
+    Long id;
     // always non null
+
+    @Column(name = "user_id")
+    Long userId;
 
     /**
      * Поле не может быть null
@@ -50,7 +53,7 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Поле не может быть null
      */
     @CsvCustomBindByName(column = "coordinates", converter = CoordinatesConverter.class, required = true)
-    @Column(nullable = false) @OneToMany
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coordinates", referencedColumnName = "id")
     Coordinates coordinates;
 
@@ -109,9 +112,8 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
      * Поле может быть null
      */
     @CsvCustomBindByName(column = "owner", converter = PersonConverter.class, required = false)
-    @Column(nullable = false)
-    @JoinColumn(name = "owners", referencedColumnName = "id")
-    @OneToMany(fetch = FetchType.LAZY)
+    @PrimaryKeyJoinColumn(name = "persons",referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     @Setter
     Person owner;
 
@@ -138,7 +140,7 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
                 "\t height: " + owner.getHeight() + '\n' +
                 "\t eyeColor: " + owner.getEyeColor() + '\n' +
                 "\t hairColor: " + owner.getHairColor() + '\n' +
-                "\t location: " +
+                "\t location: \n" +
                 (owner.getLocation() != null ?
                         "\t\t x : " + owner.getLocation().getX() + '\n' +
                                 "\t\t y : " + owner.getLocation().getY() + '\n' +
@@ -150,13 +152,13 @@ public class Product implements Serializable, Comparable<Product>, Generatable<P
     @Override
     public Product generate() {
         return Product.builder()
-                .name(IntStream.range(0, 100).map(q -> 'q').mapToObj(String::valueOf).collect(Collectors.joining()))
+                .name("Brotishka")
                 .coordinates(Coordinates.builder()
                         .x((float) (Math.random() * 364))
                         .y((long) (Math.random() * 182))
                         .build())
                 .price((float) (1 + Math.random() * 400))
-                .partNumber(IntStream.range(13, 40).mapToObj(String::valueOf).collect(Collectors.joining()))
+                .partNumber(IntStream.range(13, 15).mapToObj(String::valueOf).collect(Collectors.joining()))
                 .unitOfMeasure(UnitOfMeasure.values()[(int) (Math.random() * UnitOfMeasure.values().length)])
                 .owner(Person.builder()
                         .name("Josh")

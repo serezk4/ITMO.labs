@@ -1,5 +1,7 @@
 package com.serezka.lab;
 
+import com.serezka.lab.core.database.model.Product;
+import com.serezka.lab.core.database.service.ProductService;
 import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker;
 import com.serezka.lab.core.io.console.ConsoleWorker;
 import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker;
@@ -32,13 +34,16 @@ public class Application implements ApplicationRunner {
 
     ConsoleWorker consoleWorker;
 
-    public Application(Chat chat, Server server, Client client, @Qualifier("TCPServerWorker") TCPServerWorker tcpServerWorker, TCPClientWorker tcpClientWorker, ConsoleWorker consoleWorker) {
+    ProductService productService;
+
+    public Application(Chat chat, Server server, Client client, @Qualifier("TCPServerWorker") TCPServerWorker tcpServerWorker, TCPClientWorker tcpClientWorker, ConsoleWorker consoleWorker, ProductService productService) {
         this.chat = chat;
         this.server = server;
         this.client = client;
         this.tcpServerWorker = tcpServerWorker;
         this.tcpClientWorker = tcpClientWorker;
         this.consoleWorker = consoleWorker;
+        this.productService = productService;
     }
 
     public static void main(String[] args) {
@@ -48,6 +53,9 @@ public class Application implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         log.info("Use gradle 8.5 & Java 21");
+
+        System.out.println(new Product().generate());
+        productService.save(new Product().generate());
 
         final String mode = consoleWorker.get("select lab [5/6]: ");
 

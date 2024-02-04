@@ -26,7 +26,7 @@ public class AddInline extends Command {
         final String data = bridge.getUpdate().getMessage().split(" ", 2)[1]
                 .replaceAll("\\+g", formatWorker.writeString(Collections.singletonList(new Product().generate())));
 
-        List<Integer> existingIds = bridge.getData().stream().map(Product::getId).toList();
+        List<Long> existingIds = bridge.getData().stream().map(Product::getId).toList();
 
         List<Product> formatted = formatWorker.readString(data)
                 .stream().filter(product -> {

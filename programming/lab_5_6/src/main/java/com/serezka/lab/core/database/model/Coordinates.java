@@ -2,18 +2,15 @@ package com.serezka.lab.core.database.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.serezka.lab.core.database.model.exceptions.RequirementsException;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
 @Entity
+@Table(name = "coordinates")
 @Data @AllArgsConstructor @NoArgsConstructor
-
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 public class Coordinates implements Serializable, Comparable<Coordinates> {
