@@ -1,5 +1,6 @@
 package com.serezka.lab.core.command;
 
+import com.serezka.lab.core.database.model.Person;
 import com.serezka.lab.core.handler.Update;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.user.Data;
@@ -15,7 +16,7 @@ import java.util.Stack;
 public class Bridge {
     // input data
     @Getter final Update update;
-    @Getter final Data data;
+    @Getter final List<Product> data;
 
     // internal stack
     @Getter final Stack<String> internalQueries = new Stack<>();
@@ -29,7 +30,7 @@ public class Bridge {
     }
 
     // constructor
-    public Bridge(Update update, Data data) {
+    public Bridge(Update update, List<Product> data) {
         this.update = update;
         this.data = data;
     }

@@ -32,6 +32,6 @@ public class Application implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        new Thread(chat).start();
+//        new Thread(chat).start();
     }
 }

@@ -1,6 +1,7 @@
 package com.serezka.lab.core.handler;
 
-public interface Handler<T> extends Runnable {
-    default void handle(T input) {}
-    default void run() {}
+import com.serezka.lab.core.io.socket.objects.Response;
+
+public interface Handler<T> {
+    Response handle(T input);
 }

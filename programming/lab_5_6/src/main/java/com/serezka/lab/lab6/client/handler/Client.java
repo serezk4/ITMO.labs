@@ -32,4 +32,9 @@ public class Client extends SimpleChannelInboundHandler<Response> implements Han
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Response response) throws Exception {
         System.out.println("here");
     }
+
+    @Override
+    public Response handle(Response input) {
+        return null;
+    }
 }

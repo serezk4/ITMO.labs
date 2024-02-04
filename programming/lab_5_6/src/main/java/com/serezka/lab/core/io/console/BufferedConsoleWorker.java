@@ -1,6 +1,5 @@
 package com.serezka.lab.core.io.console;
 
-import com.serezka.lab.core.transaction.TransactionManager;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
@@ -29,7 +28,7 @@ public class BufferedConsoleWorker extends ConsoleWorker {
     public String get(String label) {
         try {
             final Date currentDate = new Date();
-            writer.append(String.format(label, "|".repeat(TransactionManager.depth()), currentDate, currentDate, currentDate)).append(": ").flush();
+            writer.append(String.format(label,  currentDate, currentDate, currentDate)).append(": ").flush();
             return reader.readLine();
         } catch (IOException ioException) {
             log.warn(ioException.getMessage());

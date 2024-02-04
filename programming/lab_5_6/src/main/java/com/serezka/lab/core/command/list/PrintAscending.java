@@ -1,9 +1,12 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.user.Data;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class PrintAscending extends Command {
@@ -13,13 +16,15 @@ public class PrintAscending extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        Data data = bridge.getData();
+        List<Product> data = bridge.getData();
 
         if (data.isEmpty()) {
             bridge.send("кажется, коллекция пустая.");
             return;
         }
 
-        bridge.addNestedProducts(bridge.getData().getAscending());
+        bridge.addNestedProducts(bridge.getData().stream()
+                .sorted(Product::compareTo)
+                .toList());
     }
 }

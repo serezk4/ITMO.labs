@@ -37,6 +37,8 @@ public class RemoveGreater extends Command {
         if (formatted.size() > 1)
             bridge.send("так как было введено больше, чем одна запись, будет взята максимальная.");
 
-        bridge.addNestedProducts(bridge.getData().removeGreaterThan(max).stream().toList());
+        List<Product> toRemove = bridge.getData().stream().filter(temp -> temp.compareTo(max) > 0).toList();
+        bridge.getData().removeAll(toRemove);
+        bridge.addNestedProducts(toRemove);
     }
 }

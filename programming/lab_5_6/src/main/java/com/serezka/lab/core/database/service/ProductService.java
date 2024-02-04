@@ -37,23 +37,23 @@ public class ProductService {
     }
 
     @Transactional
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public List<Product> findAllByUserId(Long userId) {
+        return productRepository.findAllByUserId(userId);
     }
 
     @Transactional
-    public List<Product> findAllByOwner(Person owner) {
-        return productRepository.findAllByOwner(owner);
+    public List<Product> findAllByOwnerAndUserId(Person owner, Long userId) {
+        return productRepository.findAllByOwnerAndUserId(owner, userId);
     }
 
     @Transactional
-    public void removeById(Long id) {
+    public void removeByIdAndUserId(Long id, Long userId) {
         formatWorker.removeById(id, filePath);
-        productRepository.removeById(id);
+        productRepository.removeByIdAndUserId(id, userId);
     }
 
     @Transactional
-    public void removeByOwner(Person owner) {
-        productRepository.removeByOwner(owner);
+    public void removeByOwnerAndUserId(Person owner, Long userId) {
+        productRepository.removeAllByOwnerAndUserId(owner, userId);
     }
 }

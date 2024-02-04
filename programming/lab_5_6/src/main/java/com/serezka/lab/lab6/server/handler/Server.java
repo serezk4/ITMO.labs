@@ -3,9 +3,9 @@ package com.serezka.lab.lab6.server.handler;
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.io.socket.objects.Payload;
+import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.io.socket.objects.State;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.transaction.TransactionManager;
 import com.serezka.lab.core.user.Data;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -30,7 +30,6 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
     Data data;
 
     public Data getData() {
-        if (!TransactionManager.isEmpty()) return TransactionManager.get().getData();
         return this.data;
     }
 
@@ -59,6 +58,11 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         }
 
         log.info("new payload from client: {}", payload.toString());
+    }
+
+    @Override
+    public Response handle(Payload input) {
+        return null;
     }
 }
 

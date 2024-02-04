@@ -5,7 +5,6 @@ import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.database.model.Product;
 import com.serezka.lab.core.handler.Update;
 import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.transaction.TransactionManager;
 import com.serezka.lab.core.user.Data;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -38,16 +37,7 @@ public class ChatController {
     @NonFinal
     private List<Command> commands = new ArrayList<>();
 
-    @NonFinal
-    @Setter
-    Data data;
-
     FormatWorker formatWorker;
-
-    public Data getData() {
-        if (!TransactionManager.isEmpty()) return TransactionManager.get().getData();
-        return this.data;
-    }
 
     public ChatController(List<Command> commands, @Value("${chat.name}") String name,
                           @Value("${chat.out.pattern}") String outPattern, @Value("${chat.in.pattern}") String inPattern, @Value("${chat.help.pattern}") String helpPattern,
@@ -61,8 +51,6 @@ public class ChatController {
         this.helpPattern = helpPattern;
 
         this.formatWorker = formatWorker;
-
-        this.data = new Data();
     }
 
     @GetMapping("/")
@@ -89,7 +77,7 @@ public class ChatController {
             log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         // create bridge
-        Bridge commandBridge = new Bridge(new Update(input), getData());
+       /* Bridge commandBridge = new Bridge(new Update(input), getData());
         suitableCommands.getFirst().execute(commandBridge);
 
         // replace data from bridge
@@ -103,12 +91,13 @@ public class ChatController {
         // print products
         commandBridge.getNestedProducts()
                 .stream().map(Product::toString)
-                .forEach(response::append);
+                .forEach(response::append); todo*/
 
         // check internal stack
 //        commandBridge.getInternalQueries().forEach(this::handle);
 
-        return new Message(response.toString());
+//        return new Message(response.toString());
+        return new Message("todo");
     }
 
     private String getHelp() {

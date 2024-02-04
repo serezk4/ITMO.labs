@@ -11,11 +11,11 @@ import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @NonNull List<Product> findAll();
-    @NonNull List<Product> findAllByOwner(Person owner);
+    @NonNull List<Product> findAllByUserId(Long userId);
+    @NonNull List<Product> findAllByOwnerAndUserId(Person owner, Long userId);
 
-    @NonNull Optional<Product> findById(@NonNull Long id);
+    @NonNull Optional<Product> findByIdAndUserId(@NonNull Long id, @NonNull Long userId);
 
-    void removeById(Long id);
-    void removeByOwner(Person owner);
+    void removeByIdAndUserId(Long id, Long userId);
+    void removeAllByOwnerAndUserId(Person owner, Long userId);
 }

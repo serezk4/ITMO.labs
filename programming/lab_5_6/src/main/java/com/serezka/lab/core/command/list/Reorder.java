@@ -4,6 +4,8 @@ import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+
 @Component
 public class Reorder extends Command {
     public Reorder() {
@@ -12,8 +14,7 @@ public class Reorder extends Command {
 
     @Override
     public void execute(Bridge bridge) {
+        Collections.reverse(bridge.getData());
         bridge.send("коллекция успешно отсортирована в обратном порядке!");
-
-        bridge.getData().reorder();
     }
 }

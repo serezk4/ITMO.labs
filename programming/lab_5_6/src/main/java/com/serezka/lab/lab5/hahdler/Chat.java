@@ -1,28 +1,19 @@
 package com.serezka.lab.lab5.hahdler;
 
-import com.serezka.lab.Arts;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.database.service.ProductService;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.handler.Update;
-import com.serezka.lab.core.io.console.ConsoleWorker;
-import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.database.model.Product;
-import com.serezka.lab.core.transaction.TransactionManager;
-import com.serezka.lab.core.user.Data;
+import com.serezka.lab.core.io.socket.objects.Response;
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,98 +22,43 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:chat.properties")
 @Log4j2
 public class Chat implements Handler<String> {
-    String name;
-    String outPattern;
-    String inPattern;
+    public static final long USER_ID = -5;
+
     String helpPattern;
 
-    @Setter @Getter @NonFinal
-    private List<Command> commands = new ArrayList<>();
-
-    @NonFinal @Setter
-    Data data;
-
-    FormatWorker formatWorker;
-
-    public Data getData() {
-        if (!TransactionManager.isEmpty()) return TransactionManager.get().getData();
-        return this.data;
-    }
-
     @Getter
-    ConsoleWorker console;
+    private List<Command> commands;
 
-    public Chat(@Value("${chat.name}") String name,
-                @Value("${chat.out.pattern}") String outPattern, @Value("${chat.in.pattern}") String inPattern, @Value("${chat.help.pattern}") String helpPattern,
-                ConsoleWorker console, FormatWorker formatWorker) {
-        this.name = name;
+    ProductService productService;
 
-        this.outPattern = outPattern;
-        this.inPattern = inPattern;
+    public Chat(List<Command> commands, @Value("${chat.help.pattern}") String helpPattern,
+                ProductService productService) {
+        this.commands = commands;
         this.helpPattern = helpPattern;
-
-        this.console = console;
-        this.formatWorker = formatWorker;
-
-        this.data = new Data();
+        this.productService = productService;
     }
 
-
-    @Override
-    public void run() {
-        console.send(Arts.INIT);
-
-        for (;;) {
-            new Product();
-            handle(console.get(inPattern));
-        }
-    }
-
-    public void handle(String raw) {
-        final String input = raw.replaceAll("-g", formatWorker.writeString(Collections.singletonList(Product.generate())));
-
-        if (input.matches("help")) {
-            console.send(getHelp());
-            console.skip();
-            return;
-        }
-
-        if (input.matches("cls")) {
-            console.clear();
-            return;
-        }
+    public Response handle(final String input) {
+        if (input.matches("help"))
+            return new Response(getHelp());
 
         List<Command> suitableCommands = commands.stream()
                 .filter(command -> input.matches(command.getUsage()))
                 .toList();
 
-        if (suitableCommands.isEmpty()) {
-            console.send("введена некорректная команда, help - все команды");
-            console.skip();
-            return;
-        }
+        if (suitableCommands.isEmpty())
+            return new Response("введена некорректная команда, help - все команды");
 
         if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         // create bridge
-        Bridge commandBridge = new Bridge(new Update(input), getData());
+        Bridge commandBridge = new Bridge(new Update(input), productService.findAllByUserId(USER_ID));
         suitableCommands.getFirst().execute(commandBridge);
-
-        // replace data from bridge
-//        getData().replace(commandBridge.getData());
-
-        // print text
-        console.send(commandBridge.getText());
-
-        // print products
-        commandBridge.getNestedProducts()
-                        .stream().map(Product::toString)
-                        .forEach(console::send);
 
         // check internal stack
         commandBridge.getInternalQueries().forEach(this::handle);
 
-//        console.skip();
+        return new Response(commandBridge.getText(), commandBridge.getNestedProducts());
     }
 
     private String getHelp() {
