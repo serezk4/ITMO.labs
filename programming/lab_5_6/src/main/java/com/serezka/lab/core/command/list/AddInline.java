@@ -15,20 +15,15 @@ import java.util.stream.Collectors;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AddInline extends Command {
-    FormatWorker<Flat> formatWorker;
-
-    public AddInline(FormatWorker<Flat> formatWorker) {
+    public AddInline() {
         super("add .+", "добавить новый элемент в коллекцию (через консоль)");
-        this.formatWorker = formatWorker;
     }
 
     @Override
     public void execute(Bridge bridge) {
-        final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
-
         List<Long> existingIds = bridge.getCurrentData().stream().map(Flat::getId).toList();
 
-        Set<Flat> formatted = formatWorker.readString(data)
+        Set<Flat> formatted = bridge.getInputData()
                 .stream().filter(flat -> {
                     if (!existingIds.contains(flat.getId())) return true;
 

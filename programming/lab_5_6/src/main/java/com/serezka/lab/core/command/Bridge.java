@@ -11,6 +11,7 @@ import java.util.*;
 public class Bridge {
     // input data
     @Getter final String inputCommand;
+    @Getter final String inputText;
     @Getter final Set<Flat> inputData;
 
     @Getter final Set<Flat> currentData;
@@ -25,8 +26,17 @@ public class Bridge {
     }
 
     // constructor
+    public Bridge(String inputCommand, String inputText, Set<Flat> currentData) {
+        this(inputCommand, inputText, Collections.emptySet(), currentData);
+    }
+
     public Bridge(String inputCommand, Set<Flat> inputData, Set<Flat> currentData) {
+        this(inputCommand, "", inputData, currentData);
+    }
+
+    public Bridge(String inputCommand, String inputText, Set<Flat> inputData, Set<Flat> currentData) {
         this.inputCommand = inputCommand;
+        this.inputText = inputText;
         this.inputData = inputData;
         this.currentData = currentData;
     }

@@ -12,7 +12,7 @@ public class FilterStartsWithPartNumber extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
+//        final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
 
         // todo
 //        bridge.addNestedProducts(bridge.getData().stream()

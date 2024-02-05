@@ -15,27 +15,23 @@ import java.util.stream.Collectors;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RemoveGreater extends Command {
-    FormatWorker<Flat> formatWorker;
-
     public RemoveGreater(FormatWorker<Flat> formatWorker) {
         super("remove_greater .+", "удалить из коллекции все элементы, превышающие заданный");
-
-        this.formatWorker = formatWorker;
     }
 
     @Override
     public void execute(Bridge bridge) {
-        final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
+//        final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
 
-        Set<Flat> formatted = formatWorker.readString(data);
+        Set<Flat> input = bridge.getInputData();
 
-        if (formatted.isEmpty()) {
+        if (input.isEmpty()) {
             bridge.send("ничего не было введено");
             return;
         }
 
-        Flat max = Collections.max(formatted);
-        if (formatted.size() > 1)
+        Flat max = Collections.max(input);
+        if (input.size() > 1)
             bridge.send("так как было введено больше, чем одна запись, будет взята максимальная.");
 
         Set<Flat> toRemove = bridge.getCurrentData().stream().filter(temp -> temp.compareTo(max) > 0).collect(Collectors.toSet());

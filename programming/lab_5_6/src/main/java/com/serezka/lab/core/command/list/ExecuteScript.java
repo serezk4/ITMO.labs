@@ -20,7 +20,7 @@ public class ExecuteScript extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        final String filePath = bridge.getUpdate().getMessage().split(" ", 2)[1];
+        final String filePath = bridge.getInputText();
 
         StringBuilder data = new StringBuilder();
         try (BufferedReader fileReader = Files.newBufferedReader(Path.of(filePath))) {
