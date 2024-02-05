@@ -2,6 +2,7 @@ package com.serezka.lab.core.command.list;
 
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.io.socket.objects.Payload;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,7 @@ public class ExecuteScript extends Command {
             bridge.send(e.getMessage());
         }
 
-        bridge.addInternalQueries(Arrays.stream(data.toString().split("\n")).toList());
+//        bridge.addInternalQueries(Arrays.stream(data.toString().split("\n")).map(new Payload(data)));
+        // todo map to payload
     }
 }

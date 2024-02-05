@@ -118,26 +118,324 @@
             background-color: #333; /* Slightly lighter black for hover effect, adjust as needed */
             border-color: #333; /* Ensure the border color matches the hover background */
         }
+
+        .collection-item {
+            font-size: 14px;
+            color: #6c757d; /* Bootstrap's $gray-600 for a subtle gray */
+        }
+
+        .collection-item .flat-name {
+            font-weight: bold;
+            color: #343a40; /* Slightly darker for emphasis */
+        }
+
+        .collection-item-details {
+            margin-left: 20px; /* Indent for nested details */
+        }
+
+        .list-group-item-action:hover {
+            cursor: pointer;
+            background-color: #f8f9fa;
+        }
+
+        #addButton {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%; /* Optional if you want the button to be full-width */
+        }
     </style>
 </head>
 <body>
+
 
 <div id="chatSelector">
     <h2>Лабораторная работа 5</h2>
 </div>
 
-<div id="chatContainer" class="shadow">
-    <div id="messages"></div>
-    <input type="text" id="messageInput" class="form-control" placeholder="Введите команду">
-    <button id="sendButton" class="btn btn-black mt-2">Отправить</button>
+<div style="display: flex; justify-content: center; height: 100vh;">
+    <div id="chatContainer" class="shadow" style="width: 70%; margin-right: 10px;">
+        <div id="messages"></div>
+        <div class="input-group mb-3">
+            <div id="commandInputContainer" class="container-fluid" style="padding: 0;">
+                <div id="suggestions" class="list-group" style="position: absolute; z-index: 1000; width: 100%; display: none;"></div>
+                <input type="text" id="messageInput" class="form-control" placeholder="Введите команду" autocomplete="off" style="width: 100%;">
+            </div>
+        </div>
+        <button id="sendButton" class="btn btn-black mt-2">Отправить</button>
+    </div>
+    <div id="collectionPanel" class="shadow" style="width: 20%; overflow-y: auto; background: #f8f9fa;">
+        <h4 class="text-center p-2">Temporary Collection</h4>
+        <button id="addButton" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">Добавить</button>
+        <ul id="collectionList" class="list-group list-group-flush">
+            <!-- Dynamic list items will be appended here -->
+        </ul>
+    </div>
+</div>
+
+<!-- Modal for Flat data input -->
+<div class="modal fade" id="flatDataModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">Добавить Flat</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="flatDataForm">
+                    <!-- Flat Name -->
+                    <div class="form-group">
+                        <label for="flatName">Name</label>
+                        <input type="text" class="form-control" id="flatName" required>
+                    </div>
+
+                    <!-- Coordinates -->
+                    <div class="form-group">
+                        <label>Coordinates</label>
+                        <div class="form-row">
+                            <div class="col">
+                                <input type="number" class="form-control" id="coordinatesX" placeholder="X (max: 364)"
+                                       max="364" required>
+                            </div>
+                            <div class="col">
+                                <input type="number" class="form-control" id="coordinatesY" placeholder="Y (max: 182)"
+                                       max="182" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area -->
+                    <div class="form-group">
+                        <label for="flatArea">Area (max: 734)</label>
+                        <input type="number" class="form-control" id="flatArea" min="1" max="734" required>
+                    </div>
+
+                    <!-- Number of Rooms -->
+                    <div class="form-group">
+                        <label for="numberOfRooms">Number of Rooms</label>
+                        <input type="number" class="form-control" id="numberOfRooms" min="1" required>
+                    </div>
+
+                    <!-- Living Space -->
+                    <div class="form-group">
+                        <label for="livingSpace">Living Space (optional, >0)</label>
+                        <input type="number" class="form-control" id="livingSpace" min="1">
+                    </div>
+
+                    <!-- Furniture -->
+                    <div class="form-group">
+                        <label for="furniture">Furniture</label>
+                        <select class="form-control" id="furniture">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+
+                    <!-- Transport -->
+                    <div class="form-group">
+                        <label for="transport">Transport</label>
+                        <select class="form-control" id="transport">
+                            <option value="LITTLE">Little</option>
+                            <option value="NORMAL">Normal</option>
+                            <option value="ENOUGH">Enough</option>
+                        </select>
+                    </div>
+
+                    <!-- House -->
+                    <div class="form-group">
+                        <label>House</label>
+                        <input type="text" class="form-control mb-2" id="houseName" placeholder="Name (optional)">
+                        <input type="number" class="form-control mb-2" id="houseYear" placeholder="Year (>0)" min="1">
+                        <input type="number" class="form-control mb-2" id="numberOfFlatsOnFloor"
+                               placeholder="Number of Flats on Floor (>0)" min="1">
+                        <input type="number" class="form-control" id="numberOfLifts" placeholder="Number of Lifts (>0)"
+                               min="1">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary" id="saveFlatButton">Сохранить</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script th:inline="javascript">
-    document.addEventListener('DOMContentLoaded', function() {
+    $(document).ready(function() {
+        let commands = [];
+
+        $.ajax({
+            url: '/core/getcommands', // Adjust according to your application's context path
+            type: 'GET',
+            success: function(data) {
+                commands = data; // Assuming 'data' is an array of {usage, help}
+                // You might need to adjust based on the actual structure of the response
+            },
+            error: function(error) {
+                console.error("Error fetching commands:", error);
+            }
+        });
+        console.log(commands);
+
+        $("#messageInput").on("input", function() {
+            const input = $(this).val().toLowerCase();
+            const suggestions = commands.filter(cmd => cmd.usage.toLowerCase().startsWith(input) || cmd.help.toLowerCase().includes(input));
+
+            // Clear previous suggestions
+            $("#suggestions").empty();
+
+            if (input && suggestions.length > 0) {
+                suggestions.forEach(function(suggestion) {
+                    const suggestionItem = $(`<a href="#" class="list-group-item list-group-item-action">${suggestion.usage} - ${suggestion.help}</a>`);
+                    suggestionItem.on('click', function(e) {
+                        e.preventDefault();
+                        $("#messageInput").val(suggestion.usage); // Set input value to the selected command
+                        $("#suggestions").empty().hide(); // Clear and hide suggestions
+                    });
+                    $("#suggestions").append(suggestionItem).show();
+                });
+            } else {
+                $("#suggestions").hide(); // Hide suggestions if no matches or input is empty
+            }
+        });
+
+        // Hide suggestions when clicking outside
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('#commandInputContainer').length) {
+                $("#suggestions").hide();
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        let temporaryCollection = [];
+
+        $("#saveFlatButton").click(function (e) {
+            e.preventDefault();
+
+            // Collect form data
+            const flatData = {
+                name: $("#flatName").val(),
+                coordinates: {
+                    x: $("#coordinatesX").val(),
+                    y: $("#coordinatesY").val(),
+                },
+                area: $("#flatArea").val(),
+                numberOfRooms: $("#numberOfRooms").val(),
+                livingSpace: $("#livingSpace").val(),
+                furniture: $("#furniture").val(),
+                transport: $("#transport").val(),
+                house: {
+                    name: $("#houseName").val(),
+                    year: $("#houseYear").val(),
+                    numberOfFlatsOnFloor: $("#numberOfFlatsOnFloor").val(),
+                    numberOfLifts: $("#numberOfLifts").val(),
+                }
+            };
+
+            // Add to temporary collection
+            temporaryCollection.push(flatData);
+
+            // Reset form
+            $("#flatDataForm")[0].reset();
+            $('#flatDataModal').modal('hide');
+
+            // Update UI
+            updateCollectionUI();
+        });
+
+        // Function to update the collection display
+        function updateCollectionUI() {
+            const collectionList = $("#collectionList");
+            collectionList.empty(); // Clear existing items
+
+            temporaryCollection.forEach((item, index) => {
+                // Construct detailed HTML for each item
+                let itemHTML = `
+            <li class="list-group-item collection-item">
+                <div class="flat-name">Flat: ${item.name}</div>
+                <button class="btn btn-danger btn-sm float-right ml-2 delete-btn" data-index="${index}">Delete</button>
+                <button class="btn btn-primary btn-sm float-right edit-btn" data-index="${index}">Edit</button>
+                <div class="collection-item-details">- Rooms: ${item.numberOfRooms}</div>
+                <div class="collection-item-details">- Area: ${item.area}</div>
+                <div class="collection-item-details">- Living Space: ${item.livingSpace || 'N/A'}</div>
+                <div class="collection-item-details">- Furniture: ${item.furniture ? 'Yes' : 'No'}</div>
+                <div class="collection-item-details">- Transport: ${item.transport || 'N/A'}</div>
+                <div class="collection-item-details">- House:
+                    <div class="collection-item-details">-- Name: ${item.house.name || 'N/A'}</div>
+                    <div class="collection-item-details">-- Year: ${item.house.year || 'N/A'}</div>
+                    <div class="collection-item-details">-- Number of Flats on Floor: ${item.house.numberOfFlatsOnFloor || 'N/A'}</div>
+                    <div class="collection-item-details">-- Number of Lifts: ${item.house.numberOfLifts || 'N/A'}</div>
+                </div>
+            </li>
+        `;
+                collectionList.append(itemHTML);
+            });
+
+            // Delete button event listener
+            $(".delete-btn").click(function () {
+                const index = $(this).data("index");
+                temporaryCollection.splice(index, 1); // Remove the item from the collection
+                updateCollectionUI(); // Refresh the UI
+            });
+
+            // Edit button event listener
+            $(".edit-btn").click(function () {
+                const index = $(this).data("index");
+                const item = temporaryCollection[index];
+                // Populate the form with item's details for editing
+                $("#flatName").val(item.name);
+                $("#coordinatesX").val(item.coordinates.x);
+                $("#coordinatesY").val(item.coordinates.y);
+                // Populate other fields accordingly
+                $('#flatDataModal').modal('show');
+
+                // Handle the save logic differently for edits
+                $("#saveFlatButton").off('click').click(function (e) {
+                    e.preventDefault();
+                    // Collect updated data from form and update the item in the collection
+                    item.name = $("#flatName").val();
+                    // Update other properties based on form fields
+                    temporaryCollection[index] = item; // Update the item with new details
+                    $('#flatDataModal').modal('hide');
+                    updateCollectionUI(); // Refresh the UI
+                });
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const openFormButton = document.getElementById('addButton');
+        const saveFlatButton = document.getElementById('saveFlatButton');
+
+        openFormButton.addEventListener('click', function () {
+            $('#flatDataModal').modal('show');
+        });
+
+        saveFlatButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            // Perform validation and submission logic here
+            // Example: Collect form data, validate, and send request
+            $('#flatDataModal').modal('hide');
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
         const input = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
 
-        input.addEventListener('keypress', function(e) {
+        input.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 sendButton.click();
@@ -145,11 +443,11 @@
         });
     });
 
-    $(document).ready(function() {
-        $("#sendButton").click(function() {
+    $(document).ready(function () {
+        $("#sendButton").click(function () {
             var message = $("#messageInput").val();
             $("#messages").append('<div class="message userInput"><span class="messageContent">' + message + '</span></div>');
-            $.post("/lab5/send", { message: message }, function(data) {
+            $.post("/lab5/send", {message: message}, function (data) {
                 $("#messages").append('<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>');
                 $("#messageInput").val('');
                 $("#messages").scrollTop($("#messages")[0].scrollHeight);
@@ -157,5 +455,6 @@
         });
     });
 </script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

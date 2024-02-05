@@ -4,7 +4,7 @@ import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.database.service.FlatService;
 import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.handler.Update;
+import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PropertySource("classpath:chat.properties")
 @Log4j2
-public class Chat implements Handler<String> {
+public class Chat implements Handler<Payload> {
     public static final long USER_ID = -5;
 
     String helpPattern;
@@ -38,12 +38,13 @@ public class Chat implements Handler<String> {
         this.flatService = flatService;
     }
 
-    public Response handle(final String input) {
-        if (input.matches("help"))
+    @Override
+    public Response handle(final Payload payload) {
+        if (payload.getCommand().matches("help"))
             return new Response(getHelp());
 
         List<Command> suitableCommands = commands.stream()
-                .filter(command -> input.matches(command.getUsage()))
+                .filter(command -> payload.getCommand().matches(command.getUsage()))
                 .toList();
 
         if (suitableCommands.isEmpty())
@@ -52,7 +53,7 @@ public class Chat implements Handler<String> {
         if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         // create bridge
-        Bridge commandBridge = new Bridge(input.split(" ")[0], input.split(" ")[1], flatService.findAllByUserId(USER_ID));
+        Bridge commandBridge = new Bridge(payload.getCommand(), payload.getString(), payload.getFlats(), flatService.findAllByUserId(USER_ID));
         suitableCommands.getFirst().execute(commandBridge);
 
         // check internal stack

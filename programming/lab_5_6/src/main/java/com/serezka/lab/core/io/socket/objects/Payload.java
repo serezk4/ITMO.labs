@@ -5,6 +5,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data @AllArgsConstructor @NoArgsConstructor
@@ -13,12 +14,12 @@ public class Payload implements Serializable {
     State state = null;
     String command = null;
 
-    Flat flat = null;
+    Set<Flat> flats = null;
     String string = null;
 
-    public Payload(String command, Flat flat, String string) {
+    public Payload(String command, Set<Flat> flats, String string) {
         this.command = command;
-        this.flat = flat;
+        this.flats = flats;
         this.string = string;
     }
 
