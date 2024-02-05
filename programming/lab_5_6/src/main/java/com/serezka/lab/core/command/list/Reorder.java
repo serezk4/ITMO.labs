@@ -9,7 +9,7 @@ import java.util.Collections;
 @Component
 public class Reorder extends Command {
     public Reorder() {
-        super("reorder", "отсортировать коллекцию в порядке, обратном нынешнему");
+        super("reorder","reorder", "отсортировать коллекцию в порядке, обратном нынешнему");
     }
 
     @Override

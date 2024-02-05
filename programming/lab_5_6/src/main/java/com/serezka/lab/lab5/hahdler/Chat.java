@@ -64,7 +64,7 @@ public class Chat implements Handler<Payload> {
 
     private String getHelp() {
         return "Все доступные команды: \n" + commands.stream()
-                .map(command -> String.format("%n" + helpPattern, command.getUsage(), command.getHelp()))
+                .map(command -> String.format("%n" + helpPattern, command.getSimpleUsage(), command.getHelp()))
                 .collect(Collectors.joining());
     }
 }

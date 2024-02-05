@@ -309,7 +309,6 @@
             type: 'GET',
             success: function (data) {
                 commands = data; // Assuming 'data' is an array of {usage, help}
-                commands.append('help', 'помощь по командам')
                 // You might need to adjust based on the actual structure of the response
             },
             error: function (error) {
@@ -327,10 +326,10 @@
 
             if (input && suggestions.length > 0) {
                 suggestions.forEach(function (suggestion) {
-                    const suggestionItem = $(`<a href="#" class="list-group-item list-group-item-action">${suggestion.usage} - ${suggestion.help}</a>`);
+                    const suggestionItem = $(`<a href="#" class="list-group-item list-group-item-action">${suggestion.simpleUsage} - ${suggestion.help}</a>`);
                     suggestionItem.on('click', function (e) {
                         e.preventDefault();
-                        $("#messageInput").val(suggestion.usage); // Set input value to the selected command
+                        $("#messageInput").val(suggestion.simpleUsage); // Set input value to the selected command
                         $("#suggestions").empty().hide(); // Clear and hide suggestions
                     });
                     $("#suggestions").append(suggestionItem).show();
@@ -348,8 +347,9 @@
         });
     });
 
+    let temporaryCollection = [];
+
     $(document).ready(function () {
-        let temporaryCollection = [];
 
         $("#saveFlatButton").click(function (e) {
             e.preventDefault();
@@ -476,8 +476,12 @@
     $(document).ready(function () {
         $("#sendButton").click(function () {
             var message = $("#messageInput").val();
+            var collection = temporaryCollection
+
+            console.log(collection)
+
             $("#messages").append('<div class="message userInput"><span class="messageContent">' + message + '</span></div>');
-            $.post("/lab5/send", {message: message}, function (data) {
+            $.post("/lab5/send", {'message': message, 'flats': temporaryCollection}, function (data) {
                 $("#messages").append('<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>');
                 $("#messageInput").val('');
                 $("#messages").scrollTop($("#messages")[0].scrollHeight);

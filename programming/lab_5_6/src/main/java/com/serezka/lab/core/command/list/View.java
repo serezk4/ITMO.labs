@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class View extends Command {
     public View() {
-        super("(view)|(show)", "просмотр содержания коллекции");
+        super("view","view", "просмотр содержания коллекции");
     }
 
     @Override

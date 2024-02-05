@@ -31,7 +31,7 @@ public class Save extends Command {
                 @Value("${file.date.format}") String dateFormat,
                 @Value("${file.name.format}") String nameFormat,
                 @Value("${file.save.dir}") String saveDir) {
-        super("save", "сохранить коллекцию в файл");
+        super("save", "save", "сохранить коллекцию в файл");
 
         this.formatWorker = formatWorker;
 

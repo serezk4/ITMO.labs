@@ -10,7 +10,7 @@ import java.util.Optional;
 @Component
 public class RemoveById extends Command {
     public RemoveById() {
-        super("remove_by_id \\d+", "удалить элемент из коллекции по его id");
+        super("remove_by_id {id}","remove_by_id \\d+", "удалить элемент из коллекции по его id");
     }
 
     @Override

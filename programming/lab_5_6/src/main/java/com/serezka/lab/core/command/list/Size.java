@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Size extends Command {
     public Size() {
-        super("size", "узнать текущий размер коллекции");
+        super("size", "size","узнать текущий размер коллекции");
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FilterStartsWithPartNumber extends Command {
     public FilterStartsWithPartNumber() {
-        super("filter_starts_with_part_number .+", "вывести элементы, значение поля partNumber которых начинается с заданной подстроки");
+        super("filter_starts_with_part_number {part_number}", "filter_starts_with_part_number .+", "вывести элементы, значение поля partNumber которых начинается с заданной подстроки");
     }
 
     @Override

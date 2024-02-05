@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Ping extends Command {
     public Ping() {
-        super("ping", "test chat");
+        super("ping", "ping","test chat");
     }
 
     @Override

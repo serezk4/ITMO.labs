@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sort extends Command {
     public Sort() {
-        super("sort", "отсортировать коллекцию");
+        super("sort", "sort","отсортировать коллекцию");
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Exit extends Command {
     public Exit() {
-        super("exit", "завершить программу (без сохранения в файл)");
+        super("exit", "exit","завершить программу");
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class Clear extends Command {
     public Clear() {
-        super("clear", "очистить коллекцию");
+        super("clear", "clear", "очистить коллекцию");
     }
 
     @Override

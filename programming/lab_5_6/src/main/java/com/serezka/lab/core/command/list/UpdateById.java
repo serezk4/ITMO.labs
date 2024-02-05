@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UpdateById extends Command {
     public UpdateById() {
-        super("update \\d+ \\d+", "обновить значение элемента коллекции, id которого равен заданному");
+        super("update {id} {val}","update \\d+ \\d+", "обновить значение элемента коллекции, id которого равен заданному");
     }
 
     @Override

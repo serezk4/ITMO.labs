@@ -10,7 +10,7 @@ import java.util.Set;
 @Component
 public class MinByCoordinates extends Command {
     public MinByCoordinates() {
-        super("min_by_coordinates", "вывести любой объект из коллекции, значение поля coordinates которого является минимальным");
+        super("min_by_coordinates", "min_by_coordinates","вывести любой объект из коллекции, значение поля coordinates которого является минимальным");
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class PrintAscending extends Command {
     public PrintAscending() {
-        super("print_ascending", "вывести элементы коллекции в порядке возрастания");
+        super("print_ascending", "print_ascending","вывести элементы коллекции в порядке возрастания");
     }
 
     @Override

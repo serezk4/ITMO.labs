@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AddInline extends Command {
     public AddInline() {
-        super("add .+", "добавить новый элемент в коллекцию (через консоль)");
+        super("add","add", "добавить новый элемент(ы) в коллекцию");
     }
 
     @Override

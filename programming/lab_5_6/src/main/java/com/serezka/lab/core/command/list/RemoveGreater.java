@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class RemoveGreater extends Command {
     public RemoveGreater(FormatWorker<Flat> formatWorker) {
-        super("remove_greater .+", "удалить из коллекции все элементы, превышающие заданный");
+        super("remove_greater", "remove_greater", "удалить из коллекции все элементы, превышающие заданный");
     }
 
     @Override
