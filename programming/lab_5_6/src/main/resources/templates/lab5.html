@@ -152,13 +152,38 @@
             border-radius: 4px;
             width: 100%; /* Optional if you want the button to be full-width */
         }
+
+        .input-group {
+            display: flex; /* Установите flexbox для группы ввода */
+            align-items: center; /* Выровняйте элементы по центру по вертикали */
+        }
+
+        #messageInput {
+            flex: 1; /* Поле ввода займет все доступное пространство */
+            height: 40px; /* Установите желаемую высоту поля ввода */
+            font-size: 1.1rem; /* Увеличьте размер шрифта в поле ввода */
+            line-height: 40px; /* Установите line-height равным высоте для вертикального выравнивания текста */
+            margin-bottom: 0; /* Уберите нижний отступ, если он есть */
+        }
+
+        #sendButton {
+            height: 40px; /* Установите ту же высоту, что и для поля ввода */
+            font-size: 1.1rem; /* Установите тот же размер шрифта, что и для поля ввода */
+            line-height: 40px; /* Установите line-height равным высоте для вертикального выравнивания текста */
+            padding: 0 15px; /* Подберите горизонтальные отступы */
+            margin-left: -1px; /* Скорректируйте, если есть зазор между кнопкой и полем ввода */
+            border: 1px solid #ccc; /* Добавьте границу, если нужно, чтобы она совпадала с полем ввода */
+            border-radius: 0 0.25rem 0.25rem 0; /* Скорректируйте скругление углов, чтобы оно совпадало с полем ввода */
+        }
+
+
     </style>
 </head>
 <body>
 
 
 <div id="chatSelector">
-    <h2>Лабораторная работа 5</h2>
+    <h2><b>Лабораторная работа №5</b> (<a href="https://github.com/serezk4">github</a> | <a href="https://github.com/serezk4/ITMO.labs/tree/master/programming/lab_5_6">код</a> | <a href="https://google.com">отчет</a>) <b><a href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/LAB5.md" style="color: lightblue">Вариант 5910</a></b></h2>
 </div>
 
 <div style="display: flex; justify-content: center; height: 100vh;">
@@ -166,11 +191,15 @@
         <div id="messages"></div>
         <div class="input-group mb-3">
             <div id="commandInputContainer" class="container-fluid" style="position: relative; padding: 0;">
-                <div id="suggestions" class="list-group" style="position: absolute; bottom: 100%; left: 0; z-index: 1000; width: 100%; display: none;"></div>
-                <input type="text" id="messageInput" class="form-control" placeholder="Введите команду" autocomplete="off" style="width: 100%;">
+                <div id="suggestions" class="list-group"
+                     style="position: absolute; bottom: 100%; left: 0; z-index: 1000; width: 100%; display: none;"></div>
+                <input type="text" id="messageInput" class="form-control" placeholder="Нажмите Enter для отправки запроса..."
+                       autocomplete="off">
+                <div class="input-group-append" hidden="hidden">
+                    <button id="sendButton" class="btn btn-black">Отправить</button>
+                </div>
             </div>
         </div>
-        <button id="sendButton" class="btn btn-black mt-2">Отправить</button>
     </div>
     <div id="collectionPanel" class="shadow" style="width: 20%; overflow-y: auto; background: #f8f9fa;">
         <h4 class="text-center p-2">Temporary Collection</h4>
@@ -272,24 +301,24 @@
 </div>
 
 <script th:inline="javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         let commands = [];
 
         $.ajax({
             url: '/core/getcommands', // Adjust according to your application's context path
             type: 'GET',
-            success: function(data) {
+            success: function (data) {
                 commands = data; // Assuming 'data' is an array of {usage, help}
                 commands.append('help', 'помощь по командам')
                 // You might need to adjust based on the actual structure of the response
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("Error fetching commands:", error);
             }
         });
         console.log(commands);
 
-        $("#messageInput").on("input", function() {
+        $("#messageInput").on("input", function () {
             const input = $(this).val().toLowerCase();
             const suggestions = commands.filter(cmd => cmd.usage.toLowerCase().startsWith(input) || cmd.help.toLowerCase().includes(input));
 
@@ -297,9 +326,9 @@
             $("#suggestions").empty();
 
             if (input && suggestions.length > 0) {
-                suggestions.forEach(function(suggestion) {
+                suggestions.forEach(function (suggestion) {
                     const suggestionItem = $(`<a href="#" class="list-group-item list-group-item-action">${suggestion.usage} - ${suggestion.help}</a>`);
-                    suggestionItem.on('click', function(e) {
+                    suggestionItem.on('click', function (e) {
                         e.preventDefault();
                         $("#messageInput").val(suggestion.usage); // Set input value to the selected command
                         $("#suggestions").empty().hide(); // Clear and hide suggestions
