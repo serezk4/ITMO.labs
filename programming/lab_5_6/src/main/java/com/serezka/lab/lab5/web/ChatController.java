@@ -31,7 +31,11 @@ public class ChatController {
     @PostMapping("/send")
     @ResponseBody
     public Message sendMessage(@RequestParam("message") String message) {
-        return new Message(chat.handle(new Payload(message, null, "test")).getMessage());
+        try {
+            return new Message(chat.handle(new Payload(message, null, "test")).getMessage());
+        } catch (Exception ex) {
+            return new Message(ex.getMessage());
+        }
     }
 
     @FieldDefaults(level = AccessLevel.PRIVATE)
