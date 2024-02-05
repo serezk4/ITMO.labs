@@ -17,14 +17,14 @@ public class PrintAscending extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        Set<Flat> data = bridge.getData();
+        Set<Flat> data = bridge.getCurrentData();
 
         if (data.isEmpty()) {
             bridge.send("кажется, коллекция пустая.");
             return;
         }
 
-        bridge.addNestedProducts(bridge.getData().stream()
+        bridge.addNestedProducts(bridge.getCurrentData().stream()
                 .sorted(Flat::compareTo)
                 .collect(Collectors.toCollection(HashSet::new)));
     }

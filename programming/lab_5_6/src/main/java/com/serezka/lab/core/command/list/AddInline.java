@@ -26,7 +26,7 @@ public class AddInline extends Command {
     public void execute(Bridge bridge) {
         final String data = bridge.getUpdate().getMessage().split(" ", 2)[1];
 
-        List<Long> existingIds = bridge.getData().stream().map(Flat::getId).toList();
+        List<Long> existingIds = bridge.getCurrentData().stream().map(Flat::getId).toList();
 
         Set<Flat> formatted = formatWorker.readString(data)
                 .stream().filter(flat -> {
@@ -39,6 +39,6 @@ public class AddInline extends Command {
                 }).collect(Collectors.toSet());
 
         bridge.send("добавлено %d записей", formatted.size());
-        bridge.getData().addAll(formatted);
+        bridge.getCurrentData().addAll(formatted);
     }
 }

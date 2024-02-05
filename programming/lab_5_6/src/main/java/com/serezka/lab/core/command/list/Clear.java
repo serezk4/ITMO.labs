@@ -12,7 +12,7 @@ public class Clear extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        bridge.getData().clear();
+        bridge.getCurrentData().clear();
         bridge.send("данные успешно удалены");
     }
 }

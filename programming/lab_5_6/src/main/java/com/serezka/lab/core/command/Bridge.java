@@ -1,7 +1,6 @@
 package com.serezka.lab.core.command;
 
 import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.handler.Update;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -11,24 +10,25 @@ import java.util.*;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bridge {
     // input data
-    @Getter final Update update;
-    @Getter final Set<Flat> data;
+    @Getter final String inputCommand;
+    @Getter final Set<Flat> inputData;
+
+    @Getter final Set<Flat> currentData;
 
     // internal stack
     @Getter final Stack<String> internalQueries = new Stack<>();
-
     public void addInternalQuery(String internalQuery) {
         this.internalQueries.add(internalQuery);
     }
-
     public void addInternalQueries(List<String> internalQueries) {
         this.internalQueries.addAll(internalQueries);
     }
 
     // constructor
-    public Bridge(Update update, Set<Flat> data) {
-        this.update = update;
-        this.data = data;
+    public Bridge(String inputCommand, Set<Flat> inputData, Set<Flat> currentData) {
+        this.inputCommand = inputCommand;
+        this.inputData = inputData;
+        this.currentData = currentData;
     }
 
     // text

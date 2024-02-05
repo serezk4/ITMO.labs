@@ -12,6 +12,6 @@ public class Size extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        bridge.send("количество элементов в коллекции: %d", bridge.getData().size());
+        bridge.send("количество элементов в коллекции: %d", bridge.getCurrentData().size());
     }
 }

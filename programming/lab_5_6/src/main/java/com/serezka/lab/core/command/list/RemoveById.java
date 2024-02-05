@@ -17,7 +17,7 @@ public class RemoveById extends Command {
     public void execute(Bridge bridge) {
         final int inputId = Integer.parseInt(bridge.getUpdate().getMessage().split(" ", 2)[1]);
 
-        Optional<Flat> filtered = bridge.getData().stream()
+        Optional<Flat> filtered = bridge.getCurrentData().stream()
                 .filter(product -> product.getId() == inputId)
                 .findFirst();
 

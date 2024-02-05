@@ -47,7 +47,7 @@ public class Save extends Command {
                     String.format(nameFormat, dateFormat.format(new Date()), (int) (Math.random() * 1000)));
             if (Files.notExists(path)) Files.createFile(path);
 
-            formatWorker.write(bridge.getData(), path);
+            formatWorker.write(bridge.getCurrentData(), path);
 
             bridge.send("Данные успешно сохранены в файл %s", path.toString());
         } catch (Exception ex) {

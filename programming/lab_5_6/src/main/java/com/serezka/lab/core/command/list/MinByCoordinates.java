@@ -15,7 +15,7 @@ public class MinByCoordinates extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        Set<Flat> userData = bridge.getData();
+        Set<Flat> userData = bridge.getCurrentData();
 
         if (userData.isEmpty()) {
             bridge.send("кажется, коллекция пустая. найти необходимый объект не получится.");

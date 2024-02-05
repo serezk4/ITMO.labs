@@ -12,13 +12,13 @@ public class View extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        if (bridge.getData().isEmpty()) {
+        if (bridge.getCurrentData().isEmpty()) {
             bridge.send("Коллекция пуста :(\n\nчтобы добавить элементы воспользуйтесь командами, которые описаны в help");
             return;
         }
 
         bridge.send("текущая коллекция:");
 
-        bridge.addNestedProducts(bridge.getData());
+        bridge.addNestedProducts(bridge.getCurrentData());
     }
 }
