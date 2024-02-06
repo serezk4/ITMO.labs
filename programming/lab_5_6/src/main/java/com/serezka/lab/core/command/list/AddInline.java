@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,18 +27,27 @@ public class AddInline extends Command {
 
     @Override
     public void execute(Bridge bridge) {
+        if (bridge.getInputData().isEmpty()) {
+            bridge.send("вы ничего не ввели");
+            return;
+        }
+
         Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
         Set<Long> existingIds = collection.stream().map(Flat::getId).collect(Collectors.toSet());
 
+        Set<Flat> added = new HashSet<>();
         bridge.getInputData()
                 .stream().filter(flat -> {
                     if (!existingIds.contains(flat.getId())) {
-                        bridge.send("[%s]: элемент успешно добавлен", flat.getName());
+                        added.add(flat);
                         return true;
                     }
 
                     bridge.send("[%s]: в коллекции уже находится элемент с %d id", flat.getName(), flat.getId());
                     return false;
                 }).forEach(flatService::save);
+
+        bridge.send("Добавленные элементы");
+        bridge.addNestedProducts(added);
     }
 }

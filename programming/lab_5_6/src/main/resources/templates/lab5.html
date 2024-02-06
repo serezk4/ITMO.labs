@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Lab 5 @ Console++</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body, html {
@@ -11,6 +12,8 @@
             margin: 0;
             padding: 0;
             background-color: #f0f2f5; /* Light grey background */
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
         }
 
         #chatContainer {
@@ -176,11 +179,67 @@
             border-radius: 0 0.25rem 0.25rem 0; /* Скорректируйте скругление углов, чтобы оно совпадало с полем ввода */
         }
 
+        .flatsInfo {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f1f1f1;
+            border-radius: 8px;
+        }
 
+        .flatItem {
+            margin-bottom: 15px;
+        }
+
+        .flatName {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .flatData div, .houseData div {
+            color: #555; /* Менее яркий цвет для данных */
+            margin-left: 20px; /* Отступ для визуального отображения вложенности */
+        }
+
+        .flatData > div {
+            margin-bottom: 2px;
+        }
+
+        .houseDetails > span {
+            font-weight: bold;
+        }
+
+        .houseData {
+            margin-left: 20px; /* Дополнительный отступ для вложенных данных о доме */
+            margin-top: 5px;
+        }
+
+        .houseData div {
+            margin-bottom: 2px;
+        }
+
+        span {
+            font-weight: normal; /* Убедитесь, что остальные данные не жирные */
+        }
+
+        .btn-primary, #addButton {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Добавление плавной анимации */
+        }
+
+        .btn-primary:hover, #addButton:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: #fff;
+        }
+
+        a, a:hover {
+            text-decoration: none;
+            color: #007bff; /* Изменение стиля ссылок для улучшения видимости */
+        }
     </style>
 </head>
 <body>
-
 
 <div id="chatSelector">
     <h2><b>Лабораторная работа №5</b> (<a href="https://github.com/serezk4">github</a> | <a
@@ -229,13 +288,13 @@
                 <form id="flatDataForm">
                     <!-- Flat Name -->
                     <div class="form-group">
-                        <label for="flatName">Name</label>
+                        <label for="flatName">Название</label>
                         <input type="text" class="form-control" id="flatName" required>
                     </div>
 
                     <!-- Coordinates -->
                     <div class="form-group">
-                        <label>Coordinates</label>
+                        <label>Координаты</label>
                         <div class="form-row">
                             <div class="col">
                                 <input type="number" class="form-control" id="coordinatesX" placeholder="X (max: 364)"
@@ -250,49 +309,49 @@
 
                     <!-- Area -->
                     <div class="form-group">
-                        <label for="flatArea">Area (max: 734)</label>
+                        <label for="flatArea">Площадь (max: 734)</label>
                         <input type="number" class="form-control" id="flatArea" min="1" max="734" required>
                     </div>
 
                     <!-- Number of Rooms -->
                     <div class="form-group">
-                        <label for="numberOfRooms">Number of Rooms</label>
+                        <label for="numberOfRooms">Количество комнат (min: 1)</label>
                         <input type="number" class="form-control" id="numberOfRooms" min="1" required>
                     </div>
 
                     <!-- Living Space -->
                     <div class="form-group">
-                        <label for="livingSpace">Living Space (optional, >0)</label>
+                        <label for="livingSpace">Пространство (optional, >0)</label>
                         <input type="number" class="form-control" id="livingSpace" min="1">
                     </div>
 
                     <!-- Furniture -->
                     <div class="form-group">
-                        <label for="furniture">Furniture</label>
+                        <label for="furniture">Мебель</label>
                         <select class="form-control" id="furniture">
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
+                            <option value="true">Да</option>
+                            <option value="false">Нет</option>
                         </select>
                     </div>
 
                     <!-- Transport -->
                     <div class="form-group">
-                        <label for="transport">Transport</label>
+                        <label for="transport">Транспорт вокруг</label>
                         <select class="form-control" id="transport">
-                            <option value="LITTLE">Little</option>
-                            <option value="NORMAL">Normal</option>
-                            <option value="ENOUGH">Enough</option>
+                            <option value="LITTLE">Мало</option>
+                            <option value="NORMAL">Нормально</option>
+                            <option value="ENOUGH">Много</option>
                         </select>
                     </div>
 
                     <!-- House -->
                     <div class="form-group">
                         <label>House</label>
-                        <input type="text" class="form-control mb-2" id="houseName" placeholder="Name (optional)">
-                        <input type="number" class="form-control mb-2" id="houseYear" placeholder="Year (>0)" min="1">
+                        <input type="text" class="form-control mb-2" id="houseName" placeholder="Название (опционально)">
+                        <input type="number" class="form-control mb-2" id="houseYear" placeholder="Год постройки (>0)" min="1">
                         <input type="number" class="form-control mb-2" id="numberOfFlatsOnFloor"
-                               placeholder="Number of Flats on Floor (>0)" min="1">
-                        <input type="number" class="form-control" id="numberOfLifts" placeholder="Number of Lifts (>0)"
+                               placeholder="Количество квартир на этаж (>0)" min="1">
+                        <input type="number" class="form-control" id="numberOfLifts" placeholder="Количество лифтов (>0)"
                                min="1">
                     </div>
                 </form>
@@ -307,16 +366,23 @@
 </div>
 
 <script th:inline="javascript">
-    $(document).ready(function () {
-        let commands = [];
+    let commands = [];
 
+    function fetchCommands() {
         $.ajax({
             url: '/core/getcommands',
             type: 'GET',
+            success: function (data) {
+                commands = data;
+            },
             error: function (error) {
                 console.error("Error fetching commands:", error);
             }
         });
+    }
+
+    $(document).ready(function () {
+        fetchCommands()
 
         $("#messageInput").on("input", function () {
             const input = $(this).val().toLowerCase();
@@ -567,7 +633,35 @@
                 contentType: "application/json", // Setting content type to JSON
                 data: JSON.stringify(requestData), // Converting the JavaScript object to a JSON string
                 success: function(data) {
-                    $("#messages").append('<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>');
+                    let messageHTML = '<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>';
+                    if (data.flats && data.flats.length > 0) {
+                        let flatsHTML = '<div class="flatsInfo">';
+                        flatsHTML += data.flats.map(flat => {
+                            return `<div class="flatItem">
+                        <details class="flatData">
+                            <summary style="font-size: 1.2rem">${flat.name}</summary>
+                            <div><span>Coordinates:</span> X=${flat.coordinates.x}, Y=${flat.coordinates.y}</div>
+                            <div><span>Area:</span> ${flat.area}</div>
+                            <div><span>Number of Rooms:</span> ${flat.numberOfRooms}</div>
+                            <div><span>Living Space:</span> ${flat.livingSpace || 'N/A'}</div>
+                            <div><span>Furniture:</span> ${flat.furniture ? 'Yes' : 'No'}</div>
+                            <div><span>Transport:</span> ${flat.transport}</div>
+                            <details class="houseDetails">
+                                <summary>House Details</summary>
+                                <div class="houseData">
+                                    <div>Name: ${flat.house.name}</div>
+                                    <div>Year: ${flat.house.year}</div>
+                                    <div>Flats on Floor: ${flat.house.numberOfFlatsOnFloor}</div>
+                                    <div>Lifts: ${flat.house.numberOfLifts}</div>
+                                </div>
+                            </details>
+                        </details>
+                    </div>`;
+                        }).join('');
+                        flatsHTML += '</div>';
+                        messageHTML += flatsHTML;
+                    }
+                    $("#messages").append(messageHTML);
                     $("#messageInput").val('');
                     $("#messages").scrollTop($("#messages")[0].scrollHeight);
                 },

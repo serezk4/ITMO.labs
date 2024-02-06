@@ -1,6 +1,8 @@
 package com.serezka.lab.lab5.web;
 
+import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.socket.objects.Payload;
+import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.lab5.hahdler.Chat;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,6 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller
 @RequestMapping("/lab5")
@@ -34,7 +38,8 @@ public class ChatController {
         try {
             chatRequest.getTemporaryCollection().forEach(flat -> flat.setUserId(Chat.USER_ID));
             Payload payload = new Payload(chatRequest.getMessage(), chatRequest.getTemporaryCollection(), "test");
-            return new Message(chat.handle(payload).getMessage());
+            Response response = chat.handle(payload);
+            return new Message(response.getMessage(), response.getFlats());
         } catch (Exception ex) {
             return new Message(ex.getMessage());
         }
@@ -43,7 +48,13 @@ public class ChatController {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @Getter
     static class Message {
-        private String message;
+        String message;
+        Set<Flat> flats;
+
+        public Message(String message, Set<Flat> flats) {
+            this(message);
+            this.flats = flats;
+        }
 
         public Message(String message) {
             this.message = message.replaceAll("\n", "</br>");
