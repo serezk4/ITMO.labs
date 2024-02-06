@@ -9,7 +9,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder @Data
 @AllArgsConstructor @NoArgsConstructor
-public class House {
+public class House implements Validatable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
@@ -39,4 +39,9 @@ public class House {
      */
     @Column(name = "number_of_lifts")
     int numberOfLifts;
+
+    @Override
+    public boolean validate() throws RequirementsException {
+        return false;
+    }
 }

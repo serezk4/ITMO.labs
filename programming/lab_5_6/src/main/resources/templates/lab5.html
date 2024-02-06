@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Simple Chat</title>
+    <title>Lab 5 @ Console++</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -183,7 +183,11 @@
 
 
 <div id="chatSelector">
-    <h2><b>Лабораторная работа №5</b> (<a href="https://github.com/serezk4">github</a> | <a href="https://github.com/serezk4/ITMO.labs/tree/master/programming/lab_5_6">код</a> | <a href="https://google.com">отчет</a>) <b><a href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/LAB5.md" style="color: lightblue">Вариант 5910</a></b></h2>
+    <h2><b>Лабораторная работа №5</b> (<a href="https://github.com/serezk4">github</a> | <a
+            href="https://github.com/serezk4/ITMO.labs/tree/master/programming/lab_5_6">код</a> | <a
+            href="https://google.com">отчет</a>) <b><a
+            href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/LAB5.md"
+            style="color: lightblue">Вариант 5910</a></b></h2>
 </div>
 
 <div style="display: flex; justify-content: center; height: 100vh;">
@@ -193,7 +197,8 @@
             <div id="commandInputContainer" class="container-fluid" style="position: relative; padding: 0;">
                 <div id="suggestions" class="list-group"
                      style="position: absolute; bottom: 100%; left: 0; z-index: 1000; width: 100%; display: none;"></div>
-                <input type="text" id="messageInput" class="form-control" placeholder="Нажмите Enter для отправки запроса..."
+                <input type="text" id="messageInput" class="form-control"
+                       placeholder="Нажмите Enter для отправки запроса..."
                        autocomplete="off">
                 <div class="input-group-append" hidden="hidden">
                     <button id="sendButton" class="btn btn-black">Отправить</button>
@@ -294,6 +299,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-info" id="generateFlatButton">Сгенерировать</button>
                 <button type="submit" class="btn btn-primary" id="saveFlatButton">Сохранить</button>
             </div>
         </div>
@@ -305,23 +311,18 @@
         let commands = [];
 
         $.ajax({
-            url: '/core/getcommands', // Adjust according to your application's context path
+            url: '/core/getcommands',
             type: 'GET',
-            success: function (data) {
-                commands = data; // Assuming 'data' is an array of {usage, help}
-                // You might need to adjust based on the actual structure of the response
-            },
             error: function (error) {
                 console.error("Error fetching commands:", error);
             }
         });
-        console.log(commands);
 
         $("#messageInput").on("input", function () {
             const input = $(this).val().toLowerCase();
             const suggestions = commands.filter(cmd => cmd.usage.toLowerCase().startsWith(input) || cmd.help.toLowerCase().includes(input));
 
-            // Clear previous suggestions
+
             $("#suggestions").empty();
 
             if (input && suggestions.length > 0) {
@@ -329,17 +330,16 @@
                     const suggestionItem = $(`<a href="#" class="list-group-item list-group-item-action">${suggestion.simpleUsage} - ${suggestion.help}</a>`);
                     suggestionItem.on('click', function (e) {
                         e.preventDefault();
-                        $("#messageInput").val(suggestion.simpleUsage); // Set input value to the selected command
-                        $("#suggestions").empty().hide(); // Clear and hide suggestions
+                        $("#messageInput").val(suggestion.simpleUsage);
+                        $("#suggestions").empty().hide();
                     });
                     $("#suggestions").append(suggestionItem).show();
                 });
             } else {
-                $("#suggestions").hide(); // Hide suggestions if no matches or input is empty
+                $("#suggestions").hide();
             }
         });
 
-        // Hide suggestions when clicking outside
         $(document).on('click', function (e) {
             if (!$(e.target).closest('#commandInputContainer').length) {
                 $("#suggestions").hide();
@@ -350,49 +350,132 @@
     let temporaryCollection = [];
 
     $(document).ready(function () {
-
         $("#saveFlatButton").click(function (e) {
             e.preventDefault();
 
-            // Collect form data
+
             const flatData = {
                 name: $("#flatName").val(),
                 coordinates: {
-                    x: $("#coordinatesX").val(),
-                    y: $("#coordinatesY").val(),
+                    x: parseInt($("#coordinatesX").val(), 10),
+                    y: parseInt($("#coordinatesY").val(), 10),
                 },
-                area: $("#flatArea").val(),
-                numberOfRooms: $("#numberOfRooms").val(),
-                livingSpace: $("#livingSpace").val(),
-                furniture: $("#furniture").val(),
+                area: parseInt($("#flatArea").val(), 10),
+                numberOfRooms: parseInt($("#numberOfRooms").val(), 10),
+                livingSpace: $("#livingSpace").val() ? parseInt($("#livingSpace").val(), 10) : null,
+                furniture: $("#furniture").val() === 'true',
                 transport: $("#transport").val(),
                 house: {
                     name: $("#houseName").val(),
-                    year: $("#houseYear").val(),
-                    numberOfFlatsOnFloor: $("#numberOfFlatsOnFloor").val(),
-                    numberOfLifts: $("#numberOfLifts").val(),
+                    year: parseInt($("#houseYear").val(), 10),
+                    numberOfFlatsOnFloor: parseInt($("#numberOfFlatsOnFloor").val(), 10),
+                    numberOfLifts: parseInt($("#numberOfLifts").val(), 10),
                 }
             };
 
-            // Add to temporary collection
-            temporaryCollection.push(flatData);
 
-            // Reset form
-            $("#flatDataForm")[0].reset();
-            $('#flatDataModal').modal('hide');
+            if (validateFlatData(flatData)) {
+                temporaryCollection.push(flatData);
+                $("#flatDataForm")[0].reset();
+                $('#flatDataModal').modal('hide');
+                updateCollectionUI();
+            } else {
 
-            // Update UI
-            updateCollectionUI();
+            }
         });
 
-        // Function to update the collection display
-        function updateCollectionUI() {
-            const collectionList = $("#collectionList");
-            collectionList.empty(); // Clear existing items
+        function validateFlatData(flatData) {
+            let isValid = true;
 
-            temporaryCollection.forEach((item, index) => {
-                // Construct detailed HTML for each item
-                let itemHTML = `
+
+            $('.form-control').removeClass('is-invalid');
+
+            if (!flatData.name || flatData.name.trim() === '') {
+                isValid = false;
+                $('#flatName').addClass('is-invalid');
+            }
+
+            if (flatData.coordinates === undefined) {
+                isValid = false;
+                $('#coordinatesX').addClass('is-invalid');
+                $('#coordinatesY').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.coordinates.x) || flatData.coordinates.x > 364 || flatData.coordinates.x < 0) {
+                isValid = false;
+                $('#coordinatesX').addClass('is-invalid');
+            }
+            if (isNaN(flatData.coordinates.y) || flatData.coordinates.y > 182 || flatData.coordinates.y < 0) {
+                isValid = false;
+                $('#coordinatesY').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.area) || flatData.area < 1 || flatData.area > 734) {
+                isValid = false;
+                $('#flatArea').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.numberOfRooms) || flatData.numberOfRooms <= 0) {
+                isValid = false;
+                $('#numberOfRooms').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.livingSpace) && flatData.livingSpace <= 0) {
+                isValid = false;
+                $('#livingSpace').addClass('is-invalid');
+            }
+
+            if (flatData.house === undefined) {
+                isValid = false
+                $('#houseYear').addClass('is-invalid');
+                $('#numberOfFlatsOnFloor').addClass('is-invalid');
+                $('#numberOfLifts').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.house.year) || flatData.house.year <= 0) {
+                isValid = false;
+                $('#houseYear').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.house.numberOfFlatsOnFloor) || flatData.house.numberOfFlatsOnFloor <= 0) {
+                isValid = false;
+                $('#numberOfFlatsOnFloor').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.house.numberOfLifts) || flatData.house.numberOfLifts <= 0) {
+                isValid = false;
+                $('#numberOfLifts').addClass('is-invalid');
+            }
+
+            return isValid;
+        }
+
+
+        $("#generateFlatButton").click(function () {
+            $("#flatName").val("Generated #" + Math.floor(Math.random() * 10000));
+            $("#coordinatesX").val(Math.floor(Math.random() * 365));
+            $("#coordinatesY").val(Math.floor(Math.random() * 183));
+            $("#flatArea").val(Math.floor(Math.random() * 734) + 1);
+            $("#numberOfRooms").val(Math.floor(Math.random() * 5) + 1);
+            $("#livingSpace").val(Math.floor(Math.random() * 200) + 1);
+            $("#furniture").val(Math.random() > 0.5 ? 'true' : 'false');
+            $("#transport").val(["LITTLE", "NORMAL", "ENOUGH"][Math.floor(Math.random() * 3)]);
+            $("#houseName").val("Generated House");
+            $("#houseYear").val(Math.floor(Math.random() * 120) + 1900);
+            $("#numberOfFlatsOnFloor").val(Math.floor(Math.random() * 10) + 1);
+            $("#numberOfLifts").val(Math.floor(Math.random() * 5) + 1);
+        });
+
+
+
+    });
+
+    function updateCollectionUI() {
+        const collectionList = $("#collectionList");
+        collectionList.empty();
+
+        temporaryCollection.forEach((item, index) => {
+            let itemHTML = `
             <li class="list-group-item collection-item">
                 <div class="flat-name">Flat: ${item.name}</div>
                 <button class="btn btn-danger btn-sm float-right ml-2 delete-btn" data-index="${index}">Delete</button>
@@ -410,40 +493,34 @@
                 </div>
             </li>
         `;
-                collectionList.append(itemHTML);
-            });
+            collectionList.append(itemHTML);
+        });
 
-            // Delete button event listener
-            $(".delete-btn").click(function () {
-                const index = $(this).data("index");
-                temporaryCollection.splice(index, 1); // Remove the item from the collection
-                updateCollectionUI(); // Refresh the UI
-            });
+        $(".delete-btn").click(function () {
+            const index = $(this).data("index");
+            temporaryCollection.splice(index, 1);
+            updateCollectionUI();
+        });
 
-            // Edit button event listener
-            $(".edit-btn").click(function () {
-                const index = $(this).data("index");
-                const item = temporaryCollection[index];
-                // Populate the form with item's details for editing
-                $("#flatName").val(item.name);
-                $("#coordinatesX").val(item.coordinates.x);
-                $("#coordinatesY").val(item.coordinates.y);
-                // Populate other fields accordingly
-                $('#flatDataModal').modal('show');
+        $(".edit-btn").click(function () {
+            const index = $(this).data("index");
+            const item = temporaryCollection[index];
 
-                // Handle the save logic differently for edits
-                $("#saveFlatButton").off('click').click(function (e) {
-                    e.preventDefault();
-                    // Collect updated data from form and update the item in the collection
-                    item.name = $("#flatName").val();
-                    // Update other properties based on form fields
-                    temporaryCollection[index] = item; // Update the item with new details
-                    $('#flatDataModal').modal('hide');
-                    updateCollectionUI(); // Refresh the UI
-                });
+            $("#flatName").val(item.name);
+            $("#coordinatesX").val(item.coordinates.x);
+            $("#coordinatesY").val(item.coordinates.y);
+
+            $('#flatDataModal').modal('show');
+
+            $("#saveFlatButton").off('click').click(function (e) {
+                e.preventDefault();
+                item.name = $("#flatName").val();
+                temporaryCollection[index] = item;
+                $('#flatDataModal').modal('hide');
+                updateCollectionUI();
             });
-        }
-    });
+        });
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
         const openFormButton = document.getElementById('addButton');
@@ -455,9 +532,6 @@
 
         saveFlatButton.addEventListener('click', function (e) {
             e.preventDefault();
-            // Perform validation and submission logic here
-            // Example: Collect form data, validate, and send request
-            $('#flatDataModal').modal('hide');
         });
     });
 
@@ -476,15 +550,30 @@
     $(document).ready(function () {
         $("#sendButton").click(function () {
             var message = $("#messageInput").val();
-            var collection = temporaryCollection
+            var collection = temporaryCollection; // Assuming this is already structured correctly
 
-            console.log(collection)
+            var requestData = {
+                message: message,
+                temporaryCollection: collection
+            };
+
+            temporaryCollection = []
+            updateCollectionUI()
 
             $("#messages").append('<div class="message userInput"><span class="messageContent">' + message + '</span></div>');
-            $.post("/lab5/send", {'message': message, 'flats': temporaryCollection}, function (data) {
-                $("#messages").append('<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>');
-                $("#messageInput").val('');
-                $("#messages").scrollTop($("#messages")[0].scrollHeight);
+            $.ajax({
+                url: "/lab5/send",
+                type: "POST",
+                contentType: "application/json", // Setting content type to JSON
+                data: JSON.stringify(requestData), // Converting the JavaScript object to a JSON string
+                success: function(data) {
+                    $("#messages").append('<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>');
+                    $("#messageInput").val('');
+                    $("#messages").scrollTop($("#messages")[0].scrollHeight);
+                },
+                error: function(error) {
+                    console.error("Error: ", error);
+                }
             });
         });
     });

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder @Data
 @AllArgsConstructor @NoArgsConstructor
-public class Flat implements Comparable<Flat> {
+public class Flat implements Comparable<Flat>, Validatable {
     /**
      * Поле не может быть null
      * Значение поля должно быть больше 0
@@ -119,5 +119,10 @@ public class Flat implements Comparable<Flat> {
     public static Flat generate() {
         return new Flat(); // todo
     }
- }
+
+    @Override
+    public boolean validate() throws RequirementsException {
+        return false;
+    }
+}
 

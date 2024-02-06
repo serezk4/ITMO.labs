@@ -34,9 +34,11 @@ public class ChatController {
 
     @PostMapping("/send")
     @ResponseBody
-    public Message sendMessage(@RequestParam("message") String message, @RequestParam("flats") Flat[] flats) {
+    public Message sendMessage(@RequestBody ChatRequest chatRequest) {
         try {
-            return new Message(chat.handle(new Payload(message, Arrays.stream(flats).collect(Collectors.toSet()), "test")).getMessage());
+            // Assuming the handle method needs a Set of Flats and the message as a string
+            Payload payload = new Payload(chatRequest.getMessage(), chatRequest.getTemporaryCollection(), "test");
+            return new Message(chat.handle(payload).getMessage());
         } catch (Exception ex) {
             return new Message(ex.getMessage());
         }
