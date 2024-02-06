@@ -11,12 +11,13 @@ import java.util.*;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Bridge {
+    // const
+    @Getter final Long userId;
+
     // input data
     @Getter final String inputCommand;
     @Getter @Setter String inputText;
     @Getter @Setter Set<Flat> inputData;
-
-    @Getter final Set<Flat> currentData;
 
     // internal stack
     @Getter final Stack<Payload> internalQueries = new Stack<>();
@@ -28,11 +29,11 @@ public class Bridge {
     }
 
     // constructor
-    public Bridge(String inputCommand, String inputText, Set<Flat> inputData, Set<Flat> currentData) {
+    public Bridge(Long userId, String inputCommand, String inputText, Set<Flat> inputData) {
+        this.userId = userId;
         this.inputCommand = inputCommand;
         this.inputText = inputText;
         this.inputData = inputData;
-        this.currentData = currentData;
     }
 
     // text

@@ -53,7 +53,7 @@ public class Chat implements Handler<Payload> {
         if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         // create bridge
-        Bridge commandBridge = new Bridge(payload.getCommand(), payload.getString(), payload.getFlats(), flatService.findAllByUserId(USER_ID));
+        Bridge commandBridge = new Bridge(USER_ID, payload.getCommand(), payload.getString(), payload.getFlats());
         suitableCommands.getFirst().execute(commandBridge);
 
         // check internal stack

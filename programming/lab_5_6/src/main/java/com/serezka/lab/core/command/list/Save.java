@@ -1,5 +1,7 @@
 package com.serezka.lab.core.command.list;
 
+import com.serezka.lab.core.database.model.Flat;
+import com.serezka.lab.core.database.service.FlatService;
 import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
@@ -21,16 +23,18 @@ import java.util.Date;
 @PropertySource("classpath:files.properties")
 @Log4j2
 public class Save extends Command {
-    FormatWorker formatWorker;
+    FormatWorker<Flat> formatWorker;
 
     SimpleDateFormat dateFormat;
     String nameFormat;
     String saveDir;
 
-    public Save(FormatWorker formatWorker,
+    FlatService flatService;
+
+    public Save(FormatWorker<Flat> formatWorker,
                 @Value("${file.date.format}") String dateFormat,
                 @Value("${file.name.format}") String nameFormat,
-                @Value("${file.save.dir}") String saveDir) {
+                @Value("${file.save.dir}") String saveDir, FlatService flatService) {
         super("save", "save", "сохранить коллекцию в файл");
 
         this.formatWorker = formatWorker;
@@ -38,6 +42,7 @@ public class Save extends Command {
         this.dateFormat = new SimpleDateFormat(dateFormat);
         this.nameFormat = nameFormat;
         this.saveDir = saveDir;
+        this.flatService = flatService;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class Save extends Command {
                     String.format(nameFormat, dateFormat.format(new Date()), (int) (Math.random() * 1000)));
             if (Files.notExists(path)) Files.createFile(path);
 
-            formatWorker.write(bridge.getCurrentData(), path);
+            formatWorker.write(flatService.findAllByUserId(bridge.getUserId()), path);
 
             bridge.send("Данные успешно сохранены в файл %s", path.toString());
         } catch (Exception ex) {

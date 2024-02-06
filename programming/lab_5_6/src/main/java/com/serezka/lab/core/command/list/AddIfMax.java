@@ -3,44 +3,57 @@ package com.serezka.lab.core.command.list;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.database.model.Flat;
+import com.serezka.lab.core.database.service.FlatService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AddIfMax extends Command {
-    public AddIfMax() {
+    FlatService flatService;
+
+    public AddIfMax(FlatService flatService) {
         super("add_if_max", "add_if_max", "добавить новый элемент в коллекцию, если его значение превышает значение наибольшего элемента этой коллекции");
+
+        this.flatService = flatService;
     }
 
     @Override
     public void execute(Bridge bridge) {
-        if (bridge.getInputData().size() > 1)
-            bridge.send("будет добавлен максимальный элемент из введенных данных");
+        if (bridge.getInputData().isEmpty()) {
+            bridge.send("вы ничего не ввели");
+            return;
+        }
 
-        Flat inputMax = bridge.getInputData().stream().max(Flat::compareTo).orElseThrow();
-        Optional<Flat> currMax = bridge.getCurrentData().stream().max(Flat::compareTo);
+        Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
+        Set<Long> existingIds = collection.stream().map(Flat::getId).collect(Collectors.toSet());
 
-        if (bridge.getCurrentData().stream().map(Flat::getId).anyMatch(inputMax.getId()::equals)) {
+        Optional<Flat> max = collection.stream().max(Flat::compareTo);
+
+        if (collection.stream().map(Flat::getId).anyMatch(bridge.getInputData().stream().map(Flat::getId).collect(Collectors.toSet())::contains)) {
             bridge.send("в коллекции уже находится элемент с %d id, добавить новый будет невозможно\nпопробуйте еще раз с другими данными.");
             return;
         }
 
-        if (currMax.isEmpty()) {
-            bridge.send("кажется, коллекция пуста. элемент будет добавлен.");
-            bridge.getCurrentData().add(inputMax);
-            return;
-        }
+        bridge.getInputData()
+                .stream().filter(flat -> {
+                    if (existingIds.contains(flat.getId())) {
+                        bridge.send("в коллекции уже находится элемент с %d id, добавить новый будет невозможно\nпопробуйте еще раз с другими данными.", flat.getId());
+                        return false;
+                    }
 
-        if (currMax.get().compareTo(inputMax) < 0) {
-            bridge.send("введенный элемент попал в коллекцию");
-            bridge.getCurrentData().add(inputMax);
-            return;
-        }
+                    if (max.isEmpty() || flat.compareTo(max.get()) < 0) {
+                        bridge.send("Flat#%s ниже максимального элемента");
+                        return false;
+                    }
 
-        bridge.send("введенный элемент не попал в коллекцию, ведь его значение не превышает наибольший элемент");
+                    bridge.send("Flat#%s успешно добавлен!", flat.getName());
+                    return true;
+                }).forEach(flatService::save);
     }
 }

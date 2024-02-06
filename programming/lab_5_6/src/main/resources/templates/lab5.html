@@ -572,7 +572,7 @@
                     $("#messages").scrollTop($("#messages")[0].scrollHeight);
                 },
                 error: function(error) {
-                    console.error("Error: ", error);
+                    $("#messages").append('<div class="message botResponse"><span class="messageContent">' + 'some error: ' + error + '</span></div>');
                 }
             });
         });

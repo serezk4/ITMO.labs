@@ -1,6 +1,7 @@
 package com.serezka.lab.core.command.list;
 
 import com.serezka.lab.core.database.model.Flat;
+import com.serezka.lab.core.database.service.FlatService;
 import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
@@ -15,25 +16,28 @@ import java.util.stream.Collectors;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AddInline extends Command {
-    public AddInline() {
-        super("add","add", "добавить новый элемент(ы) в коллекцию");
+    FlatService flatService;
+
+    public AddInline(FlatService flatService) {
+        super("add", "add", "добавить новый элемент(ы) в коллекцию");
+
+        this.flatService = flatService;
     }
 
     @Override
     public void execute(Bridge bridge) {
-        List<Long> existingIds = bridge.getCurrentData().stream().map(Flat::getId).toList();
+        Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
+        Set<Long> existingIds = collection.stream().map(Flat::getId).collect(Collectors.toSet());
 
-        Set<Flat> formatted = bridge.getInputData()
+        bridge.getInputData()
                 .stream().filter(flat -> {
-                    if (!existingIds.contains(flat.getId())) return true;
+                    if (!existingIds.contains(flat.getId())) {
+                        bridge.send("[%s]: элемент успешно добавлен", flat.getName());
+                        return true;
+                    }
 
-                    bridge.send("в коллекции уже находится элемент с %d id, добавить новый будет невозможно" +
-                                    "\nпопробуйте еще раз с другими данными.", flat.getId());
+                    bridge.send("[%s]: в коллекции уже находится элемент с %d id", flat.getName(), flat.getId());
                     return false;
-
-                }).collect(Collectors.toSet());
-
-        bridge.send("добавлено %d записей", formatted.size());
-        bridge.getCurrentData().addAll(formatted);
+                }).forEach(flatService::save);
     }
 }

@@ -30,6 +30,11 @@ public class FlatService {
     }
 
     @Transactional
+    public Flat save(Flat flat) {
+        return flatRepository.save(flat);
+    }
+
+    @Transactional
     public Set<Flat> findAllByUserId(Long userId) {
         return flatRepository.findAllByUserId(userId);
     }
@@ -50,7 +55,17 @@ public class FlatService {
     }
 
     @Transactional
+    public long countAllByUserId(Long userId) {
+        return flatRepository.countAllByUserId(userId);
+    }
+
+    @Transactional
     public void removeByIdAndUserId(Long id, Long userId) {
         flatRepository.removeByIdAndUserId(id, userId);
+    }
+
+    @Transactional
+    public void removeAllByUserId(Long userId) {
+        flatRepository.removeAllByUserId(userId);
     }
 }

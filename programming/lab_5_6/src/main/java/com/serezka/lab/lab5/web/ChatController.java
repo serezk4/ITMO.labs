@@ -1,6 +1,5 @@
 package com.serezka.lab.lab5.web;
 
-import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.lab5.hahdler.Chat;
 import lombok.AccessLevel;
@@ -11,9 +10,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/lab5")
@@ -36,7 +32,7 @@ public class ChatController {
     @ResponseBody
     public Message sendMessage(@RequestBody ChatRequest chatRequest) {
         try {
-            // Assuming the handle method needs a Set of Flats and the message as a string
+            chatRequest.getTemporaryCollection().forEach(flat -> flat.setUserId(Chat.USER_ID));
             Payload payload = new Payload(chatRequest.getMessage(), chatRequest.getTemporaryCollection(), "test");
             return new Message(chat.handle(payload).getMessage());
         } catch (Exception ex) {
