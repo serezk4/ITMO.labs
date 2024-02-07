@@ -113,7 +113,7 @@ public class Flat implements Comparable<Flat>, Validatable {
 
     @Override
     public int compareTo(Flat o) {
-        return 0;
+        return this.livingSpace.compareTo(o.livingSpace) + (this.furniture && o.furniture ? 1 : 0);
     }
 
     public static Flat generate() {

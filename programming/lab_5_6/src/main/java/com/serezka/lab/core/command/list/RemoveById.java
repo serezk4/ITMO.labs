@@ -24,12 +24,9 @@ public class RemoveById extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        if (!bridge.getInputText().matches("\\d+")) {
-            bridge.send("Ошибка! Введите число.");
-            return;
-        }
+        // todo
 
-        final long inputId = Long.parseLong(bridge.getInputText());
+        final long inputId = Long.parseLong(bridge.getInputCommand().split(" ")[1]);
         flatService.removeByIdAndUserId(inputId, bridge.getUserId());
         bridge.send("Элемент с id %d удален", inputId);
     }

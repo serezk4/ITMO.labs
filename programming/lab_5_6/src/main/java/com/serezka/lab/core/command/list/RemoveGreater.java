@@ -2,7 +2,6 @@ package com.serezka.lab.core.command.list;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.service.FlatService;
-import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import lombok.AccessLevel;
@@ -40,6 +39,6 @@ public class RemoveGreater extends Command {
 
         Set<Flat> toRemove = collection.stream().filter(temp -> temp.compareTo(max) > 0).collect(Collectors.toSet());
         toRemove.forEach(flat -> flatService.removeByIdAndUserId(flat.getId(), bridge.getUserId()));
-        bridge.addNestedProducts(toRemove);
+        bridge.addNestedFlats(toRemove);
     }
 }

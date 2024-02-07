@@ -8,29 +8,20 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class View extends Command {
+public class SumOfNumberOfRooms extends Command {
     FlatService flatService;
 
-    public View(FlatService flatService) {
-        super("view","view", "просмотр содержания коллекции");
-
+    public SumOfNumberOfRooms(FlatService flatService) {
+        super("sum_of_number_of_rooms", "sum_of_number_of_rooms", "вывести сумму значений поля numberOfRooms для всех элементов коллекции");
         this.flatService = flatService;
     }
 
     @Override
     public void execute(Bridge bridge) {
-        Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
-
-        if (collection.isEmpty()) {
-            bridge.send("В коллекции отсутствуют элементы...");
-            return;
-        }
-
-        bridge.send("текущая коллекция:");
-        bridge.addNestedFlats(collection);
+        bridge.send("Итог: %d",
+                flatService.findAllByUserId(bridge.getUserId()).stream()
+                        .mapToInt(Flat::getNumberOfRooms).sum());
     }
 }

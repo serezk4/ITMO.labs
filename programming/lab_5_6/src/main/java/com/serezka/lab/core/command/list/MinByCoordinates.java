@@ -30,6 +30,6 @@ public class MinByCoordinates extends Command {
             return;
         }
 
-        bridge.addNestedProduct(collection.stream().min(Flat::compareTo).get());
+        bridge.addNestedFlat(collection.stream().min(Flat::compareTo).get());
     }
 }

@@ -12,25 +12,20 @@ import java.util.Set;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class View extends Command {
+public class Info extends Command {
     FlatService flatService;
 
-    public View(FlatService flatService) {
-        super("view","view", "просмотр содержания коллекции");
-
+    public Info(FlatService flatService) {
+        super("info", "info", "информация о коллекции");
         this.flatService = flatService;
     }
 
     @Override
     public void execute(Bridge bridge) {
-        Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
+        final Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
 
-        if (collection.isEmpty()) {
-            bridge.send("В коллекции отсутствуют элементы...");
-            return;
-        }
-
-        bridge.send("текущая коллекция:");
-        bridge.addNestedFlats(collection);
+        bridge.send("тип: %s", collection.getClass());
+        bridge.send("хранимые данные: ", Flat.class);
+        bridge.send("размер: %d", collection.size());
     }
 }

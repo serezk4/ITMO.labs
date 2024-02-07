@@ -32,7 +32,7 @@ public class PrintAscending extends Command {
             return;
         }
 
-        bridge.addNestedProducts(collection.stream()
+        bridge.addNestedFlats(collection.stream()
                 .sorted(Flat::compareTo)
                 .collect(Collectors.toCollection(HashSet::new)));
     }
