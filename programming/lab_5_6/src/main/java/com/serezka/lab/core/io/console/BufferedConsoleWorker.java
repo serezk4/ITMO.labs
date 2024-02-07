@@ -28,7 +28,7 @@ public class BufferedConsoleWorker extends ConsoleWorker {
     public String get(String label) {
         try {
             final Date currentDate = new Date();
-            writer.append(String.format(label,  currentDate, currentDate, currentDate)).append(": ").flush();
+            writer.append(String.format(label, currentDate, currentDate, currentDate)).append(": ").flush();
             return reader.readLine();
         } catch (IOException ioException) {
             log.warn(ioException.getMessage());

@@ -26,7 +26,7 @@ public class View extends Command {
         Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
 
         if (collection.isEmpty()) {
-            bridge.send("Коллекция пуста :(\n\nчтобы добавить элементы воспользуйтесь командами, которые описаны в help");
+            bridge.send("В коллекции отсутствуют элементы...");
             return;
         }
 

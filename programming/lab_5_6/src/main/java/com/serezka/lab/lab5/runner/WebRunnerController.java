@@ -1,8 +1,9 @@
-package com.serezka.lab.lab5.web;
+package com.serezka.lab.lab5.runner;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
+import com.serezka.lab.core.runner.Runner;
 import com.serezka.lab.lab5.hahdler.Chat;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -20,10 +21,10 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @ComponentScan("com.serezka.lab.core.command")
 @Log4j2
-public class ChatController {
+public class WebRunnerController implements Runner {
     Chat chat;
 
-    public ChatController(@Qualifier("lab5") Chat chat) {
+    public WebRunnerController(@Qualifier("lab5") Chat chat) {
         this.chat = chat;
     }
 
