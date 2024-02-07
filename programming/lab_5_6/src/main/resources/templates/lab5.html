@@ -7,6 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         body, html {
             height: 100%;
@@ -356,6 +357,31 @@
         .summaryel {
             padding-left: 5px;
         }
+
+        .card-header {
+            background-color: #007bff; /* Primary color */
+            color: #ffffff; /* White text color for contrast */
+        }
+
+        .card {
+            margin-top: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+
+        .list-group-item {
+            border: none; /* Remove borders for a cleaner look */
+            margin-bottom: 5px; /* Reduced space between items */
+            padding: .5rem 1.25rem; /* Adjust padding as needed */
+        }
+
+        /* For the card footer details */
+        .card-footer .list-group-item {
+            padding: .5rem 1.25rem; /* Consistent padding with other list items */
+        }
+
+        .list-group-item strong {
+            float: right; /* Align strong tags to the right for a clear data label */
+        }
     </style>
 </head>
 <body>
@@ -692,26 +718,35 @@
 
         temporaryCollection.forEach((item, index) => {
             let itemHTML = `
-            <li class="list-group-item collection-item">
-                <div class="flat-name">${item.name} ID: ${item.id}</div>
-                <button class="btn btn-danger btn-sm float-right ml-2 delete-btn" data-index="${index}">
-                    <i class="fas fa-trash"></i>
-                </button>
-                <button class="btn btn-primary btn-sm float-right edit-btn" data-index="${index}">
-                    <i class="fas fa-edit"></i>
-                </button>
-                <div class="details-content">- Rooms: ${item.numberOfRooms}</div>
-                <div class="details-content">- Area: ${item.area}</div>
-                <div class="details-content">- Living Space: ${item.livingSpace || 'N/A'}</div>
-                <div class="details-content">- Furniture: ${item.furniture ? 'Yes' : 'No'}</div>
-                <div class="details-content">- Transport: ${item.transport || 'N/A'}</div>
-                <div class="summary-title" style="color: black">- House:
-                    <div class="details-list-item">-- Name: ${item.house.name || 'N/A'}</div>
-                    <div class="details-list-item">-- Year: ${item.house.year || 'N/A'}</div>
-                    <div class="details-list-item">-- Number of Flats on Floor: ${item.house.numberOfFlatsOnFloor || 'N/A'}</div>
-                    <div class="details-list-item">-- Number of Lifts: ${item.house.numberOfLifts || 'N/A'}</div>
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Generated #5931 ID</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Rooms: <strong>3</strong></li>
+                                    <li class="list-group-item">Area: <strong>156</strong></li>
+                                    <li class="list-group-item">Living Space: <strong>7</strong></li>
+                                    <li class="list-group-item">Furniture: <strong>Yes</strong></li>
+                                    <li class="list-group-item">Transport: <strong>ENOUGH</strong></li>
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <h6 class="mb-2">House Details:</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Name: <strong>Generated House</strong></li>
+                                    <li class="list-group-item">Year: <strong>1965</strong></li>
+                                    <li class="list-group-item">Number of Flats on Floor: <strong>2</strong></li>
+                                    <li class="list-group-item">Number of Lifts: <strong>4</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </li>
+            </div>
         `;
             collectionList.append(itemHTML);
         });
