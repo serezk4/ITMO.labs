@@ -35,11 +35,10 @@ public class AddInline extends Command {
         Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
         Set<Long> existingIds = collection.stream().map(Flat::getId).collect(Collectors.toSet());
 
-        Set<Flat> added = new HashSet<>();
         bridge.getInputData()
                 .stream().filter(flat -> {
                     if (!existingIds.contains(flat.getId())) {
-                        added.add(flat);
+                        bridge.addNestedProduct(flat);
                         return true;
                     }
 
@@ -48,6 +47,5 @@ public class AddInline extends Command {
                 }).forEach(flatService::save);
 
         bridge.send("Добавленные элементы");
-        bridge.addNestedProducts(added);
     }
 }

@@ -5,13 +5,14 @@
     <title>Lab 5 @ Console++</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body, html {
             height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #f0f2f5; /* Light grey background */
+            background-image: url("static/png-transparent-hatsune-miku-vocaloid-anime-expo-megurine-luka-hatsune-miku.png");
             font-family: 'Roboto', sans-serif;
             font-size: 18px;
         }
@@ -37,13 +38,14 @@
         }
 
         .message {
+            font-size: 18px;
             margin-bottom: 15px;
             line-height: 1.4;
         }
 
         .userInput, .botResponse {
             display: flex;
-            justify-content: flex-end; /* Align user messages to the right */
+            justify-content: flex-start; /* Align user messages to the right */
             margin-bottom: 10px;
         }
 
@@ -84,8 +86,8 @@
         }
 
         #messageInput {
-            flex-shrink: 0; /* Prevents input from shrinking */
-            margin-top: 10px; /* Space between messages and input */
+            flex-grow: 1; /* Поле ввода занимает все доступное пространство */
+            margin-bottom: 0; /* Убрать нижний отступ, если он есть */
         }
 
         #chatSelector {
@@ -123,13 +125,14 @@
         }
 
         .collection-item {
-            font-size: 14px;
+            font-size: 16px;
             color: #6c757d; /* Bootstrap's $gray-600 for a subtle gray */
         }
 
         .collection-item .flat-name {
-            font-weight: bold;
+            font-weight: normal;
             color: #343a40; /* Slightly darker for emphasis */
+            padding-left: 10px; /* Добавляет отступ слева */
         }
 
         .collection-item-details {
@@ -141,22 +144,28 @@
             background-color: #f8f9fa;
         }
 
-        #addButton {
+        #addButton #deleteButton {
             background-color: #007bff;
+            bottom: 0;
             color: white;
             border: none;
             padding: 10px 15px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
+            font-size: 18px;
             cursor: pointer;
             border-radius: 4px;
             width: 100%; /* Optional if you want the button to be full-width */
+            margin-bottom: 37px;
+        }
+
+        summary {
+            padding-left: 10px; /* Или любое другое значение, которое подходит под ваш дизайн */
         }
 
         .input-group {
+            font-size: 18px;
             display: flex; /* Установите flexbox для группы ввода */
             align-items: center; /* Выровняйте элементы по центру по вертикали */
         }
@@ -170,20 +179,43 @@
         }
 
         #sendButton {
+            margin-left: -1px; /* Убирает зазор между кнопкой и полем ввода */
             height: 40px; /* Установите ту же высоту, что и для поля ввода */
             font-size: 1.1rem; /* Установите тот же размер шрифта, что и для поля ввода */
             line-height: 40px; /* Установите line-height равным высоте для вертикального выравнивания текста */
             padding: 0 15px; /* Подберите горизонтальные отступы */
-            margin-left: -1px; /* Скорректируйте, если есть зазор между кнопкой и полем ввода */
             border: 1px solid #ccc; /* Добавьте границу, если нужно, чтобы она совпадала с полем ввода */
             border-radius: 0 0.25rem 0.25rem 0; /* Скорректируйте скругление углов, чтобы оно совпадало с полем ввода */
         }
 
-        .flatsInfo {
-            margin-top: 10px;
+        .messageContent {
+            position: relative; /* Делаем контейнер сообщения позиционным контекстом */
             padding: 10px;
-            background-color: #f1f1f1;
-            border-radius: 8px;
+        }
+
+        .userInput .messageContent {
+            position: relative;
+        }
+
+        .flatsInfo {
+            right: 0; /* Определить, что правая сторона элемента должна быть выровнена с правой стороной родительского элемента */
+            left: auto; /* Отменить любые ранее установленные значения для левой стороны */
+            max-width: none;
+
+            position: absolute;
+            z-index: 1; /* Убедитесь, что список будет над другими элементами */
+            width: 420px; /* Ширина списка соответствует ширине контейнера сообщения */
+            top: 100%; /* Располагаем список сразу под контейнером сообщения */
+            left: 0; /* Выравниваем список слева с контейнером сообщения */
+            background-color: #c9c9c9;
+
+            border-radius: 20px;
+
+            border: 1px solid #ccc; /* Граница списка, возможно, потребуется настроить */
+            /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); !* Небольшая тень для списка *!*/
+            max-height: 800px; /* Максимальная высота списка */
+            overflow-y: auto; /* Скролл внутри списка, если он превышает максимальную высоту */
+            /*border-radius: 0 0 4px 4px; !* Скругление углов списка *!*/
         }
 
         .flatItem {
@@ -221,13 +253,13 @@
             font-weight: normal; /* Убедитесь, что остальные данные не жирные */
         }
 
-        .btn-primary, #addButton {
+        .btn-primary {
             background-color: #007bff;
             border-color: #007bff;
             transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Добавление плавной анимации */
         }
 
-        .btn-primary:hover, #addButton:hover {
+        .btn-primary:hover {
             background-color: #0056b3;
             border-color: #0056b3;
             color: #fff;
@@ -236,6 +268,93 @@
         a, a:hover {
             text-decoration: none;
             color: #007bff; /* Изменение стиля ссылок для улучшения видимости */
+        }
+
+        .annotation {
+            color: #919191;
+            justify-content: flex-end;
+            text-align: left;
+            margin-left: auto;
+            position: absolute;
+            right: 20px;
+        }
+
+        label {
+            margin-bottom: 2px;
+        }
+
+        .required {
+            color: darkred;
+        }
+
+        .modal-content {
+            padding: 20px; /* Добавить отступ внутри модального окна */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Устанавливаем одинаковый отступ снизу для всех групп форм */
+        }
+
+        /* Увеличиваем специфичность селектора и добавляем !important для предотвращения конфликтов */
+        body .modal-dialog {
+            position: fixed !important;
+            margin: auto !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 550px !important; /* Указываем ширину модального окна */
+            height: 100% !important;
+            overflow: auto !important;
+            animation: slideInFromRight 0.3s forwards !important; /* Уменьшаем время анимации до 0.3 секунды */
+        }
+
+        body .modal-content {
+            height: 100% !important;
+            overflow: auto !important;
+        }
+
+        .details-container {
+            width: 400px;
+            background: #ffffff; /* Белый фон для контраста */
+            border-radius: 10px; /* Скругление углов */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для объема */
+            font-family: 'Roboto', sans-serif; /* Читабельный шрифт */
+            padding: 10px 10px; /* Отступы внутри блока */
+            margin: 10px 8px; /* Отступы снаружи блока */
+        }
+
+        .summary-title {
+            /*width: 400px;*/
+            color: #333333; /* Темно-серый цвет для заголовков */
+            font-weight: 500; /* Жирное начертание для заголовков */
+            margin-bottom: 10px; /* Отступ после заголовка */
+        }
+
+        .details-content {
+            color: #555555; /* Серый цвет для текста */
+            font-size: 1em; /* Размер шрифта для основного текста */
+            line-height: 1.6; /* Межстрочный интервал */
+            border-bottom: 1px solid #EEEEEE; /* Граница внизу для разделения */
+            padding-bottom: 10px; /* Отступ снизу для каждого элемента */
+        }
+
+        .details-content:last-child {
+            border-bottom: none; /* Убрать границу у последнего элемента */
+        }
+
+        .details-list-item {
+            display: flex; /* Flex-контейнер для выравнивания иконок и текста */
+            align-items: center; /* Центрирование элементов по вертикали */
+            margin-bottom: 5px; /* Отступ между элементами списка */
+        }
+
+        .details-list-item i {
+            color: #007BFF; /* Цвет иконок */
+            margin-right: 8px; /* Отступ справа от иконки */
+        }
+
+        .summaryel {
+            padding-left: 5px;
         }
     </style>
 </head>
@@ -256,10 +375,10 @@
             <div id="commandInputContainer" class="container-fluid" style="position: relative; padding: 0;">
                 <div id="suggestions" class="list-group"
                      style="position: absolute; bottom: 100%; left: 0; z-index: 1000; width: 100%; display: none;"></div>
-                <input type="text" id="messageInput" class="form-control"
-                       placeholder="Нажмите Enter для отправки запроса..."
-                       autocomplete="off">
-                <div class="input-group-append" hidden="hidden">
+                <div class="input-group-append">
+                    <input type="text" id="messageInput" class="form-control"
+                           placeholder="Нажмите Enter для отправки запроса..."
+                           autocomplete="off">
                     <button id="sendButton" class="btn btn-black">Отправить</button>
                 </div>
             </div>
@@ -267,7 +386,10 @@
     </div>
     <div id="collectionPanel" class="shadow" style="width: 20%; overflow-y: auto; background: #f8f9fa;">
         <h4 class="text-center p-2">Temporary Collection</h4>
-        <button id="addButton" class="btn btn-primary" style="width: 100%; margin-bottom: 10px;">Добавить</button>
+        <h4 class="text-center p-2">Временная коллекция</h4>
+        <button id="addButton" class="btn btn-success" style="width: 100%; margin-bottom: 0;">Добавить</button>
+        <button id="deleteButton" class="btn btn-danger" style="width: 100%;">Удалить всё</button>
+
         <ul id="collectionList" class="list-group list-group-flush">
             <!-- Dynamic list items will be appended here -->
         </ul>
@@ -279,59 +401,75 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Добавить Flat</h5>
+                <h5 class="modal-title" id="modalLabel">❔</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
                 <form id="flatDataForm">
-                    <!-- Flat Name -->
-                    <div class="form-group">
-                        <label for="flatName">Название</label>
-                        <input type="text" class="form-control" id="flatName" required>
+                    <!-- ID -->
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="flatName">ID</label>
+                                <input type="number" class="form-control" id="flatId" required>
+                            </div>
+                        </div>
+                        <!-- Flat Name -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="flatName">Название</label>
+                                <input type="text" class="form-control" id="flatName" required>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Coordinates -->
                     <div class="form-group">
-                        <label>Координаты</label>
+                        <label>Координаты <label class="required">*</label></label>
                         <div class="form-row">
-                            <div class="col">
-                                <input type="number" class="form-control" id="coordinatesX" placeholder="X (max: 364)"
+                            <div class="col-md-6 mb-3">
+                                <input type="number" class="form-control" id="coordinatesX" placeholder="X <= 364"
                                        max="364" required>
                             </div>
-                            <div class="col">
-                                <input type="number" class="form-control" id="coordinatesY" placeholder="Y (max: 182)"
+                            <div class="col-md-6 mb-3">
+                                <input type="number" class="form-control" id="coordinatesY" placeholder="Y <= 182"
                                        max="182" required>
                             </div>
                         </div>
                     </div>
 
                     <!-- Area -->
-                    <div class="form-group">
-                        <label for="flatArea">Площадь (max: 734)</label>
-                        <input type="number" class="form-control" id="flatArea" min="1" max="734" required>
-                    </div>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="flatArea">Площадь <label class="required">*</label> <label class="annotation">1<734</label></label>
+                            <input type="number" class="form-control" id="flatArea" min="1" max="734" required>
+                        </div>
 
-                    <!-- Number of Rooms -->
-                    <div class="form-group">
-                        <label for="numberOfRooms">Количество комнат (min: 1)</label>
-                        <input type="number" class="form-control" id="numberOfRooms" min="1" required>
+                        <!-- Number of Rooms -->
+                        <div class="col-md-6 mb-3">
+                            <label for="numberOfRooms">Кол-во комнат <label class="required">*</label> <label
+                                    class="annotation">1<</label></label>
+                            <input type="number" class="form-control" id="numberOfRooms" min="1" required>
+                        </div>
                     </div>
 
                     <!-- Living Space -->
-                    <div class="form-group">
-                        <label for="livingSpace">Пространство (optional, >0)</label>
+                    <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label for="livingSpace">Пространство</label>
                         <input type="number" class="form-control" id="livingSpace" min="1">
                     </div>
 
                     <!-- Furniture -->
-                    <div class="form-group">
+                    <div class="col-md-6 mb-3">
                         <label for="furniture">Мебель</label>
-                        <select class="form-control" id="furniture">
-                            <option value="true">Да</option>
-                            <option value="false">Нет</option>
+                        <select class="form-control" style="width: 100%" id="furniture">
+                            <option value="true">Присутствует</option>
+                            <option value="false">Отсутствует</option>
                         </select>
+                    </div>
                     </div>
 
                     <!-- Transport -->
@@ -346,13 +484,19 @@
 
                     <!-- House -->
                     <div class="form-group">
-                        <label>House</label>
-                        <input type="text" class="form-control mb-2" id="houseName" placeholder="Название (опционально)">
-                        <input type="number" class="form-control mb-2" id="houseYear" placeholder="Год постройки (>0)" min="1">
-                        <input type="number" class="form-control mb-2" id="numberOfFlatsOnFloor"
-                               placeholder="Количество квартир на этаж (>0)" min="1">
-                        <input type="number" class="form-control" id="numberOfLifts" placeholder="Количество лифтов (>0)"
-                               min="1">
+                        <label>Дом</label> <label class="required">*</label>
+                        <input type="text" class="form-control mb-2" id="houseName"
+                               placeholder="Название">
+                        <div class="form-row">
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2" id="houseYear"
+                                                    placeholder="Год > 0"
+                                                    min="1"></div>
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2" id="numberOfFlatsOnFloor"
+                                                    placeholder="Этаж > 0" min="1"></div>
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control" id="numberOfLifts"
+                                                    placeholder="Лифты > 0"
+                                                    min="1"></div>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -366,6 +510,13 @@
 </div>
 
 <script th:inline="javascript">
+    $(document).ready(function () {
+        // Добавление обработчика события клика для кнопки "Очистить чат"
+        $("#clearChatButton").click(function () {
+            $("#messages").empty(); // Очищает все сообщения в чате
+        });
+    });
+
     let commands = [];
 
     function fetchCommands() {
@@ -419,8 +570,8 @@
         $("#saveFlatButton").click(function (e) {
             e.preventDefault();
 
-
             const flatData = {
+                id: $("#flatId").val(),
                 name: $("#flatName").val(),
                 coordinates: {
                     x: parseInt($("#coordinatesX").val(), 10),
@@ -533,7 +684,6 @@
         });
 
 
-
     });
 
     function updateCollectionUI() {
@@ -543,19 +693,23 @@
         temporaryCollection.forEach((item, index) => {
             let itemHTML = `
             <li class="list-group-item collection-item">
-                <div class="flat-name">Flat: ${item.name}</div>
-                <button class="btn btn-danger btn-sm float-right ml-2 delete-btn" data-index="${index}">Delete</button>
-                <button class="btn btn-primary btn-sm float-right edit-btn" data-index="${index}">Edit</button>
-                <div class="collection-item-details">- Rooms: ${item.numberOfRooms}</div>
-                <div class="collection-item-details">- Area: ${item.area}</div>
-                <div class="collection-item-details">- Living Space: ${item.livingSpace || 'N/A'}</div>
-                <div class="collection-item-details">- Furniture: ${item.furniture ? 'Yes' : 'No'}</div>
-                <div class="collection-item-details">- Transport: ${item.transport || 'N/A'}</div>
-                <div class="collection-item-details">- House:
-                    <div class="collection-item-details">-- Name: ${item.house.name || 'N/A'}</div>
-                    <div class="collection-item-details">-- Year: ${item.house.year || 'N/A'}</div>
-                    <div class="collection-item-details">-- Number of Flats on Floor: ${item.house.numberOfFlatsOnFloor || 'N/A'}</div>
-                    <div class="collection-item-details">-- Number of Lifts: ${item.house.numberOfLifts || 'N/A'}</div>
+                <div class="flat-name">${item.name} ID: ${item.id}</div>
+                <button class="btn btn-danger btn-sm float-right ml-2 delete-btn" data-index="${index}">
+                    <i class="fas fa-trash"></i>
+                </button>
+                <button class="btn btn-primary btn-sm float-right edit-btn" data-index="${index}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <div class="details-content">- Rooms: ${item.numberOfRooms}</div>
+                <div class="details-content">- Area: ${item.area}</div>
+                <div class="details-content">- Living Space: ${item.livingSpace || 'N/A'}</div>
+                <div class="details-content">- Furniture: ${item.furniture ? 'Yes' : 'No'}</div>
+                <div class="details-content">- Transport: ${item.transport || 'N/A'}</div>
+                <div class="summary-title" style="color: black">- House:
+                    <div class="details-list-item">-- Name: ${item.house.name || 'N/A'}</div>
+                    <div class="details-list-item">-- Year: ${item.house.year || 'N/A'}</div>
+                    <div class="details-list-item">-- Number of Flats on Floor: ${item.house.numberOfFlatsOnFloor || 'N/A'}</div>
+                    <div class="details-list-item">-- Number of Lifts: ${item.house.numberOfLifts || 'N/A'}</div>
                 </div>
             </li>
         `;
@@ -588,9 +742,33 @@
         });
     }
 
+    $(document).ready(function () {
+        // Глобальный обработчик клика для закрытия всех деталей при клике вне их
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('details').length) {
+                // Закрытие всех открытых <details>
+                $('details[open]').each(function () {
+                    this.removeAttribute('open');
+                });
+            }
+        });
+
+        // Предотвращаем всплывание клика внутри <details> для предотвращения его "закрытия" глобальным обработчиком
+        $(document).on('click', 'details', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+
     document.addEventListener('DOMContentLoaded', function () {
         const openFormButton = document.getElementById('addButton');
         const saveFlatButton = document.getElementById('saveFlatButton');
+        const deleteFlatButton = document.getElementById('deleteButton');
+
+        deleteFlatButton.addEventListener('click', function () {
+            temporaryCollection = []
+            updateCollectionUI()
+        })
 
         openFormButton.addEventListener('click', function () {
             $('#flatDataModal').modal('show');
@@ -608,65 +786,94 @@
         input.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
+                $("#suggestions").empty();
                 sendButton.click();
             }
         });
     });
+
+    function getList(flats) {
+        let flatsHTML = '<div class="flatsInfo">';
+        flatsHTML += flats.map(flat => {
+            return `<div class="details-container">
+                        <details class="summary-title">
+                            <summary style="font-weight: 500; color: black">${flat.name} ID: ${flat.id}</summary>
+                            <div style="background-color: #f0fbfe">
+                            <div><span class="summaryel">Coordinates:</span> X=${flat.coordinates.x}, Y=${flat.coordinates.y}</div>
+                            <div><span class="summaryel">Area:</span> ${flat.area}</div>
+                            <div><span class="summaryel">Number of Rooms:</span> ${flat.numberOfRooms}</div>
+                            <div><span class="summaryel">Living Space:</span> ${flat.livingSpace || 'N/A'}</div>
+                            <div><span class="summaryel">Furniture:</span> ${flat.furniture ? 'Yes' : 'No'}</div>
+                            <div><span class="summaryel">Transport:</span> ${flat.transport}</div>
+                            </div>
+                            <div style="background-color: #dcf3f9;">
+                            <span class="summary-title">House Details</span>
+                            <div><span class="summaryel">Name:</span>: ${flat.house.name}</div>
+                            <div><span class="summaryel">Year:</span> ${flat.house.year}</div>
+                            <div><span class="summaryel">Flats on Floor:</span> ${flat.house.numberOfFlatsOnFloor}</div>
+                            <div><span class="summaryel">Lifts:</span> ${flat.house.numberOfLifts}</div>
+                            </div>
+                        </details>
+                    </div>`;
+        }).join('');
+        flatsHTML = '<details><summary>Элементы</summary>' + flatsHTML + '</details>';
+        flatsHTML += '</div>';
+        return flatsHTML;
+    }
 
     $(document).ready(function () {
         $("#sendButton").click(function () {
             var message = $("#messageInput").val();
             var collection = temporaryCollection; // Assuming this is already structured correctly
 
+            $("#suggestions").empty();
+
+            if (message.trim().toLowerCase() === "cls") {
+                $("#messages").empty(); // Очищаем чат
+                $("#messageInput").val(''); // Очищаем поле ввода
+                return; // Заканчиваем выполнение функции здесь
+            }
+
             var requestData = {
                 message: message,
                 temporaryCollection: collection
             };
 
-            temporaryCollection = []
-            updateCollectionUI()
+            // Собираем HTML сообщения пользователя и списка элементов в одну строку
+            var messageHTML = '<div class="message userInput"><span class="messageContent">' + message;
 
-            $("#messages").append('<div class="message userInput"><span class="messageContent">' + message + '</span></div>');
+            if (temporaryCollection && temporaryCollection.length > 0) {
+                messageHTML += getList(temporaryCollection);
+            }
+
+            messageHTML += '</span></div>'; // Закрываем div списка и div сообщения
+
+            $("#messages").append(messageHTML);
+
+            temporaryCollection = []; // Очищаем временную коллекцию после отправки
+            updateCollectionUI();
+
             $.ajax({
                 url: "/lab5/send",
                 type: "POST",
-                contentType: "application/json", // Setting content type to JSON
-                data: JSON.stringify(requestData), // Converting the JavaScript object to a JSON string
-                success: function(data) {
-                    let messageHTML = '<div class="message botResponse"><span class="messageContent">' + data.message + '</span></div>';
-                    if (data.flats && data.flats.length > 0) {
-                        let flatsHTML = '<div class="flatsInfo">';
-                        flatsHTML += data.flats.map(flat => {
-                            return `<div class="flatItem">
-                        <details class="flatData">
-                            <summary style="font-size: 1.2rem">${flat.name}</summary>
-                            <div><span>Coordinates:</span> X=${flat.coordinates.x}, Y=${flat.coordinates.y}</div>
-                            <div><span>Area:</span> ${flat.area}</div>
-                            <div><span>Number of Rooms:</span> ${flat.numberOfRooms}</div>
-                            <div><span>Living Space:</span> ${flat.livingSpace || 'N/A'}</div>
-                            <div><span>Furniture:</span> ${flat.furniture ? 'Yes' : 'No'}</div>
-                            <div><span>Transport:</span> ${flat.transport}</div>
-                            <details class="houseDetails">
-                                <summary>House Details</summary>
-                                <div class="houseData">
-                                    <div>Name: ${flat.house.name}</div>
-                                    <div>Year: ${flat.house.year}</div>
-                                    <div>Flats on Floor: ${flat.house.numberOfFlatsOnFloor}</div>
-                                    <div>Lifts: ${flat.house.numberOfLifts}</div>
-                                </div>
-                            </details>
-                        </details>
-                    </div>`;
-                        }).join('');
-                        flatsHTML += '</div>';
-                        messageHTML += flatsHTML;
+                contentType: "application/json",
+                data: JSON.stringify(requestData),
+                success: function (data) {
+                    let responseHTML = '<div class="message botResponse"><span class="messageContent">' + data.message;
+
+                    if (data && data.flats && data.flats.length > 0) {
+                        responseHTML += getList(data.flats);
                     }
-                    $("#messages").append(messageHTML);
+
+                    responseHTML += '</span></div>'; // Закрываем div ответа бота
+
+                    $("#messages").append(responseHTML);
                     $("#messageInput").val('');
                     $("#messages").scrollTop($("#messages")[0].scrollHeight);
                 },
-                error: function(error) {
-                    $("#messages").append('<div class="message botResponse"><span class="messageContent">' + 'some error: ' + error + '</span></div>');
+                error: function (error) {
+                    // Обработка ошибки запроса
+                    $("#messages").append('<div class="message botResponse"><span class="messageContent">Ошибка: ' + error.statusText + '</span></div>');
                 }
             });
         });
