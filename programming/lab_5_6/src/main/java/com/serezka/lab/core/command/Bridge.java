@@ -40,11 +40,11 @@ public class Bridge {
     final StringBuilder builder = new StringBuilder();
     @Getter final Set<Flat> nestedProducts = new HashSet<>();
 
-    public void addNestedProduct(Flat nestedProduct) {
+    public void addNestedFlat(Flat nestedProduct) {
         this.nestedProducts.add(nestedProduct);
     }
 
-    public void addNestedProducts(Set<Flat> nestedProducts) {
+    public void addNestedFlats(Set<Flat> nestedProducts) {
         this.nestedProducts.addAll(nestedProducts);
     }
 

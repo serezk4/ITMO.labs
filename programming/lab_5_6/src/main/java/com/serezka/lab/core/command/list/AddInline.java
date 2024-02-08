@@ -2,15 +2,12 @@ package com.serezka.lab.core.command.list;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.service.FlatService;
-import com.serezka.lab.core.io.format.FormatWorker;
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -38,7 +35,7 @@ public class AddInline extends Command {
         bridge.getInputData()
                 .stream().filter(flat -> {
                     if (!existingIds.contains(flat.getId())) {
-                        bridge.addNestedProduct(flat);
+                        bridge.addNestedFlat(flat);
                         return true;
                     }
 

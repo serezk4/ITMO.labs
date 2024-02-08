@@ -19,7 +19,7 @@ public class UpdateById extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        bridge.getInputData().stream().map(flatService::save).forEach(bridge::addNestedProduct);
+        bridge.getInputData().stream().map(flatService::save).forEach(bridge::addNestedFlat);
         bridge.send("Измененные значения");
     }
 }

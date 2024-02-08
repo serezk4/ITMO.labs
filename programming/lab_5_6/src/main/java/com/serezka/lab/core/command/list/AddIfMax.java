@@ -52,8 +52,10 @@ public class AddIfMax extends Command {
                         return false;
                     }
 
-                    bridge.send("Flat#%s успешно добавлен!", flat.getName());
+                    bridge.addNestedFlat(flat);
                     return true;
                 }).forEach(flatService::save);
+
+        bridge.send("Добавленные значения:");
     }
 }
