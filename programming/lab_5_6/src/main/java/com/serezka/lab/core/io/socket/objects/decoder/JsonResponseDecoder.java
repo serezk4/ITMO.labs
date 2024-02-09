@@ -28,6 +28,12 @@ public class JsonResponseDecoder extends MessageToMessageDecoder<ByteBuf> {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
-        list.add(gson.fromJson(byteBuf.toString(charset), Response.class));
+        int readableBytes = byteBuf.readableBytes();
+        if (readableBytes <= 0) return;
+
+        byte[] bytes = new byte[readableBytes];
+        byteBuf.readBytes(bytes);
+
+        list.add(gson.fromJson(new String(bytes, charset), Response.class));
     }
 }

@@ -28,4 +28,5 @@ public class Response {
     public static Response connected() {
         return new Response(State.CONNECTED, null, null);
     }
+    public static Response waiting() {return new Response(State.WAITING, null, null);}
 }

@@ -38,8 +38,8 @@ public class TCPClientWorker implements ClientWorker {
 
     public TCPClientWorker(@Qualifier("jsonPayloadEncoder") MessageToMessageEncoder<Payload> payloadEncoder,
                            @Qualifier("jsonResponseDecoder") MessageToMessageDecoder<ByteBuf> responseDecoder,
-                           @Value("${server.address}") String address, @Value("${server.port}") int port,
-                           @Qualifier("client") SimpleChannelInboundHandler<Response> handler) {
+                           @Value("${lab6.server.address}") String address, @Value("${lab6.server.port}") int port,
+                           @Qualifier("lab6client") SimpleChannelInboundHandler<Response> handler) {
         this.address = address;
         this.port = port;
 
@@ -47,12 +47,6 @@ public class TCPClientWorker implements ClientWorker {
         this.responseDecoder = responseDecoder;
 
         this.handler = handler;
-    }
-
-    @SneakyThrows
-    @Override
-    public void run() {
-
     }
 
     @NonFinal EventLoopGroup workGroup;
@@ -70,12 +64,7 @@ public class TCPClientWorker implements ClientWorker {
 
         bootstrap.group(workGroup)
                 .channel(NioSocketChannel.class)
-
-//                .option(ChannelOption.AUTO_CLOSE, true)
-//                .option(ChannelOption.SO_REUSEADDR, true)
                 .option(ChannelOption.SO_KEEPALIVE, true)
-//                .option(ChannelOption.TCP_NODELAY, true)
-
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     public void initChannel(@NonNull SocketChannel channel) {
@@ -86,9 +75,6 @@ public class TCPClientWorker implements ClientWorker {
                 });
 
         channelFuture = bootstrap.connect(address, port).sync();
-//        channelFuture.channel().closeFuture().sync();
-
-//        channelFuture.channel().writeAndFlush(Payload.connected()).addListener((ChannelFutureListener) channelFuture -> System.out.println(channelFuture.get()));
 
         log.info("successfully initialized client!");
     }

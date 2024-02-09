@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PropertySource("classpath:chat.properties")
 @Log4j2
-public class Chat implements Handler<Payload> {
+public class Chat implements Handler<Response, Payload> {
     public static final long USER_ID = -5;
 
     String helpPattern;

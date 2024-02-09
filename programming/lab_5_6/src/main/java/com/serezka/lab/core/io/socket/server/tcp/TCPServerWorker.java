@@ -35,11 +35,11 @@ public class TCPServerWorker implements ServerWorker {
     // server properties
     int port;
 
-    public TCPServerWorker(@Value("${server.port}") int port,
+    public TCPServerWorker(@Value("${lab6.server.port}") int port,
                            @Qualifier("jsonResponseEncoder") MessageToMessageEncoder<Response> responseEncoder,
                            @Qualifier("jsonPayloadDecoder") MessageToMessageDecoder<ByteBuf> payloadDecoder,
-                           @Qualifier("lab6serverHandler") SimpleChannelInboundHandler<Payload> handler) throws Exception {
-        log.info("initializing TCPChannelWorker");
+                           @Qualifier("lab6serverHandler") SimpleChannelInboundHandler<Payload> handler) {
+        log.info("initializing TCPChannelWorker on {}:{}", "localhost", port);
 
         this.port = port;
 
@@ -49,20 +49,11 @@ public class TCPServerWorker implements ServerWorker {
         this.handler = handler;
     }
 
-    @Override
-    public void run() {
-        init();
-    }
+    @NonFinal EventLoopGroup bossGroup;
+    @NonFinal EventLoopGroup workerGroup;
 
-    @NonFinal
-    EventLoopGroup bossGroup;
-    @NonFinal
-    EventLoopGroup workerGroup;
-
-    @NonFinal
-    ServerBootstrap bootstrap;
-    @NonFinal
-    ChannelFuture channelFuture;
+    @NonFinal ServerBootstrap bootstrap;
+    @NonFinal ChannelFuture channelFuture;
 
     @SneakyThrows
     @Override
@@ -100,8 +91,6 @@ public class TCPServerWorker implements ServerWorker {
 
     @Override
     public void close() {
-        bossGroup.close();
-        workerGroup.close();
-        channelFuture.channel().close();
+        workerGroup.shutdownGracefully();
     }
 }

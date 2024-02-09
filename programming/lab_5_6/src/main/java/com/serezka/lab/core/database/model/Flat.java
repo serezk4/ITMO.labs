@@ -7,6 +7,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity @Table(name = "flats")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -52,7 +53,7 @@ public class Flat implements Comparable<Flat>, Validatable {
     @NonNull
     @CsvBindByName(column = "creation_date")
     @Column(name = "creation_date")
-    LocalDate creationDate = LocalDate.now();
+    Date creationDate = new Date();
 
     /**
      * Максимальное значение поля: 734

@@ -21,10 +21,10 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @ComponentScan("com.serezka.lab.core.command")
 @Log4j2
-public class WebRunnerController implements Runner {
+public class Lab5WebRunnerController implements Runner {
     Chat chat;
 
-    public WebRunnerController(@Qualifier("lab5") Chat chat) {
+    public Lab5WebRunnerController(@Qualifier("lab5") Chat chat) {
         this.chat = chat;
     }
 

@@ -1,7 +1,10 @@
 package com.serezka.lab.core.io.socket.objects.encoder;
 
 import com.google.gson.Gson;
+import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import lombok.AccessLevel;
@@ -26,6 +29,8 @@ public class JsonResponseEncoder extends MessageToMessageEncoder<Response> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Response response, List<Object> list) throws Exception {
-        list.add(gson.toJson(response, Response.class).getBytes(charset));
+        byte[] bytes = gson.toJson(response, Response.class).getBytes(charset);
+        ByteBuf buffer = Unpooled.wrappedBuffer(bytes);
+        list.add(buffer);
     }
 }

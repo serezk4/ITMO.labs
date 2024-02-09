@@ -1,7 +1,13 @@
 package com.serezka.lab;
 
+import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker;
+import com.serezka.lab.core.io.socket.objects.Payload;
+import com.serezka.lab.core.io.socket.objects.State;
+import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker;
 import com.serezka.lab.core.runner.Runner;
 import com.serezka.lab.lab5.hahdler.Chat;
+import com.serezka.lab.lab6.client.handler.Client;
+import com.serezka.lab.lab6.server.handler.Server;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -27,9 +33,19 @@ public class Application implements ApplicationRunner {
     Chat chat;
     Runner runner;
 
-    public Application(@Qualifier("lab5") Chat chat, @Qualifier("lab5runner") Runner runner) {
+    TCPServerWorker tcpServerWorker;
+    TCPClientWorker tcpClientWorker;
+
+    Server server;
+    Client client;
+
+    public Application(@Qualifier("lab5") Chat chat, @Qualifier("lab5runner") Runner runner, TCPServerWorker tcpServerWorker, TCPClientWorker tcpClientWorker, Server server, Client client) {
         this.chat = chat;
         this.runner = runner;
+        this.tcpServerWorker = tcpServerWorker;
+        this.tcpClientWorker = tcpClientWorker;
+        this.server = server;
+        this.client = client;
     }
 
     public static void main(String[] args) {
@@ -40,5 +56,7 @@ public class Application implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         if (args.getNonOptionArgs().contains("-console"))
             new Thread(runner).start();
+
+        tcpServerWorker.init();
     }
 }

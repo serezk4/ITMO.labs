@@ -7,8 +7,8 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Clear extends Command {
     FlatService flatService;
 

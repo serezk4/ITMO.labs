@@ -11,7 +11,8 @@ import java.util.Set;
 @Data @AllArgsConstructor @NoArgsConstructor
 @Builder
 public class Payload implements Serializable {
-    State state = null;
+    @Builder.Default
+    State state = State.OK;
     String command = null;
 
     Set<Flat> flats = null;

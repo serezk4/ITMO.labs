@@ -22,11 +22,12 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("lab6serverHandler")
 @Log4j2(topic = "Server")
-public class Server extends SimpleChannelInboundHandler<Payload> implements Handler<Payload> {
+public class Server extends SimpleChannelInboundHandler<Payload> implements Handler<Response, Payload> {
     @Getter
     List<Command> commands;
 
-    @Getter FormatWorker<Flat> formatWorker;
+    @Getter
+    FormatWorker<Flat> formatWorker;
 
     public Server(FormatWorker<Flat> formatWorker, List<Command> commands) {
         this.formatWorker = formatWorker;
@@ -34,7 +35,7 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
     }
 
     @Override
-    protected void channelRead0(ChannelHandlerContext channelHandlerContext, Payload payload) {
+    protected void channelRead0(ChannelHandlerContext chx, Payload payload) {
         if (payload == null) {
             log.warn("payload can't be null!");
             return;
@@ -46,11 +47,13 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         }
 
         if (payload.getState() == State.CONNECTED) {
-//            channel.send(Response.connected());
+            chx.writeAndFlush(Response.connected());
             return;
         }
 
         log.info("new payload from client: {}", payload.toString());
+        Response response = new Response();
+        chx.writeAndFlush(response);
     }
 
     @Override
