@@ -1,5 +1,6 @@
 package com.serezka.lab.lab6.server.handler;
 
+import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.handler.Handler;
@@ -7,6 +8,7 @@ import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.io.socket.objects.State;
 import com.serezka.lab.core.io.format.FormatWorker;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AccessLevel;
@@ -23,7 +25,10 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("lab6serverHandler")
 @Log4j2(topic = "Server")
+@ChannelHandler.Sharable
 public class Server extends SimpleChannelInboundHandler<Payload> implements Handler<Response, Payload> {
+    public static final long USER_ID = -6;
+
     @Getter List<Command> commands;
 
     public Server(@Qualifier("commands") List<Command> commands) {
@@ -48,13 +53,31 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         }
 
         log.info("new payload from client: {}", payload.toString());
-        Response response = new Response();
-        chx.writeAndFlush(response);
+        Response handledResponse = handle(payload);
+        log.info("answer for client: {}", payload.toString());
+
+        chx.writeAndFlush(handledResponse);
     }
 
     @Override
-    public Response handle(Payload input) {
-        return null;
+    public Response handle(Payload payload) {
+        List<Command> suitableCommands = commands.stream()
+                .filter(command -> payload.getCommand().matches(command.getUsage()))
+                .toList();
+
+        if (suitableCommands.isEmpty())
+            return new Response("введена некорректная команда, help - все команды");
+
+        if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
+
+        // create bridge
+        Bridge commandBridge = new Bridge(USER_ID, payload.getCommand(), payload.getString(), payload.getFlats());
+        suitableCommands.getFirst().execute(commandBridge);
+
+        // check internal stack
+        commandBridge.getInternalQueries().forEach(this::handle);
+
+        return new Response(commandBridge.getText(), commandBridge.getNestedProducts());
     }
 }
 

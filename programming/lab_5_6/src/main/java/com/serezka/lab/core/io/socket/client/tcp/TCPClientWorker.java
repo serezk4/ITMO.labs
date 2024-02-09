@@ -86,11 +86,16 @@ public class TCPClientWorker implements ClientWorker {
 
     @Override
     public String getInfo() {
-        return channelFuture.channel().localAddress().toString();
+        if (channelFuture == null) return "ожидание...";
+
+        return String.format("%s -> %s",
+                channelFuture.channel().localAddress().toString(),
+                channelFuture.channel().remoteAddress().toString());
     }
 
     @Override
     public void close() {
+        channelFuture.channel().close();
         workGroup.shutdownGracefully();
     }
 

@@ -3,6 +3,7 @@ package com.serezka.lab.core.io.socket.objects.decoder;
 import com.google.gson.Gson;
 import com.serezka.lab.core.io.socket.objects.Response;
 import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
 import lombok.AccessLevel;
@@ -17,6 +18,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("jsonResponseDecoder")
 @PropertySource("classpath:server.properties")
+@ChannelHandler.Sharable
 public class JsonResponseDecoder extends MessageToMessageDecoder<ByteBuf> {
     Gson gson;
     Charset charset;

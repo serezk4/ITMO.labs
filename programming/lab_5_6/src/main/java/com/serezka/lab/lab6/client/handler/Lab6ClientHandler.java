@@ -5,6 +5,7 @@ import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.io.socket.objects.State;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AccessLevel;
@@ -23,6 +24,7 @@ import java.util.List;
 @PropertySource("classpath:client.properties")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2(topic = "Client")
+@ChannelHandler.Sharable
 public class Lab6ClientHandler extends SimpleChannelInboundHandler<Response> implements Handler<Response, Payload> {
     @Getter List<Command> commands;
 

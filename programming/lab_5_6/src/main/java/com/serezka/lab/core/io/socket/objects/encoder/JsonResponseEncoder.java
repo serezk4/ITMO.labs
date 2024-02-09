@@ -5,6 +5,7 @@ import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import lombok.AccessLevel;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("jsonResponseEncoder") @PropertySource("classpath:server.properties")
+@ChannelHandler.Sharable
 public class JsonResponseEncoder extends MessageToMessageEncoder<Response> {
     Gson gson;
     Charset charset;

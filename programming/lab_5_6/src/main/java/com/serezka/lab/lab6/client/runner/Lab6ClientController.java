@@ -37,23 +37,29 @@ public class Lab6ClientController implements Runner {
     }
 
     @GetMapping("/info")
-    public String getInfo() {
-        return tcpClientWorker.getInfo();
+    @ResponseBody
+    public Message getInfo() {
+        return new Message(tcpClientWorker.getInfo());
     }
 
     @GetMapping("/isConnected")
-    public boolean isActive() {
-        return tcpClientWorker.isConnected();
+    @ResponseBody
+    public Message isActive() {
+        return new Message(tcpClientWorker.isConnected() ? "Active" : "Inactive");
     }
 
     @PostMapping("/connect")
-    public void connect() {
+    @ResponseBody
+    public Message connect() {
         tcpClientWorker.init();
+        return new Message("connected");
     }
 
     @PostMapping("/disconnect")
-    public void disconnect() {
+    @ResponseBody
+    public Message disconnect() {
         tcpClientWorker.disconnect();
+        return new Message("отключено");
     }
 
     @PostMapping("/send")
@@ -71,7 +77,7 @@ public class Lab6ClientController implements Runner {
 
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @Getter
-    static class Query {
+    public static class Query {
         String scope;
 
         public Query(String scope) {
@@ -81,7 +87,7 @@ public class Lab6ClientController implements Runner {
 
     @FieldDefaults(level = AccessLevel.PRIVATE)
     @Getter
-    static class Message {
+    public static class Message {
         String message;
         Set<Flat> flats;
 

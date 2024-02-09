@@ -382,20 +382,63 @@
         .list-group-item strong {
             float: right; /* Align strong tags to the right for a clear data label */
         }
+
+        #connectionControls {
+            text-align: right; /* Выравнивание элементов управления по правому краю */
+            padding: 10px; /* Отступы внутри блока управления */
+            background: #f8f9fa; /* Цвет фона блока управления */
+            border-radius: 4px; /* Скругление углов блока управления */
+            margin-bottom: 20px; /* Отступ снизу блока управления */
+        }
+
+        #connectionStatus, #infoText {
+            display: block; /* Блочное отображение статуса для занимания всей ширины */
+            margin-top: 10px; /* Отступ сверху для статуса */
+            color: #fff; /* Цвет текста статуса */
+            padding: 2px 5px; /* Поля внутри статуса */
+            border-radius: 4px; /* Скругление углов статуса */
+        }
+
+        #infoText {
+            background-color: #343a40;
+        }
+
+        #connectionStatus.active {
+            background-color: #28a745; /* Фон для активного состояния */
+        }
+
+        #connectionStatus.inactive {
+            background-color: #dc3545; /* Фон для неактивного состояния */
+        }
+
+        /* Стили для кнопок */
+        #connect, #disconnect {
+            margin: 5px 0; /* Отступы для кнопок */
+            width: auto; /* Автоматическая ширина кнопок */
+        }
     </style>
 </head>
 <body>
 
-<div id="chatSelector">
+<div id="chatSelector" style="height: 50px">
     <h2><b>Лабораторная работа №6 (клиент)</b> (<a href="https://github.com/serezk4">github</a> | <a
             href="https://github.com/serezk4/ITMO.labs/tree/master/programming/lab_5_6">код</a> | <a
             href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/отчет6.docx">отчет</a>) <b><a
             href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/LAB6.md"
-            style="color: lightblue">Вариант 59101</a></b>
-        <button id="connect" class="btn btn-primary">Подключиться</button></h2>
+            style="color: lightblue">Вариант 59101</a></b></h2>
 </div>
 
+
 <div style="display: flex; justify-content: center; height: 100vh;">
+    <div style="width: 20%; overflow-y: auto; background: #f8f9fa; margin-right: 10px; height: auto; margin-top: 50px">
+        <div id="connectionControls" class="text-left mt-3">
+            <button id="connect" class="btn btn-success">Подключиться</button>
+            <button id="disconnect" class="btn btn-danger">Отключиться</button>
+            <div id="connectionStatus" class="inactive">Состояние: Неактивно</div>
+            <div id="infoText"></div>
+        </div>
+    </div>
+
     <div id="chatContainer" class="shadow" style="width: 70%; margin-right: 10px;">
         <div id="messages"></div>
         <div class="input-group mb-3">
@@ -411,6 +454,8 @@
             </div>
         </div>
     </div>
+
+
     <div id="collectionPanel" class="shadow" style="width: 20%; overflow-y: auto; background: #f8f9fa;">
         <h4 class="text-center p-2">Temporary Collection</h4>
         <h4 class="text-center p-2">Временная коллекция</h4>
@@ -857,17 +902,91 @@
         return flatsHTML;
     }
 
+    function fetchServerInfo() {
+        $.ajax({
+            url: "/lab6/client/info",
+            type: "GET",
+            cache: false,
+            success: function(data) {
+                $("#infoText").text(data.message);
+            },
+            error: function(error) {
+                console.error("Error fetching server info:", error);
+                $("#infoText").text("Ошибка получения информации.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        setInterval(function () {
+            fetchServerInfo();
+        }, 5000);
+    });
+
+
+    $("#disconnect").click(function() {
+        $.ajax({
+            url: "/lab6/client/disconnect",
+            type: "POST",
+            success: function() {
+                console.log("Disconnected successfully");
+                $("#messages").append('<div class="message system"><span class="messageContent">отключено</span></div>');
+            },
+            error: function(error) {
+                console.error("Error disconnecting:", error);
+                alert("Ошибка отключения.");
+            }
+        });
+    });
+
+
+    // setInterval(function() {
+    //     // Здесь вызывается функция для получения новых сообщений
+    //     // Например, это может быть запрос к методу-заглушке на сервере,
+    //     // который возвращает новые сообщения, если они есть.
+    // }, 5000);
+
+    function checkConnection() {
+        $.ajax({
+            url: "/lab6/client/isConnected",
+            type: "GET",
+            cache: false,
+            success: function(response) {
+                var statusDiv = $("#connectionStatus");
+                var isActive = response.message.trim() === "Active";
+
+                statusDiv.text("Состояние: " + (isActive ? "Активно" : "Неактивно"));
+                if (isActive) {
+                    statusDiv.removeClass("inactive").addClass("active");
+                } else {
+                    statusDiv.removeClass("active").addClass("inactive");
+                }
+            },
+            error: function(error) {
+                console.error("Error checking connection status:", error);
+                $("#connectionStatus").text("Ошибка проверки состояния подключения").addClass("inactive").removeClass("active");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        setInterval(function () {
+            checkConnection();
+        }, 5000);
+    });
+
+
     $(document).ready(function () {
         $("#connect").click(function () {
             $.ajax({
-                url: "/lab6/lab6ClientHandler/connect",
+                url: "/lab6/client/connect",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
                     'scope': 'connect'
                 }),
                 success: function (data) {
-                    $("#messages").append('<div class="message system"><span class="messageContent">подключение установлено</span></div>');
+                    $("#messages").append('<div class="message system"><span class="messageContent">подключено</span></div>');
                 },
                 error: function (error) {
                     $("#messages").append('<div class="message system"><span class="messageContent">Ошибка: ' + error.statusText + '</span></div>');
@@ -909,7 +1028,7 @@
             updateCollectionUI();
 
             $.ajax({
-                url: "/lab6/lab6ClientHandler/send",
+                url: "/lab6/client/send",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(requestData),

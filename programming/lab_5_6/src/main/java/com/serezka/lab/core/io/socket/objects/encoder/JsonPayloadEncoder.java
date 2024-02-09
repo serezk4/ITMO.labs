@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import lombok.AccessLevel;
@@ -18,6 +19,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("jsonPayloadEncoder")
 @PropertySource("classpath:server.properties")
+@ChannelHandler.Sharable
 public class JsonPayloadEncoder extends MessageToMessageEncoder<Payload> {
     Gson gson;
     Charset charset;

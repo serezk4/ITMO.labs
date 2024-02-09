@@ -6,6 +6,7 @@ import com.serezka.lab.core.database.service.FlatService;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
+import io.netty.channel.ChannelHandler;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
