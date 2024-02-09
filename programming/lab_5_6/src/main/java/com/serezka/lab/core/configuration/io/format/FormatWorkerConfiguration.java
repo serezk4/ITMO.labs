@@ -1,4 +1,4 @@
-package com.serezka.lab.lab5.configuration.io.format;
+package com.serezka.lab.core.configuration.io.format;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.format.FormatWorker;

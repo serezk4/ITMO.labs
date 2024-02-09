@@ -80,8 +80,22 @@ public class TCPClientWorker implements ClientWorker {
     }
 
     @Override
-    public void close() throws Exception {
-        workGroup.close();
-        channelFuture.channel().close();
+    public boolean isConnected() {
+        return !(channelFuture == null || !channelFuture.channel().isOpen() || !channelFuture.channel().isActive());
+    }
+
+    @Override
+    public String getInfo() {
+        return channelFuture.channel().localAddress().toString();
+    }
+
+    @Override
+    public void close() {
+        workGroup.shutdownGracefully();
+    }
+
+    @Override
+    public void disconnect() {
+        close();
     }
 }

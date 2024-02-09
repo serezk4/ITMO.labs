@@ -1,46 +1,37 @@
-package com.serezka.lab.lab6.client.runner;
+package com.serezka.lab.lab5.runner;
 
 import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
+import com.serezka.lab.core.runner.web.ChatRequest;
 import com.serezka.lab.core.runner.Runner;
 import com.serezka.lab.lab5.hahdler.Chat;
-import com.serezka.lab.core.runner.web.ChatRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 @Controller
-@RequestMapping("/lab6/client")
+@RequestMapping("/lab5")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@ComponentScan("com.serezka.lab.core.command")
 @Log4j2
-public class Lab6ClientWebRunnerController implements Runner {
-    TCPClientWorker tcpClientWorker;
-    Handler<Response, Payload> handler;
+public class Lab5Controller implements Runner {
+    Chat chat;
 
-    public Lab6ClientWebRunnerController(TCPClientWorker tcpClientWorker, @Qualifier("lab6client") Handler<Response, Payload> handler) {
-        this.tcpClientWorker = tcpClientWorker;
-        this.handler = handler;
+    public Lab5Controller(@Qualifier("lab5handler") Chat chat) {
+        this.chat = chat;
     }
 
     @GetMapping("/")
     public String chatPage() {
-        return "lab6";
-    }
-
-    @PostMapping("/connect")
-    @ResponseBody
-    public Message connect() {
-        tcpClientWorker.init();
-        return new Message("connected!");
+        return "lab5";
     }
 
     @PostMapping("/send")
@@ -49,20 +40,10 @@ public class Lab6ClientWebRunnerController implements Runner {
         try {
             chatRequest.getTemporaryCollection().forEach(flat -> flat.setUserId(Chat.USER_ID));
             Payload payload = new Payload(chatRequest.getMessage(), chatRequest.getTemporaryCollection(), "test");
-            Response response = handler.handle(payload);
+            Response response = chat.handle(payload);
             return new Message(response.getMessage(), response.getFlats());
         } catch (Exception ex) {
             return new Message(ex.getMessage());
-        }
-    }
-
-    @FieldDefaults(level = AccessLevel.PRIVATE)
-    @Getter
-    static class Query {
-        String scope;
-
-        public Query(String scope) {
-            this.scope = scope;
         }
     }
 

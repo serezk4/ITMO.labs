@@ -28,7 +28,7 @@ public class Lab5ConsoleRunner implements Runner {
 
     FormatWorker<Flat> formatWorker;
 
-    public Lab5ConsoleRunner(@Qualifier("lab5") Chat chat,
+    public Lab5ConsoleRunner(@Qualifier("lab5handler") Chat chat,
                              @Qualifier("bufferedConsoleWorker") ConsoleWorker consoleWorker,
                              @Value("${chat.in.pattern}") String inPattern,
                              @Value("${chat.out.pattern}") String outPattern,

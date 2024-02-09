@@ -860,7 +860,7 @@
     $(document).ready(function () {
         $("#connect").click(function () {
             $.ajax({
-                url: "/lab6/client/connect",
+                url: "/lab6/lab6ClientHandler/connect",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
@@ -909,7 +909,7 @@
             updateCollectionUI();
 
             $.ajax({
-                url: "/lab6/client/send",
+                url: "/lab6/lab6ClientHandler/send",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(requestData),

@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Component("lab5handler")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @PropertySource("classpath:chat.properties")
 @Log4j2
@@ -29,13 +30,9 @@ public class Chat implements Handler<Response, Payload> {
     @Getter
     private List<Command> commands;
 
-    FlatService flatService;
-
-    public Chat(List<Command> commands, @Value("${chat.help.pattern}") String helpPattern,
-                FlatService flatService) {
+    public Chat(@Qualifier("commands") List<Command> commands, @Value("${chat.help.pattern}") String helpPattern) {
         this.commands = commands;
         this.helpPattern = helpPattern;
-        this.flatService = flatService;
     }
 
     @Override
