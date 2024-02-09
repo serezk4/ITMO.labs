@@ -79,8 +79,8 @@
 
         .system .messageContent {
             justify-content: center;
-            background-color: #c9c9c9;
-            color: #161616;
+            background-color: #e9e9e9;
+            color: #393939;
             padding: 10px 15px;
             border-radius: 20px;
             margin: 5px; /* Spacing around messages */
@@ -391,7 +391,7 @@
             margin-bottom: 20px; /* Отступ снизу блока управления */
         }
 
-        #connectionStatus, #infoText {
+        #connectionStatus, #infoText, .info {
             display: block; /* Блочное отображение статуса для занимания всей ширины */
             margin-top: 10px; /* Отступ сверху для статуса */
             color: #fff; /* Цвет текста статуса */
@@ -401,6 +401,10 @@
 
         #infoText {
             background-color: #343a40;
+        }
+
+        .info {
+            background-color: #0f511f;
         }
 
         #connectionStatus.active {
@@ -416,6 +420,10 @@
             margin: 5px 0; /* Отступы для кнопок */
             width: auto; /* Автоматическая ширина кнопок */
         }
+
+        .OK {
+            background-color: #d8ffdf; !important;
+        }
     </style>
 </head>
 <body>
@@ -430,12 +438,13 @@
 
 
 <div style="display: flex; justify-content: center; height: 100vh;">
-    <div style="width: 20%; overflow-y: auto; background: #f8f9fa; margin-right: 10px; height: auto; margin-top: 50px">
+    <div style="width: 15%; overflow-y: auto; background: #f8f9fa; margin-right: 10px; height: auto; margin-top: 50px">
         <div id="connectionControls" class="text-left mt-3">
             <button id="connect" class="btn btn-success">Подключиться</button>
             <button id="disconnect" class="btn btn-danger">Отключиться</button>
-            <div id="connectionStatus" class="inactive">Состояние: Неактивно</div>
-            <div id="infoText"></div>
+            <div id="connectionStatus" class="inactive" style="margin-top: 40px">Состояние: Неактивно</div>
+            <div id="infoText">ожидание...</div>
+            <div class="info">Протокол: <b>TCP</b></div>
         </div>
     </div>
 
@@ -939,12 +948,42 @@
         });
     });
 
+    function checkUpdates() {
+        $.ajax({
+            url: "/lab6/client/getResponse",
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                if (!data) return;
 
-    // setInterval(function() {
-    //     // Здесь вызывается функция для получения новых сообщений
-    //     // Например, это может быть запрос к методу-заглушке на сервере,
-    //     // который возвращает новые сообщения, если они есть.
-    // }, 5000);
+                let responseHTML = '<div class="message botResponse"><span class="messageContent">' + data.message;
+
+                if (data && data.flats && data.flats.length > 0) {
+                    responseHTML += getList(data.flats);
+                }
+
+                responseHTML += '</span></div>'; // Закрываем div ответа бота
+
+                $("#messages").append(responseHTML);
+                $("#messageInput").val('');
+                $("#messages").scrollTop($("#messages")[0].scrollHeight);
+                document.getElementById('messageInput').readOnly = false;
+
+            },
+            error: function (error) {
+                // Обработка ошибки запроса
+                $("#messages").append('<div class="message botResponse ' + data.state + '"><span class="messageContent">Ошибка: ' + error.statusText + '</span></div>');
+                $("#messages").scrollTop($("#messages")[0].scrollHeight);
+                document.getElementById('messageInput').readOnly = false;
+            }
+        });
+    }
+
+    setInterval(function() {
+        checkUpdates();
+    }, 120);
+
+    let hasConnection = false;
 
     function checkConnection() {
         $.ajax({
@@ -954,6 +993,7 @@
             success: function(response) {
                 var statusDiv = $("#connectionStatus");
                 var isActive = response.message.trim() === "Active";
+                hasConnection = isActive;
 
                 statusDiv.text("Состояние: " + (isActive ? "Активно" : "Неактивно"));
                 if (isActive) {
@@ -972,12 +1012,14 @@
     $(document).ready(function () {
         setInterval(function () {
             checkConnection();
-        }, 5000);
+        }, 1000);
     });
 
 
     $(document).ready(function () {
         $("#connect").click(function () {
+            document.getElementById('messageInput').readOnly = false;
+
             $.ajax({
                 url: "/lab6/client/connect",
                 type: "POST",
@@ -986,10 +1028,10 @@
                     'scope': 'connect'
                 }),
                 success: function (data) {
-                    $("#messages").append('<div class="message system"><span class="messageContent">подключено</span></div>');
+                    $("#messages").append('<div class="message system ' + data.state + '"><span class="messageContent">подключено</span></div>');
                 },
                 error: function (error) {
-                    $("#messages").append('<div class="message system"><span class="messageContent">Ошибка: ' + error.statusText + '</span></div>');
+                    console.log(error.statusText)
                 }
             });
         })
@@ -997,6 +1039,9 @@
 
     $(document).ready(function () {
         $("#sendButton").click(function () {
+            if (document.getElementById('messageInput').readOnly === true) return;
+            if (!hasConnection) return;
+
             var message = $("#messageInput").val();
             var collection = temporaryCollection; // Assuming this is already structured correctly
 
@@ -1033,15 +1078,17 @@
                 contentType: "application/json",
                 data: JSON.stringify(requestData),
                 success: function (data) {
-                    let responseHTML = '<div class="message botResponse"><span class="messageContent">' + data.message;
+                    document.getElementById('messageInput').readOnly = true;
 
-                    if (data && data.flats && data.flats.length > 0) {
-                        responseHTML += getList(data.flats);
-                    }
+                    // let responseHTML = '<div class="message botResponse"><span class="messageContent">' + data.message;
+                    //
+                    // if (data && data.flats && data.flats.length > 0) {
+                    //     responseHTML += getList(data.flats);
+                    // }
 
-                    responseHTML += '</span></div>'; // Закрываем div ответа бота
+                    // responseHTML += '</span></div>'; // Закрываем div ответа бота
 
-                    $("#messages").append(responseHTML);
+                    // $("#messages").append(responseHTML);
                     $("#messageInput").val('');
                     $("#messages").scrollTop($("#messages")[0].scrollHeight);
                 },

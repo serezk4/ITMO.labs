@@ -18,7 +18,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
+import java.util.Stack;
 
 @Component("lab6client")
 @PropertySource("classpath:client.properties")
@@ -26,6 +29,10 @@ import java.util.List;
 @Log4j2(topic = "Client")
 @ChannelHandler.Sharable
 public class Lab6ClientHandler extends SimpleChannelInboundHandler<Response> implements Handler<Response, Payload> {
+    @NonFinal Deque<Response> responses = new ArrayDeque<>();
+
+    public Response getResponse() {return responses.isEmpty() ? null : responses.pop();}
+
     @Getter List<Command> commands;
 
     @NonFinal ChannelHandlerContext context = null;
@@ -41,7 +48,7 @@ public class Lab6ClientHandler extends SimpleChannelInboundHandler<Response> imp
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Response response) throws Exception {
-        System.out.println(response.toString());
+        responses.add(response);
     }
 
     @Override
