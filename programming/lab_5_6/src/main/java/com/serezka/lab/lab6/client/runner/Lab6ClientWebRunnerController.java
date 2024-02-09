@@ -7,7 +7,7 @@ import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.runner.Runner;
 import com.serezka.lab.lab5.hahdler.Chat;
-import com.serezka.lab.lab5.runner.ChatRequest;
+import com.serezka.lab.core.runner.web.ChatRequest;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;

@@ -19,7 +19,7 @@ import java.util.Collections;
 @Component("lab5runner")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
-public class ConsoleRunner implements Runner {
+public class Lab5ConsoleRunner implements Runner {
     Chat chat;
     ConsoleWorker consoleWorker;
 
@@ -28,11 +28,11 @@ public class ConsoleRunner implements Runner {
 
     FormatWorker<Flat> formatWorker;
 
-    public ConsoleRunner(@Qualifier("lab5") Chat chat,
-                         @Qualifier("bufferedConsoleWorker") ConsoleWorker consoleWorker,
-                         @Value("${chat.in.pattern}") String inPattern,
-                         @Value("${chat.out.pattern}") String outPattern,
-                         @Qualifier("csvFormatWorker") FormatWorker<Flat> formatWorker) {
+    public Lab5ConsoleRunner(@Qualifier("lab5") Chat chat,
+                             @Qualifier("bufferedConsoleWorker") ConsoleWorker consoleWorker,
+                             @Value("${chat.in.pattern}") String inPattern,
+                             @Value("${chat.out.pattern}") String outPattern,
+                             @Qualifier("csvFormatWorker") FormatWorker<Flat> formatWorker) {
         this.chat = chat;
         this.consoleWorker = consoleWorker;
 

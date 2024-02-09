@@ -15,6 +15,7 @@ import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -23,14 +24,9 @@ import java.util.List;
 @Component("lab6serverHandler")
 @Log4j2(topic = "Server")
 public class Server extends SimpleChannelInboundHandler<Payload> implements Handler<Response, Payload> {
-    @Getter
-    List<Command> commands;
+    @Getter List<Command> commands;
 
-    @Getter
-    FormatWorker<Flat> formatWorker;
-
-    public Server(FormatWorker<Flat> formatWorker, List<Command> commands) {
-        this.formatWorker = formatWorker;
+    public Server(@Qualifier("commands") List<Command> commands) {
         this.commands = commands;
     }
 

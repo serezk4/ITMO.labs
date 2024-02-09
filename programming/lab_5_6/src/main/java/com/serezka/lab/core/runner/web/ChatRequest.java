@@ -1,4 +1,4 @@
-package com.serezka.lab.lab5.runner;
+package com.serezka.lab.core.runner.web;
 
 import com.serezka.lab.core.database.model.Flat;
 import lombok.AccessLevel;
