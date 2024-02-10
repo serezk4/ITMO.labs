@@ -15,6 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
 import java.util.Set;
 
 @Controller
@@ -60,10 +61,12 @@ public class Lab5Controller implements Runner {
 
         public Message(String message) {
             this.message = message.replaceAll("\n", "</br>");
+//            this.message = message;
         }
 
         public void setMessage(String message) {
             this.message = message.replaceAll("\n", "</br>");
+//            this.message = message;
         }
     }
 }

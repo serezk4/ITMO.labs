@@ -53,6 +53,7 @@ public class Flat implements Comparable<Flat>, Validatable {
     @NonNull
     @CsvBindByName(column = "creation_date")
     @Column(name = "creation_date")
+
     Date creationDate = new Date();
 
     /**
