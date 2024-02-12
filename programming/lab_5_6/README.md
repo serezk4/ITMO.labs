@@ -10,4 +10,4 @@
 * Диаграмма: [`тык`](diagram5678.png)
 
 
-<img src="https://se.ifmo.ru/o/helios-theme/images/ducks-6.jpeg" alt="Диаграмма"/>
+<img src="https://se.ifmo.ru/o/helios-theme/images/ducks-6.jpeg" alt="Диаграмма" height="200px" width="2300px"/>
