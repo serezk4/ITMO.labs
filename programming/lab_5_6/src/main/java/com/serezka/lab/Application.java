@@ -1,6 +1,7 @@
 package com.serezka.lab;
 
 import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker6;
+import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker7;
 import com.serezka.lab.core.runner.Runner;
 import lombok.AccessLevel;
 import lombok.ToString;
@@ -22,10 +23,14 @@ public class Application implements ApplicationRunner {
     Runner runner;
 
     TCPServerWorker6 tcpServerWorker6;
+    TCPServerWorker7 tcpServerWorker7;
 
-    public Application(@Qualifier("lab5runner") Runner runner, TCPServerWorker6 tcpServerWorker6) {
+    public Application(@Qualifier("lab5runner") Runner runner,
+                       TCPServerWorker6 tcpServerWorker6, TCPServerWorker7 tcpServerWorker7) {
         this.runner = runner;
+
         this.tcpServerWorker6 = tcpServerWorker6;
+        this.tcpServerWorker7 = tcpServerWorker7;
     }
 
     public static void main(String[] args) {
@@ -38,5 +43,6 @@ public class Application implements ApplicationRunner {
             new Thread(runner).start();
 
         tcpServerWorker6.init();
+        tcpServerWorker7.init();
     }
 }

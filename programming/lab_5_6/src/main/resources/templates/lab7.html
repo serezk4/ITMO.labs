@@ -415,14 +415,20 @@
             background-color: #dc3545; /* Фон для неактивного состояния */
         }
 
+        #reset {
+            background-color: black;
+            color: white;
+        }
+
         /* Стили для кнопок */
-        #connect, #disconnect {
+        #connect, #disconnect, #reset {
             margin: 5px 0; /* Отступы для кнопок */
             width: auto; /* Автоматическая ширина кнопок */
         }
 
         .OK {
-            background-color: #d8ffdf; !important;
+            background-color: #d8ffdf;
+        !important;
         }
     </style>
 </head>
@@ -442,16 +448,17 @@
         <div id="connectionControls" class="text-left mt-3">
             <button id="connect" class="btn btn-success">Подключиться</button>
             <button id="disconnect" class="btn btn-danger">Отключиться</button>
+            <button id="reset" class="btn btn-danger">Fast Reset</button>
             <div id="connectionStatus" class="inactive" style="margin-top: 40px">Состояние: Неактивно</div>
             <div id="infoText">ожидание...</div>
             <div class="info">Протокол: <b>TCP</b></div>
 
             <div>
-            <h4 style="margin-top: 20px">Авторизация</h4>
-            <input style="margin-top: 10px" type="text" id="username" class="form-control"
-            placeholder="логин" autocomplete="off">
-            <input style="margin-top: 10px" type="password" id="password" class="form-control"
-                   placeholder="пароль" autocomplete="off">
+                <h4 style="margin-top: 20px">Авторизация</h4>
+                <input style="margin-top: 10px" type="text" id="username" class="form-control"
+                       placeholder="логин" autocomplete="off">
+                <input style="margin-top: 10px" type="password" id="password" class="form-control"
+                       placeholder="пароль" autocomplete="off">
             </div>
 
         </div>
@@ -581,7 +588,8 @@
                             <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2" id="houseYear"
                                                               placeholder="Год > 0"
                                                               min="1"></div>
-                            <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2" id="numberOfFlatsOnFloor"
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2"
+                                                              id="numberOfFlatsOnFloor"
                                                               placeholder="Этаж > 0" min="1"></div>
                             <div class="col-md-4 mb-8"><input type="number" class="form-control" id="numberOfLifts"
                                                               placeholder="Лифты > 0"
@@ -922,13 +930,13 @@
 
     function fetchServerInfo() {
         $.ajax({
-            url: "/lab6/client/info",
+            url: "/lab7/client/info",
             type: "GET",
             cache: false,
-            success: function(data) {
+            success: function (data) {
                 $("#infoText").text(data.message);
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("Error fetching server info:", error);
                 $("#infoText").text("Ошибка получения информации.");
             }
@@ -942,15 +950,15 @@
     });
 
 
-    $("#disconnect").click(function() {
+    $("#disconnect").click(function () {
         $.ajax({
-            url: "/lab6/client/disconnect",
+            url: "/lab7/client/disconnect",
             type: "POST",
-            success: function() {
+            success: function () {
                 console.log("Disconnected successfully");
                 $("#messages").append('<div class="message system"><span class="messageContent">отключено</span></div>');
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("Error disconnecting:", error);
                 alert("Ошибка отключения.");
             }
@@ -959,7 +967,7 @@
 
     function checkUpdates() {
         $.ajax({
-            url: "/lab6/client/getResponse",
+            url: "/lab7/client/getResponse",
             type: "GET",
             contentType: "application/json",
             success: function (data) {
@@ -988,21 +996,27 @@
         });
     }
 
-    setInterval(function() {
+    setInterval(function () {
         checkUpdates();
     }, 120);
 
     let hasConnection = false;
 
+    $(document).ready(function () {
+        document.getElementById('reset').hidden = true;
+    });
+
     function checkConnection() {
         $.ajax({
-            url: "/lab6/client/isConnected",
+            url: "/lab7/client/isConnected",
             type: "GET",
             cache: false,
-            success: function(response) {
+            success: function (response) {
                 var statusDiv = $("#connectionStatus");
                 var isActive = response.message.trim() === "Active";
                 hasConnection = isActive;
+
+                document.getElementById('reset').hidden = !isActive;
 
                 statusDiv.text("Состояние: " + (isActive ? "Активно" : "Неактивно"));
                 if (isActive) {
@@ -1011,7 +1025,7 @@
                     statusDiv.removeClass("active").addClass("inactive");
                 }
             },
-            error: function(error) {
+            error: function (error) {
                 console.error("Error checking connection status:", error);
                 $("#connectionStatus").text("Ошибка проверки состояния подключения").addClass("inactive").removeClass("active");
             }
@@ -1030,7 +1044,7 @@
             document.getElementById('messageInput').readOnly = false;
 
             $.ajax({
-                url: "/lab6/client/connect",
+                url: "/lab7/client/connect",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
@@ -1064,7 +1078,9 @@
 
             var requestData = {
                 message: message,
-                temporaryCollection: collection
+                temporaryCollection: collection,
+                username: $("#username").val(),
+                password: $("#password").val()
             };
 
             // Собираем HTML сообщения пользователя и списка элементов в одну строку
@@ -1082,7 +1098,7 @@
             updateCollectionUI();
 
             $.ajax({
-                url: "/lab6/client/send",
+                url: "/lab7/client/send",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(requestData),

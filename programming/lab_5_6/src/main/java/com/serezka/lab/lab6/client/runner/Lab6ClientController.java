@@ -1,6 +1,7 @@
 package com.serezka.lab.lab6.client.runner;
 
 import com.serezka.lab.core.database.model.Flat;
+import com.serezka.lab.core.database.model.User;
 import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker6;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;

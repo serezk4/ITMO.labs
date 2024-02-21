@@ -2,6 +2,8 @@ package com.serezka.lab.lab7.handler;
 
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.database.model.User;
+import com.serezka.lab.core.database.service.UserService;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
@@ -27,27 +29,37 @@ import java.util.stream.Collectors;
 @PropertySource("classpath:chat.properties")
 @ChannelHandler.Sharable
 public class Server extends SimpleChannelInboundHandler<Payload> implements Handler<Response, Payload> {
-    public static final long USER_ID = -6;
-
     String helpPattern;
 
     @Getter
     List<Command> commands;
 
-    public Server(@Qualifier("commands") List<Command> commands, @Value("${chat.help.pattern}") String helpPattern) {
+    UserService userService;
+
+    public Server(@Qualifier("commands") List<Command> commands, @Value("${chat.help.pattern}") String helpPattern, UserService userService) {
         this.commands = commands;
         this.helpPattern = helpPattern;
+        this.userService = userService;
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext chx, Payload payload) {
         if (payload == null) {
             log.warn("payload can't be null!");
+            chx.writeAndFlush(new Response("payload can't be null!"));
+            return;
+        }
+
+        if (payload.getUsername() == null || payload.getPassword() == null ||
+                payload.getUsername().isBlank()) {
+            log.warn("can't parse user with empty params");
+            chx.writeAndFlush(new Response("username / password required!"));
             return;
         }
 
         if (payload.getState() == null) {
             log.warn("payload's field 'state' can't be null!");
+            chx.writeAndFlush(new Response("payload's state can't be null!"));
             return;
         }
 
@@ -70,12 +82,20 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         if (payload.getCommand() == null)
             return new Response("command can't be null!");
 
-        if (payload.getFlats() != null)
-            payload.getFlats().forEach(flat -> flat.setUserId(USER_ID));
-
         if (payload.getCommand().equalsIgnoreCase("help"))
             return new Response(getHelp());
 
+        // check authorization
+        if (!userService.existsByUsernameAndPassword(payload.getUsername(), payload.getPassword())) {
+            return new Response("ошибка входа: неправильный логин или пароль");
+        }
+
+        User user = userService.findByUsernameAndPassword(payload.getUsername(), payload.getPassword());
+
+        if (payload.getFlats() != null)
+            payload.getFlats().forEach(flat -> flat.setUserId(user.getId()));
+
+        // filter commands
         List<Command> suitableCommands = commands.stream()
                 .filter(command -> payload.getCommand().matches(command.getUsage()))
                 .toList();
@@ -86,7 +106,7 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         if (suitableCommands.size() > 1) log.warn("suitable commands size > 1 ! {}", suitableCommands.toString());
 
         // create bridge
-        Bridge commandBridge = new Bridge(USER_ID, payload.getCommand(), payload.getString(), payload.getFlats());
+        Bridge commandBridge = new Bridge(user.getId(), payload.getCommand(), payload.getString(), payload.getFlats());
         suitableCommands.getFirst().execute(commandBridge);
 
         // check internal stack

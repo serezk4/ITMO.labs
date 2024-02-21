@@ -1,7 +1,9 @@
 package com.serezka.lab.lab7.client.runner;
 
 import com.serezka.lab.core.database.model.Flat;
+import com.serezka.lab.core.database.model.User;
 import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker6;
+import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker7;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.io.socket.objects.State;
@@ -25,11 +27,11 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
 public class Lab7ClientController implements Runner {
-    TCPClientWorker6 tcpClientWorker6;
+    TCPClientWorker7 tcpClientWorker7;
     Lab7ClientHandler handler;
 
-    public Lab7ClientController(TCPClientWorker6 tcpClientWorker6, @Qualifier("lab7client") Lab7ClientHandler handler) {
-        this.tcpClientWorker6 = tcpClientWorker6;
+    public Lab7ClientController(TCPClientWorker7 tcpClientWorker7, @Qualifier("lab7client") Lab7ClientHandler handler) {
+        this.tcpClientWorker7 = tcpClientWorker7;
         this.handler = handler;
     }
 
@@ -50,26 +52,26 @@ public class Lab7ClientController implements Runner {
     @GetMapping("/info")
     @ResponseBody
     public Message getInfo() {
-        return new Message(tcpClientWorker6.getInfo());
+        return new Message(tcpClientWorker7.getInfo());
     }
 
     @GetMapping("/isConnected")
     @ResponseBody
     public Message isActive() {
-        return new Message(tcpClientWorker6.isConnected() ? "Active" : "Inactive");
+        return new Message(tcpClientWorker7.isConnected() ? "Active" : "Inactive");
     }
 
     @PostMapping("/connect")
     @ResponseBody
     public Message connect() {
-        tcpClientWorker6.init();
+        tcpClientWorker7.init();
         return new Message("connected");
     }
 
     @PostMapping("/disconnect")
     @ResponseBody
     public Message disconnect() {
-        tcpClientWorker6.disconnect();
+        tcpClientWorker7.disconnect();
         return new Message("отключено");
     }
 

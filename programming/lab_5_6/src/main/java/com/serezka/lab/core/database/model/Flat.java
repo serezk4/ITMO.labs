@@ -6,16 +6,17 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
-@Entity @Table(name = "flats")
+@Entity
+@Table(name = "flats")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder @Data
-@AllArgsConstructor @NoArgsConstructor
+@Builder
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Flat implements Comparable<Flat>, Validatable {
     /**
      * Поле не может быть null
@@ -24,7 +25,8 @@ public class Flat implements Comparable<Flat>, Validatable {
      * Значение этого поля должно генерироваться автоматически
      */
     @CsvBindByName(column = "id", required = true)
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @CsvBindByName(column = "user_id")
@@ -68,7 +70,8 @@ public class Flat implements Comparable<Flat>, Validatable {
     Long area;
 
     public void setArea(@NonNull Long area) {
-        if (area > 734 || area < 0) throw new RequirementsException("area", "field can pick only number in range [0,734]");
+        if (area > 734 || area < 0)
+            throw new RequirementsException("area", "field can pick only number in range [0,734]");
         this.area = area;
     }
 

@@ -12,6 +12,11 @@ import java.util.Set;
 @Builder
 public class Payload implements Serializable {
     @Builder.Default
+    String username = null;
+    @Builder.Default
+    String password = null;
+
+    @Builder.Default
     State state = State.OK;
     String command = null;
 
@@ -29,6 +34,6 @@ public class Payload implements Serializable {
     }
 
     public static Payload connected() {
-        return new Payload(State.CONNECTED,null, null, null);
+        return new Payload(null,null,State.CONNECTED,null, null, null);
     }
 }

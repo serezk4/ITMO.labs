@@ -2,6 +2,7 @@ package com.serezka.lab.lab6.server.handler;
 
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.database.model.User;
 import com.serezka.lab.core.handler.Handler;
 import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
