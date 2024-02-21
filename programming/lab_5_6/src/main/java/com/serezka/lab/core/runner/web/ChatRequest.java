@@ -13,4 +13,7 @@ import java.util.Set;
 public class ChatRequest {
     String message;
     Set<Flat> temporaryCollection;
+
+    String username;
+    String password;
 }

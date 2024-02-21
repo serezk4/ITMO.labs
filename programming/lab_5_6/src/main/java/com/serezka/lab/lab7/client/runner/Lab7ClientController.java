@@ -80,7 +80,11 @@ public class Lab7ClientController implements Runner {
     public Message sendMessage(@RequestBody ChatRequest chatRequest) {
         try {
             chatRequest.getTemporaryCollection().forEach(flat -> flat.setUserId(Chat.USER_ID));
+
             Payload payload = new Payload(chatRequest.getMessage(), chatRequest.getTemporaryCollection(), "test");
+            payload.setUsername(chatRequest.getUsername());
+            payload.setPassword(chatRequest.getPassword());
+
             Response response = handler.handle(payload);
             return new Message(response.getMessage(), response.getFlats());
         } catch (Exception ex) {
