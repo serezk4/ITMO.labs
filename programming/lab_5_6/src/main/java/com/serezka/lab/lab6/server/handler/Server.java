@@ -36,7 +36,7 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
 
     public Server(@Qualifier("commands") List<Command> commands, @Value("${chat.help.pattern}") String helpPattern) {
         this.commands = commands;
-        this.helpPattern =helpPattern;
+        this.helpPattern = helpPattern;
     }
 
     @Override
@@ -61,6 +61,8 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         log.info("answer for client: {}", handledResponse.toString());
 
         chx.writeAndFlush(handledResponse);
+
+        log.info("answer for client sent");
     }
 
     @Override
