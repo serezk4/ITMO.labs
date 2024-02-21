@@ -1,6 +1,6 @@
 package com.serezka.lab;
 
-import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker;
+import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker6;
 import com.serezka.lab.core.runner.Runner;
 import lombok.AccessLevel;
 import lombok.ToString;
@@ -21,11 +21,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application implements ApplicationRunner {
     Runner runner;
 
-    TCPServerWorker tcpServerWorker;
+    TCPServerWorker6 tcpServerWorker6;
 
-    public Application(@Qualifier("lab5runner") Runner runner, TCPServerWorker tcpServerWorker) {
+    public Application(@Qualifier("lab5runner") Runner runner, TCPServerWorker6 tcpServerWorker6) {
         this.runner = runner;
-        this.tcpServerWorker = tcpServerWorker;
+        this.tcpServerWorker6 = tcpServerWorker6;
     }
 
     public static void main(String[] args) {
@@ -37,6 +37,6 @@ public class Application implements ApplicationRunner {
         if (args.getNonOptionArgs().contains("-console"))
             new Thread(runner).start();
 
-        tcpServerWorker.init();
+        tcpServerWorker6.init();
     }
 }

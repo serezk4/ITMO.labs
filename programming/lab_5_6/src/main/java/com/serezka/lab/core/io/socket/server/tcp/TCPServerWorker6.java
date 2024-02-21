@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
 @PropertySource("classpath:server.properties")
-public class TCPServerWorker implements ServerWorker {
+public class TCPServerWorker6 implements ServerWorker {
     MessageToMessageEncoder<Response> responseEncoder;
     MessageToMessageDecoder<ByteBuf> payloadDecoder;
 
@@ -35,10 +35,10 @@ public class TCPServerWorker implements ServerWorker {
     // server properties
     int port;
 
-    public TCPServerWorker(@Value("${lab6.server.port}") int port,
-                           @Qualifier("jsonResponseEncoder") MessageToMessageEncoder<Response> responseEncoder,
-                           @Qualifier("jsonPayloadDecoder") MessageToMessageDecoder<ByteBuf> payloadDecoder,
-                           @Qualifier("lab6serverHandler") SimpleChannelInboundHandler<Payload> handler) {
+    public TCPServerWorker6(@Value("${lab6.server.port}") int port,
+                            @Qualifier("jsonResponseEncoder") MessageToMessageEncoder<Response> responseEncoder,
+                            @Qualifier("jsonPayloadDecoder") MessageToMessageDecoder<ByteBuf> payloadDecoder,
+                            @Qualifier("lab6handler") SimpleChannelInboundHandler<Payload> handler) {
         log.info("initializing TCPChannelWorker on {}:{}", "localhost", port);
 
         this.port = port;

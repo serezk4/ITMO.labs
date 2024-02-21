@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>lab7 client</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            font-family: 'Roboto', sans-serif;
+            font-size: 18px;
+        }
+
+        #chatContainer {
+            height: calc(100vh - 60px); /* Высота с учетом панели выбора чата */
+            max-width: 70%; /* Максимальная ширина контейнера */
+            margin: auto;
+            margin-top: 60px; /* Отступ сверху для панели выбора чата */
+            padding: 20px; /* Отступы внутри контейнера */
+            display: flex;
+            flex-direction: column;
+            background: #fff; /* Белый фон контейнера */
+            border-radius: 8px; /* Скругление углов */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень контейнера */
+        }
+
+        #messages {
+            flex-grow: 1; /* Allows messages to take up available space */
+            overflow-y: auto; /* Scrollbar as needed */
+            padding: 20px;
+            border: none; /* Removing border for a more integrated look */
+        }
+
+        .message {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .userInput, .botResponse {
+            display: flex;
+            justify-content: flex-start; /* Align user messages to the right */
+            margin-bottom: 10px;
+        }
+
+        .botResponse {
+            justify-content: flex-start; /* Align bot messages to the left */
+        }
+
+        .messageContent {
+            max-width: 80%; /* Limiting message width */
+            padding: 10px 10px;
+            border-radius: 15px;
+            margin: 3px; /* Spacing around messages */
+        }
+
+        .userInput .messageContent {
+            background-color: #151515;
+            color: #fff;
+        }
+
+        .botResponse .messageContent {
+            background-color: #e9ecef;
+        }
+
+        .system {
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 5px; /* Spacing around messages */
+        }
+
+        .system .messageContent {
+            justify-content: center;
+            background-color: #e9e9e9;
+            color: #393939;
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin: 5px; /* Spacing around messages */
+        }
+
+        #messageInput {
+            flex-grow: 1; /* Поле ввода занимает все доступное пространство */
+            margin-bottom: 0; /* Убрать нижний отступ, если он есть */
+        }
+
+        #chatSelector {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: #232323; /* Синий фон */
+            color: #fff; /* Белый текст */
+            line-height: 50px; /* Высота строки для вертикального центрирования текста */
+            text-align: center;
+            font-size: 20px;
+        }
+
+        .chat-select {
+            margin-left: 10px; /* Отступ слева от текста */
+            padding: 5px 10px; /* Паддинг для удобства выбора */
+            border-radius: 5px; /* Скругление углов */
+            border: 1px solid #ccc; /* Граница */
+            background-color: #fff; /* Белый фон */
+            color: #333; /* Цвет текста */
+        }
+
+        .btn-black {
+            background-color: black;
+            border-color: black;
+            color: white; /* Ensures the text inside the button is visible */
+        }
+
+        .btn-black:hover {
+            color: white; /* Keeps the text color white even on hover */
+            background-color: #333; /* Slightly lighter black for hover effect, adjust as needed */
+            border-color: #333; /* Ensure the border color matches the hover background */
+        }
+
+        .collection-item {
+            font-size: 16px;
+            color: #6c757d; /* Bootstrap's $gray-600 for a subtle gray */
+        }
+
+        .collection-item .flat-name {
+            font-weight: normal;
+            color: #343a40; /* Slightly darker for emphasis */
+            padding-left: 10px; /* Добавляет отступ слева */
+        }
+
+        .collection-item-details {
+            margin-left: 20px; /* Indent for nested details */
+        }
+
+        .list-group-item-action:hover {
+            cursor: pointer;
+            background-color: #f8f9fa;
+        }
+
+        #addButton #deleteButton {
+            background-color: #007bff;
+            bottom: 0;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%; /* Optional if you want the button to be full-width */
+            margin-bottom: 37px;
+        }
+
+        summary {
+            padding-left: 10px; /* Или любое другое значение, которое подходит под ваш дизайн */
+        }
+
+        .input-group {
+            font-size: 18px;
+            display: flex; /* Установите flexbox для группы ввода */
+            align-items: center; /* Выровняйте элементы по центру по вертикали */
+        }
+
+        #messageInput {
+            flex: 1; /* Поле ввода займет все доступное пространство */
+            height: 40px; /* Установите желаемую высоту поля ввода */
+            font-size: 1.1rem; /* Увеличьте размер шрифта в поле ввода */
+            line-height: 40px; /* Установите line-height равным высоте для вертикального выравнивания текста */
+            margin-bottom: 0; /* Уберите нижний отступ, если он есть */
+        }
+
+        #sendButton {
+            margin-left: -1px; /* Убирает зазор между кнопкой и полем ввода */
+            height: 40px; /* Установите ту же высоту, что и для поля ввода */
+            font-size: 1.1rem; /* Установите тот же размер шрифта, что и для поля ввода */
+            line-height: 40px; /* Установите line-height равным высоте для вертикального выравнивания текста */
+            padding: 0 15px; /* Подберите горизонтальные отступы */
+            border: 1px solid #ccc; /* Добавьте границу, если нужно, чтобы она совпадала с полем ввода */
+            border-radius: 0 0.25rem 0.25rem 0; /* Скорректируйте скругление углов, чтобы оно совпадало с полем ввода */
+        }
+
+        .messageContent {
+            position: relative; /* Делаем контейнер сообщения позиционным контекстом */
+            padding: 10px;
+        }
+
+        .userInput .messageContent {
+            position: relative;
+        }
+
+        .flatsInfo {
+            right: 0; /* Определить, что правая сторона элемента должна быть выровнена с правой стороной родительского элемента */
+            left: auto; /* Отменить любые ранее установленные значения для левой стороны */
+            max-width: none;
+
+            position: absolute;
+            z-index: 1; /* Убедитесь, что список будет над другими элементами */
+            width: 420px; /* Ширина списка соответствует ширине контейнера сообщения */
+            top: 100%; /* Располагаем список сразу под контейнером сообщения */
+            left: 0; /* Выравниваем список слева с контейнером сообщения */
+            background-color: #c9c9c9;
+
+            border-radius: 20px;
+
+            border: 1px solid #ccc; /* Граница списка, возможно, потребуется настроить */
+            /*box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); !* Небольшая тень для списка *!*/
+            max-height: 800px; /* Максимальная высота списка */
+            overflow-y: auto; /* Скролл внутри списка, если он превышает максимальную высоту */
+            /*border-radius: 0 0 4px 4px; !* Скругление углов списка *!*/
+        }
+
+        .flatItem {
+            margin-bottom: 15px;
+        }
+
+        .flatName {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .flatData div, .houseData div {
+            color: #555; /* Менее яркий цвет для данных */
+            margin-left: 20px; /* Отступ для визуального отображения вложенности */
+        }
+
+        .flatData > div {
+            margin-bottom: 2px;
+        }
+
+        .houseDetails > span {
+            font-weight: bold;
+        }
+
+        .houseData {
+            margin-left: 20px; /* Дополнительный отступ для вложенных данных о доме */
+            margin-top: 5px;
+        }
+
+        .houseData div {
+            margin-bottom: 2px;
+        }
+
+        span {
+            font-weight: normal; /* Убедитесь, что остальные данные не жирные */
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out; /* Добавление плавной анимации */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: #fff;
+        }
+
+        a, a:hover {
+            text-decoration: none;
+            color: #007bff; /* Изменение стиля ссылок для улучшения видимости */
+        }
+
+        .annotation {
+            color: #919191;
+            justify-content: flex-end;
+            text-align: left;
+            margin-left: auto;
+            position: absolute;
+            right: 20px;
+        }
+
+        label {
+            margin-bottom: 2px;
+        }
+
+        .required {
+            color: darkred;
+        }
+
+        .modal-content {
+            padding: 20px; /* Добавить отступ внутри модального окна */
+        }
+
+        .form-group {
+            margin-bottom: 15px; /* Устанавливаем одинаковый отступ снизу для всех групп форм */
+        }
+
+        /* Увеличиваем специфичность селектора и добавляем !important для предотвращения конфликтов */
+        body .modal-dialog {
+            position: fixed !important;
+            margin: auto !important;
+            top: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            width: 550px !important; /* Указываем ширину модального окна */
+            height: 100% !important;
+            overflow: auto !important;
+            animation: slideInFromRight 0.3s forwards !important; /* Уменьшаем время анимации до 0.3 секунды */
+        }
+
+        body .modal-content {
+            height: 100% !important;
+            overflow: auto !important;
+        }
+
+        .details-container {
+            width: 400px;
+            background: #ffffff; /* Белый фон для контраста */
+            border-radius: 10px; /* Скругление углов */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тень для объема */
+            font-family: 'Roboto', sans-serif; /* Читабельный шрифт */
+            padding: 10px 10px; /* Отступы внутри блока */
+            margin: 10px 8px; /* Отступы снаружи блока */
+        }
+
+        .summary-title {
+            /*width: 400px;*/
+            color: #333333; /* Темно-серый цвет для заголовков */
+            font-weight: 500; /* Жирное начертание для заголовков */
+            margin-bottom: 10px; /* Отступ после заголовка */
+        }
+
+        .details-content {
+            color: #555555; /* Серый цвет для текста */
+            font-size: 1em; /* Размер шрифта для основного текста */
+            line-height: 1.6; /* Межстрочный интервал */
+            border-bottom: 1px solid #EEEEEE; /* Граница внизу для разделения */
+            padding-bottom: 10px; /* Отступ снизу для каждого элемента */
+        }
+
+        .details-content:last-child {
+            border-bottom: none; /* Убрать границу у последнего элемента */
+        }
+
+        .details-list-item {
+            display: flex; /* Flex-контейнер для выравнивания иконок и текста */
+            align-items: center; /* Центрирование элементов по вертикали */
+            margin-bottom: 5px; /* Отступ между элементами списка */
+        }
+
+        .details-list-item i {
+            color: #007BFF; /* Цвет иконок */
+            margin-right: 8px; /* Отступ справа от иконки */
+        }
+
+        .summaryel {
+            padding-left: 5px;
+        }
+
+        .card-header {
+            background-color: #007bff; /* Primary color */
+            color: #ffffff; /* White text color for contrast */
+        }
+
+        .card {
+            margin-top: 5px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        }
+
+        .list-group-item {
+            border: none; /* Remove borders for a cleaner look */
+            margin-bottom: 5px; /* Reduced space between items */
+            padding: .5rem 1.25rem; /* Adjust padding as needed */
+        }
+
+        /* For the card footer details */
+        .card-footer .list-group-item {
+            padding: .5rem 1.25rem; /* Consistent padding with other list items */
+        }
+
+        .list-group-item strong {
+            float: right; /* Align strong tags to the right for a clear data label */
+        }
+
+        #connectionControls {
+            text-align: right; /* Выравнивание элементов управления по правому краю */
+            padding: 10px; /* Отступы внутри блока управления */
+            background: #f8f9fa; /* Цвет фона блока управления */
+            border-radius: 4px; /* Скругление углов блока управления */
+            margin-bottom: 20px; /* Отступ снизу блока управления */
+        }
+
+        #connectionStatus, #infoText, .info {
+            display: block; /* Блочное отображение статуса для занимания всей ширины */
+            margin-top: 10px; /* Отступ сверху для статуса */
+            color: #fff; /* Цвет текста статуса */
+            padding: 2px 5px; /* Поля внутри статуса */
+            border-radius: 4px; /* Скругление углов статуса */
+        }
+
+        #infoText {
+            background-color: #343a40;
+        }
+
+        .info {
+            background-color: #0f511f;
+        }
+
+        #connectionStatus.active {
+            background-color: #28a745; /* Фон для активного состояния */
+        }
+
+        #connectionStatus.inactive {
+            background-color: #dc3545; /* Фон для неактивного состояния */
+        }
+
+        /* Стили для кнопок */
+        #connect, #disconnect {
+            margin: 5px 0; /* Отступы для кнопок */
+            width: auto; /* Автоматическая ширина кнопок */
+        }
+
+        .OK {
+            background-color: #d8ffdf; !important;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chatSelector" style="height: 50px">
+    <h2><b>Лабораторная работа №7 (клиент)</b> (<a href="https://github.com/serezk4">github</a> | <a
+            href="https://github.com/serezk4/ITMO.labs/tree/master/programming/lab_5_6">код</a> | <a
+            href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/отчет7.docx">отчет</a>) <b><a
+            href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/LAB6.md"
+            style="color: lightblue">Вариант 59102</a></b></h2>
+</div>
+
+
+<div style="display: flex; justify-content: center; height: 100vh;">
+    <div style="width: 15%; overflow-y: auto; background: #f8f9fa; margin-right: 10px; height: auto; margin-top: 50px">
+        <div id="connectionControls" class="text-left mt-3">
+            <button id="connect" class="btn btn-success">Подключиться</button>
+            <button id="disconnect" class="btn btn-danger">Отключиться</button>
+            <div id="connectionStatus" class="inactive" style="margin-top: 40px">Состояние: Неактивно</div>
+            <div id="infoText">ожидание...</div>
+            <div class="info">Протокол: <b>TCP</b></div>
+
+            <div>
+            <h4 style="margin-top: 20px">Авторизация</h4>
+            <input style="margin-top: 10px" type="text" id="username" class="form-control"
+            placeholder="логин" autocomplete="off">
+            <input style="margin-top: 10px" type="password" id="password" class="form-control"
+                   placeholder="пароль" autocomplete="off">
+            </div>
+
+        </div>
+    </div>
+
+    <div id="chatContainer" class="shadow" style="width: 70%; margin-right: 10px;">
+        <div id="messages"></div>
+        <div class="input-group mb-3">
+            <div id="commandInputContainer" class="container-fluid" style="position: relative; padding: 0;">
+                <div id="suggestions" class="list-group"
+                     style="position: absolute; bottom: 100%; left: 0; z-index: 1000; width: 100%; display: none;"></div>
+                <div class="input-group-append">
+                    <input type="text" id="messageInput" class="form-control"
+                           placeholder="Нажмите Enter для отправки запроса..."
+                           autocomplete="off">
+                    <button id="sendButton" class="btn btn-black">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="collectionPanel" class="shadow" style="width: 20%; overflow-y: auto; background: #f8f9fa;">
+        <h4 class="text-center p-2">Temporary Collection</h4>
+        <h4 class="text-center p-2">Временная коллекция</h4>
+        <button id="addButton" class="btn btn-success" style="width: 100%; margin-bottom: 0;">Добавить</button>
+        <button id="deleteButton" class="btn btn-danger" style="width: 100%;">Удалить всё</button>
+
+        <ul id="collectionList" class="list-group list-group-flush">
+            <!-- Dynamic list items will be appended here -->
+        </ul>
+    </div>
+</div>
+
+<!-- Modal for Flat data input -->
+<div class="modal fade" id="flatDataModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLabel">❔</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="flatDataForm">
+                    <!-- ID -->
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="flatName">ID</label>
+                                <input type="number" class="form-control" id="flatId" required>
+                            </div>
+                        </div>
+                        <!-- Flat Name -->
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label for="flatName">Название</label>
+                                <input type="text" class="form-control" id="flatName" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coordinates -->
+                    <div class="form-group">
+                        <label>Координаты <label class="required">*</label></label>
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <input type="number" class="form-control" id="coordinatesX" placeholder="X <= 364"
+                                       max="364" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="number" class="form-control" id="coordinatesY" placeholder="Y <= 182"
+                                       max="182" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area -->
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="flatArea">Площадь <label class="required">*</label> <label class="annotation">1<734</label></label>
+                            <input type="number" class="form-control" id="flatArea" min="1" max="734" required>
+                        </div>
+
+                        <!-- Number of Rooms -->
+                        <div class="col-md-6 mb-3">
+                            <label for="numberOfRooms">Кол-во комнат <label class="required">*</label> <label
+                                    class="annotation">1<</label></label>
+                            <input type="number" class="form-control" id="numberOfRooms" min="1" required>
+                        </div>
+                    </div>
+
+                    <!-- Living Space -->
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="livingSpace">Пространство</label>
+                            <input type="number" class="form-control" id="livingSpace" min="1">
+                        </div>
+
+                        <!-- Furniture -->
+                        <div class="col-md-6 mb-3">
+                            <label for="furniture">Мебель</label>
+                            <select class="form-control" style="width: 100%" id="furniture">
+                                <option value="true">Присутствует</option>
+                                <option value="false">Отсутствует</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Transport -->
+                    <div class="form-group">
+                        <label for="transport">Транспорт вокруг</label>
+                        <select class="form-control" id="transport">
+                            <option value="LITTLE">Мало</option>
+                            <option value="NORMAL">Нормально</option>
+                            <option value="ENOUGH">Много</option>
+                        </select>
+                    </div>
+
+                    <!-- House -->
+                    <div class="form-group">
+                        <label>Дом</label> <label class="required">*</label>
+                        <input type="text" class="form-control mb-2" id="houseName"
+                               placeholder="Название">
+                        <div class="form-row">
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2" id="houseYear"
+                                                              placeholder="Год > 0"
+                                                              min="1"></div>
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control mb-2" id="numberOfFlatsOnFloor"
+                                                              placeholder="Этаж > 0" min="1"></div>
+                            <div class="col-md-4 mb-8"><input type="number" class="form-control" id="numberOfLifts"
+                                                              placeholder="Лифты > 0"
+                                                              min="1"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-info" id="generateFlatButton">Сгенерировать</button>
+                <button type="submit" class="btn btn-primary" id="saveFlatButton">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    $(document).ready(function () {
+        // Добавление обработчика события клика для кнопки "Очистить чат"
+        $("#clearChatButton").click(function () {
+            $("#messages").empty(); // Очищает все сообщения в чате
+        });
+    });
+
+    let commands = [];
+
+    function fetchCommands() {
+        $.ajax({
+            url: '/core/getcommands',
+            type: 'GET',
+            success: function (data) {
+                commands = data;
+            },
+            error: function (error) {
+                console.error("Error fetching commands:", error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        fetchCommands()
+
+        $("#messageInput").on("input", function () {
+            const input = $(this).val().toLowerCase();
+            const suggestions = commands.filter(cmd => cmd.usage.toLowerCase().startsWith(input) || cmd.help.toLowerCase().includes(input));
+
+
+            $("#suggestions").empty();
+
+            if (input && suggestions.length > 0) {
+                suggestions.forEach(function (suggestion) {
+                    const suggestionItem = $(`<a href="#" class="list-group-item list-group-item-action">${suggestion.simpleUsage} - ${suggestion.help}</a>`);
+                    suggestionItem.on('click', function (e) {
+                        e.preventDefault();
+                        $("#messageInput").val(suggestion.simpleUsage);
+                        $("#suggestions").empty().hide();
+                    });
+                    $("#suggestions").append(suggestionItem).show();
+                });
+            } else {
+                $("#suggestions").hide();
+            }
+        });
+
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('#commandInputContainer').length) {
+                $("#suggestions").hide();
+            }
+        });
+    });
+
+    let temporaryCollection = [];
+
+    $(document).ready(function () {
+        $("#saveFlatButton").click(function (e) {
+            e.preventDefault();
+
+            const flatData = {
+                id: $("#flatId").val(),
+                name: $("#flatName").val(),
+                coordinates: {
+                    x: parseInt($("#coordinatesX").val(), 10),
+                    y: parseInt($("#coordinatesY").val(), 10),
+                },
+                area: parseInt($("#flatArea").val(), 10),
+                numberOfRooms: parseInt($("#numberOfRooms").val(), 10),
+                livingSpace: $("#livingSpace").val() ? parseInt($("#livingSpace").val(), 10) : null,
+                furniture: $("#furniture").val() === 'true',
+                transport: $("#transport").val(),
+                house: {
+                    name: $("#houseName").val(),
+                    year: parseInt($("#houseYear").val(), 10),
+                    numberOfFlatsOnFloor: parseInt($("#numberOfFlatsOnFloor").val(), 10),
+                    numberOfLifts: parseInt($("#numberOfLifts").val(), 10),
+                }
+            };
+
+
+            if (validateFlatData(flatData)) {
+                temporaryCollection.push(flatData);
+                $("#flatDataForm")[0].reset();
+                $('#flatDataModal').modal('hide');
+                updateCollectionUI();
+            } else {
+
+            }
+        });
+
+        function validateFlatData(flatData) {
+            let isValid = true;
+
+
+            $('.form-control').removeClass('is-invalid');
+
+            if (!flatData.name || flatData.name.trim() === '') {
+                isValid = false;
+                $('#flatName').addClass('is-invalid');
+            }
+
+            if (flatData.coordinates === undefined) {
+                isValid = false;
+                $('#coordinatesX').addClass('is-invalid');
+                $('#coordinatesY').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.coordinates.x) || flatData.coordinates.x > 364 || flatData.coordinates.x < 0) {
+                isValid = false;
+                $('#coordinatesX').addClass('is-invalid');
+            }
+            if (isNaN(flatData.coordinates.y) || flatData.coordinates.y > 182 || flatData.coordinates.y < 0) {
+                isValid = false;
+                $('#coordinatesY').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.area) || flatData.area < 1 || flatData.area > 734) {
+                isValid = false;
+                $('#flatArea').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.numberOfRooms) || flatData.numberOfRooms <= 0) {
+                isValid = false;
+                $('#numberOfRooms').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.livingSpace) && flatData.livingSpace <= 0) {
+                isValid = false;
+                $('#livingSpace').addClass('is-invalid');
+            }
+
+            if (flatData.house === undefined) {
+                isValid = false
+                $('#houseYear').addClass('is-invalid');
+                $('#numberOfFlatsOnFloor').addClass('is-invalid');
+                $('#numberOfLifts').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.house.year) || flatData.house.year <= 0) {
+                isValid = false;
+                $('#houseYear').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.house.numberOfFlatsOnFloor) || flatData.house.numberOfFlatsOnFloor <= 0) {
+                isValid = false;
+                $('#numberOfFlatsOnFloor').addClass('is-invalid');
+            }
+
+            if (isNaN(flatData.house.numberOfLifts) || flatData.house.numberOfLifts <= 0) {
+                isValid = false;
+                $('#numberOfLifts').addClass('is-invalid');
+            }
+
+            return isValid;
+        }
+
+
+        $("#generateFlatButton").click(function () {
+            $("#flatName").val("Generated #" + Math.floor(Math.random() * 10000));
+            $("#coordinatesX").val(Math.floor(Math.random() * 365));
+            $("#coordinatesY").val(Math.floor(Math.random() * 183));
+            $("#flatArea").val(Math.floor(Math.random() * 734) + 1);
+            $("#numberOfRooms").val(Math.floor(Math.random() * 5) + 1);
+            $("#livingSpace").val(Math.floor(Math.random() * 200) + 1);
+            $("#furniture").val(Math.random() > 0.5 ? 'true' : 'false');
+            $("#transport").val(["LITTLE", "NORMAL", "ENOUGH"][Math.floor(Math.random() * 3)]);
+            $("#houseName").val("Generated House");
+            $("#houseYear").val(Math.floor(Math.random() * 120) + 1900);
+            $("#numberOfFlatsOnFloor").val(Math.floor(Math.random() * 10) + 1);
+            $("#numberOfLifts").val(Math.floor(Math.random() * 5) + 1);
+        });
+
+
+    });
+
+    function updateCollectionUI() {
+        const collectionList = $("#collectionList");
+        collectionList.empty();
+
+        temporaryCollection.forEach((item, index) => {
+            let itemHTML = `
+            <div class="container mt-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header bg-primary text-white">
+                                <h5 class="card-title mb-0">Generated #5931 ID</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Rooms: <strong>3</strong></li>
+                                    <li class="list-group-item">Area: <strong>156</strong></li>
+                                    <li class="list-group-item">Living Space: <strong>7</strong></li>
+                                    <li class="list-group-item">Furniture: <strong>Yes</strong></li>
+                                    <li class="list-group-item">Transport: <strong>ENOUGH</strong></li>
+                                </ul>
+                            </div>
+                            <div class="card-footer">
+                                <h6 class="mb-2">House Details:</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Name: <strong>Generated House</strong></li>
+                                    <li class="list-group-item">Year: <strong>1965</strong></li>
+                                    <li class="list-group-item">Number of Flats on Floor: <strong>2</strong></li>
+                                    <li class="list-group-item">Number of Lifts: <strong>4</strong></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+            collectionList.append(itemHTML);
+        });
+
+        $(".delete-btn").click(function () {
+            const index = $(this).data("index");
+            temporaryCollection.splice(index, 1);
+            updateCollectionUI();
+        });
+
+        $(".edit-btn").click(function () {
+            const index = $(this).data("index");
+            const item = temporaryCollection[index];
+
+            $("#flatName").val(item.name);
+            $("#coordinatesX").val(item.coordinates.x);
+            $("#coordinatesY").val(item.coordinates.y);
+
+            $('#flatDataModal').modal('show');
+
+            $("#saveFlatButton").off('click').click(function (e) {
+                e.preventDefault();
+                item.name = $("#flatName").val();
+                temporaryCollection[index] = item;
+                $('#flatDataModal').modal('hide');
+                updateCollectionUI();
+            });
+        });
+    }
+
+    $(document).ready(function () {
+        // Глобальный обработчик клика для закрытия всех деталей при клике вне их
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('details').length) {
+                // Закрытие всех открытых <details>
+                $('details[open]').each(function () {
+                    this.removeAttribute('open');
+                });
+            }
+        });
+
+        // Предотвращаем всплывание клика внутри <details> для предотвращения его "закрытия" глобальным обработчиком
+        $(document).on('click', 'details', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const openFormButton = document.getElementById('addButton');
+        const saveFlatButton = document.getElementById('saveFlatButton');
+        const deleteFlatButton = document.getElementById('deleteButton');
+
+        deleteFlatButton.addEventListener('click', function () {
+            temporaryCollection = []
+            updateCollectionUI()
+        })
+
+        openFormButton.addEventListener('click', function () {
+            $('#flatDataModal').modal('show');
+        });
+
+        saveFlatButton.addEventListener('click', function (e) {
+            e.preventDefault();
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                $("#suggestions").empty();
+                sendButton.click();
+            }
+        });
+    });
+
+    function getList(flats) {
+        let flatsHTML = '<div class="flatsInfo">';
+        flatsHTML += flats.map(flat => {
+            return `<div class="details-container">
+                        <details class="summary-title">
+                            <summary style="font-weight: 500; color: black">${flat.name} ID: ${flat.id}</summary>
+                            <div style="background-color: #f0fbfe">
+                            <div><span class="summaryel">Coordinates:</span> X=${flat.coordinates.x}, Y=${flat.coordinates.y}</div>
+                            <div><span class="summaryel">Area:</span> ${flat.area}</div>
+                            <div><span class="summaryel">Number of Rooms:</span> ${flat.numberOfRooms}</div>
+                            <div><span class="summaryel">Living Space:</span> ${flat.livingSpace || 'N/A'}</div>
+                            <div><span class="summaryel">Furniture:</span> ${flat.furniture ? 'Yes' : 'No'}</div>
+                            <div><span class="summaryel">Transport:</span> ${flat.transport}</div>
+                            </div>
+                            <div style="background-color: #dcf3f9;">
+                            <span class="summary-title">House Details</span>
+                            <div><span class="summaryel">Name:</span>: ${flat.house.name}</div>
+                            <div><span class="summaryel">Year:</span> ${flat.house.year}</div>
+                            <div><span class="summaryel">Flats on Floor:</span> ${flat.house.numberOfFlatsOnFloor}</div>
+                            <div><span class="summaryel">Lifts:</span> ${flat.house.numberOfLifts}</div>
+                            </div>
+                        </details>
+                    </div>`;
+        }).join('');
+        flatsHTML = '<details><summary>Элементы</summary>' + flatsHTML + '</details>';
+        flatsHTML += '</div>';
+        return flatsHTML;
+    }
+
+    function fetchServerInfo() {
+        $.ajax({
+            url: "/lab6/client/info",
+            type: "GET",
+            cache: false,
+            success: function(data) {
+                $("#infoText").text(data.message);
+            },
+            error: function(error) {
+                console.error("Error fetching server info:", error);
+                $("#infoText").text("Ошибка получения информации.");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        setInterval(function () {
+            fetchServerInfo();
+        }, 5000);
+    });
+
+
+    $("#disconnect").click(function() {
+        $.ajax({
+            url: "/lab6/client/disconnect",
+            type: "POST",
+            success: function() {
+                console.log("Disconnected successfully");
+                $("#messages").append('<div class="message system"><span class="messageContent">отключено</span></div>');
+            },
+            error: function(error) {
+                console.error("Error disconnecting:", error);
+                alert("Ошибка отключения.");
+            }
+        });
+    });
+
+    function checkUpdates() {
+        $.ajax({
+            url: "/lab6/client/getResponse",
+            type: "GET",
+            contentType: "application/json",
+            success: function (data) {
+                if (!data) return;
+
+                let responseHTML = '<div class="message botResponse"><span class="messageContent">' + data.message;
+
+                if (data && data.flats && data.flats.length > 0) {
+                    responseHTML += getList(data.flats);
+                }
+
+                responseHTML += '</span></div>'; // Закрываем div ответа бота
+
+                $("#messages").append(responseHTML);
+                $("#messageInput").val('');
+                $("#messages").scrollTop($("#messages")[0].scrollHeight);
+                document.getElementById('messageInput').readOnly = false;
+
+            },
+            error: function (error) {
+                // Обработка ошибки запроса
+                $("#messages").append('<div class="message botResponse ' + data.state + '"><span class="messageContent">Ошибка: ' + error.statusText + '</span></div>');
+                $("#messages").scrollTop($("#messages")[0].scrollHeight);
+                document.getElementById('messageInput').readOnly = false;
+            }
+        });
+    }
+
+    setInterval(function() {
+        checkUpdates();
+    }, 120);
+
+    let hasConnection = false;
+
+    function checkConnection() {
+        $.ajax({
+            url: "/lab6/client/isConnected",
+            type: "GET",
+            cache: false,
+            success: function(response) {
+                var statusDiv = $("#connectionStatus");
+                var isActive = response.message.trim() === "Active";
+                hasConnection = isActive;
+
+                statusDiv.text("Состояние: " + (isActive ? "Активно" : "Неактивно"));
+                if (isActive) {
+                    statusDiv.removeClass("inactive").addClass("active");
+                } else {
+                    statusDiv.removeClass("active").addClass("inactive");
+                }
+            },
+            error: function(error) {
+                console.error("Error checking connection status:", error);
+                $("#connectionStatus").text("Ошибка проверки состояния подключения").addClass("inactive").removeClass("active");
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        setInterval(function () {
+            checkConnection();
+        }, 1000);
+    });
+
+
+    $(document).ready(function () {
+        $("#connect").click(function () {
+            document.getElementById('messageInput').readOnly = false;
+
+            $.ajax({
+                url: "/lab6/client/connect",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    'scope': 'connect'
+                }),
+                success: function (data) {
+                    $("#messages").append('<div class="message system ' + data.state + '"><span class="messageContent">подключено</span></div>');
+                },
+                error: function (error) {
+                    console.log(error.statusText)
+                }
+            });
+        })
+    })
+
+    $(document).ready(function () {
+        $("#sendButton").click(function () {
+            if (document.getElementById('messageInput').readOnly === true) return;
+            if (!hasConnection) return;
+
+            var message = $("#messageInput").val();
+            var collection = temporaryCollection; // Assuming this is already structured correctly
+
+            $("#suggestions").empty();
+
+            if (message.trim().toLowerCase() === "cls") {
+                $("#messages").empty(); // Очищаем чат
+                $("#messageInput").val(''); // Очищаем поле ввода
+                return; // Заканчиваем выполнение функции здесь
+            }
+
+            var requestData = {
+                message: message,
+                temporaryCollection: collection
+            };
+
+            // Собираем HTML сообщения пользователя и списка элементов в одну строку
+            var messageHTML = '<div class="message userInput"><span class="messageContent">' + message;
+
+            if (temporaryCollection && temporaryCollection.length > 0) {
+                messageHTML += getList(temporaryCollection);
+            }
+
+            messageHTML += '</span></div>'; // Закрываем div списка и div сообщения
+
+            $("#messages").append(messageHTML);
+
+            temporaryCollection = []; // Очищаем временную коллекцию после отправки
+            updateCollectionUI();
+
+            $.ajax({
+                url: "/lab6/client/send",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(requestData),
+                success: function (data) {
+                    document.getElementById('messageInput').readOnly = true;
+
+                    // let responseHTML = '<div class="message botResponse"><span class="messageContent">' + data.message;
+                    //
+                    // if (data && data.flats && data.flats.length > 0) {
+                    //     responseHTML += getList(data.flats);
+                    // }
+
+                    // responseHTML += '</span></div>'; // Закрываем div ответа бота
+
+                    // $("#messages").append(responseHTML);
+                    $("#messageInput").val('');
+                    $("#messages").scrollTop($("#messages")[0].scrollHeight);
+                },
+                error: function (error) {
+                    // Обработка ошибки запроса
+                    $("#messages").append('<div class="message botResponse"><span class="messageContent">Ошибка: ' + error.statusText + '</span></div>');
+                }
+            });
+        });
+    });
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

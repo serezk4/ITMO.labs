@@ -1,4 +1,4 @@
-package com.serezka.lab.lab6.client.handler;
+package com.serezka.lab.lab7.client.handler;
 
 import com.serezka.lab.core.command.Command;
 import com.serezka.lab.core.handler.Handler;
@@ -21,14 +21,13 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
-@Component("lab6client")
+@Component("lab7client")
 @PropertySource("classpath:client.properties")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Log4j2(topic = "client6")
+@Log4j2(topic = "Client 7")
 @ChannelHandler.Sharable
-public class Lab6ClientHandler extends SimpleChannelInboundHandler<Response> implements Handler<Response, Payload> {
+public class Lab7ClientHandler extends SimpleChannelInboundHandler<Response> implements Handler<Response, Payload> {
     @NonFinal Deque<Response> responses = new ArrayDeque<>();
 
     public Response getResponse() {return responses.isEmpty() ? null : responses.pop();}
@@ -37,7 +36,7 @@ public class Lab6ClientHandler extends SimpleChannelInboundHandler<Response> imp
 
     @NonFinal ChannelHandlerContext context = null;
 
-    public Lab6ClientHandler(@Qualifier("commands") List<Command> commands) {
+    public Lab7ClientHandler(@Qualifier("commands") List<Command> commands) {
         this.commands = commands;
     }
 

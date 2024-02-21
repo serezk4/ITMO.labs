@@ -1,4 +1,4 @@
-package com.serezka.lab.lab6.server.handler;
+package com.serezka.lab.lab7.handler;
 
 import com.serezka.lab.core.command.Bridge;
 import com.serezka.lab.core.command.Command;
@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@Component("lab6handler")
+@Component("lab7handler")
 @Log4j2(topic = "Server")
 @PropertySource("classpath:chat.properties")
 @ChannelHandler.Sharable

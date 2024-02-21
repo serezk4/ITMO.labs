@@ -1,4 +1,4 @@
-package com.serezka.lab.lab6.client.runner;
+package com.serezka.lab.lab7.client.runner;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.io.socket.client.tcp.TCPClientWorker6;
@@ -6,9 +6,9 @@ import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import com.serezka.lab.core.io.socket.objects.State;
 import com.serezka.lab.core.runner.Runner;
-import com.serezka.lab.lab5.hahdler.Chat;
 import com.serezka.lab.core.runner.web.ChatRequest;
-import com.serezka.lab.lab6.client.handler.Lab6ClientHandler;
+import com.serezka.lab.lab5.hahdler.Chat;
+import com.serezka.lab.lab7.client.handler.Lab7ClientHandler;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -21,14 +21,14 @@ import java.util.Optional;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/lab6/client")
+@RequestMapping("/lab7/client")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
-public class Lab6ClientController implements Runner {
+public class Lab7ClientController implements Runner {
     TCPClientWorker6 tcpClientWorker6;
-    Lab6ClientHandler handler;
+    Lab7ClientHandler handler;
 
-    public Lab6ClientController(TCPClientWorker6 tcpClientWorker6, @Qualifier("lab6client") Lab6ClientHandler handler) {
+    public Lab7ClientController(TCPClientWorker6 tcpClientWorker6, @Qualifier("lab7client") Lab7ClientHandler handler) {
         this.tcpClientWorker6 = tcpClientWorker6;
         this.handler = handler;
     }
@@ -44,7 +44,7 @@ public class Lab6ClientController implements Runner {
 
     @GetMapping("/")
     public String chatPage() {
-        return "lab6";
+        return "lab7";
     }
 
     @GetMapping("/info")

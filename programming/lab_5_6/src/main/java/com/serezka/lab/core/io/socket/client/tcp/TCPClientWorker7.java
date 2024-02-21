@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
-public class TCPClientWorker implements ClientWorker {
+public class TCPClientWorker7 implements ClientWorker {
     // handler
     SimpleChannelInboundHandler<Response> handler;
 
@@ -36,10 +36,10 @@ public class TCPClientWorker implements ClientWorker {
     MessageToMessageEncoder<Payload> payloadEncoder;
     MessageToMessageDecoder<ByteBuf> responseDecoder;
 
-    public TCPClientWorker(@Qualifier("jsonPayloadEncoder") MessageToMessageEncoder<Payload> payloadEncoder,
-                           @Qualifier("jsonResponseDecoder") MessageToMessageDecoder<ByteBuf> responseDecoder,
-                           @Value("${lab6.server.address}") String address, @Value("${lab6.server.port}") int port,
-                           @Qualifier("lab6client") SimpleChannelInboundHandler<Response> handler) {
+    public TCPClientWorker7(@Qualifier("jsonPayloadEncoder") MessageToMessageEncoder<Payload> payloadEncoder,
+                            @Qualifier("jsonResponseDecoder") MessageToMessageDecoder<ByteBuf> responseDecoder,
+                            @Value("${lab7.server.address}") String address, @Value("${lab7.server.port}") int port,
+                            @Qualifier("lab7client") SimpleChannelInboundHandler<Response> handler) {
         this.address = address;
         this.port = port;
 
