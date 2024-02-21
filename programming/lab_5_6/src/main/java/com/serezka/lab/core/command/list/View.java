@@ -23,7 +23,7 @@ public class View extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
+        Set<Flat> collection = flatService.findAll();
 
         if (collection.isEmpty()) {
             bridge.send("В коллекции отсутствуют элементы...");

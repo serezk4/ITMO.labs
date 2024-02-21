@@ -439,7 +439,7 @@
             href="https://github.com/serezk4/ITMO.labs/tree/master/programming/lab_5_6">код</a> | <a
             href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/отчет7.docx">отчет</a>) <b><a
             href="https://github.com/serezk4/ITMO.labs/blob/master/programming/lab_5_6/LAB6.md"
-            style="color: lightblue">Вариант 59102</a></b></h2>
+            style="color: lightblue">Вариант 591014</a></b></h2>
 </div>
 
 
@@ -608,6 +608,7 @@
 </div>
 
 <script th:inline="javascript">
+
     $(document).ready(function () {
         // Добавление обработчика события клика для кнопки "Очистить чат"
         $("#clearChatButton").click(function () {
@@ -1036,6 +1037,40 @@
         setInterval(function () {
             checkConnection();
         }, 1000);
+    });
+
+    $(document).ready(function () {
+        $("#reset").click(async function () {
+            await $.ajax({
+                url: "/lab7/client/disconnect",
+                type: "POST",
+                success: function () {
+                    console.log("Disconnected successfully");
+                    $("#messages").append('<div class="message system"><span class="messageContent">отключено</span></div>');
+                },
+                error: function (error) {
+                    console.error("Error disconnecting:", error);
+                    $("#messages").append('<div class="message system ' + data.state + '"><span class="messageContent">' + error + '</span></div>');
+                }
+            });
+
+            document.getElementById('messageInput').readOnly = false;
+
+            $.ajax({
+                url: "/lab7/client/connect",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    'scope': 'connect'
+                }),
+                success: function (data) {
+                    $("#messages").append('<div class="message system ' + data.state + '"><span class="messageContent">подключено</span></div>');
+                },
+                error: function (error) {
+                    console.log(error.statusText)
+                }
+            });
+        });
     });
 
 

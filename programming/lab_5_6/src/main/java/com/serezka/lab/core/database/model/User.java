@@ -15,5 +15,10 @@ public class User {
     Long id;
 
     String username;
-    int hashPassword;
+    String hashPassword;
+
+    public User(String username, String hashPassword) {
+        this.username = username;
+        this.hashPassword = hashPassword;
+    }
 }

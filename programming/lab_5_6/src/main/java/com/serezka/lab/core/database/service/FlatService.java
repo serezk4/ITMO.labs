@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -27,6 +29,11 @@ public class FlatService {
         this.formatWorker = formatWorker;
 
         this.filePath = filePath;
+    }
+
+    @Transactional
+    public Set<Flat> findAll() {
+        return new HashSet<>(flatRepository.findAll());
     }
 
     @Transactional

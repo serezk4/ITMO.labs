@@ -1,7 +1,6 @@
 package com.serezka.lab.core.io.socket.objects.encoder;
 
 import com.google.gson.Gson;
-import com.serezka.lab.core.io.socket.objects.Payload;
 import com.serezka.lab.core.io.socket.objects.Response;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -14,14 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.nio.charset.Charset;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("jsonResponseEncoder") @PropertySource("classpath:server.properties")

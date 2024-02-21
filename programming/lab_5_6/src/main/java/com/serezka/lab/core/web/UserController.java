@@ -23,8 +23,6 @@ public class UserController {
     @PostMapping("/create")
     @ResponseBody
     public void create(@RequestBody AuthorizationData authorizationData) {
-        userService.save(User.builder()
-                .username(authorizationData.getUsername())
-                .hashPassword(authorizationData.getPassword().hashCode()).build());
+        userService.save(authorizationData.getUsername(), authorizationData.getPassword());
     }
 }

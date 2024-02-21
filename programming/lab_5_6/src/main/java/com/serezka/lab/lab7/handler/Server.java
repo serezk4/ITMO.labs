@@ -21,11 +21,10 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Component("lab7handler")
@@ -40,6 +39,10 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
 
     UserService userService;
 
+    ExecutorService handlingExecutor = Executors.newCachedThreadPool();
+    ForkJoinPool answeringPool = new ForkJoinPool();
+
+
     public Server(@Qualifier("commands") List<Command> commands, @Value("${chat.help.pattern}") String helpPattern, UserService userService) {
         this.commands = commands;
         this.helpPattern = helpPattern;
@@ -48,27 +51,35 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
 
     @Override
     protected void channelRead0(ChannelHandlerContext chx, Payload payload) {
+        handlingExecutor.submit(() -> checkAndHandle(chx, payload));
+    }
+
+    protected void writeAndFlush(ChannelHandlerContext chx, Response response) {
+        answeringPool.submit(() -> chx.writeAndFlush(response));
+    }
+
+    protected void checkAndHandle(ChannelHandlerContext chx, Payload payload) {
         if (payload == null) {
             log.warn("payload can't be null!");
-            chx.writeAndFlush(new Response("payload can't be null!"));
+            writeAndFlush(chx, new Response("payload can't be null!"));
             return;
         }
 
         if (payload.getUsername() == null || payload.getPassword() == null ||
                 payload.getUsername().isBlank()) {
             log.warn("can't parse user with empty params");
-            chx.writeAndFlush(new Response("username / password required!"));
+            writeAndFlush(chx, new Response("username / password required!"));
             return;
         }
 
         if (payload.getState() == null) {
             log.warn("payload's field 'state' can't be null!");
-            chx.writeAndFlush(new Response("payload's state can't be null!"));
+            writeAndFlush(chx, new Response("payload's state can't be null!"));
             return;
         }
 
         if (payload.getState() == State.CONNECTED) {
-            chx.writeAndFlush(Response.connected());
+            writeAndFlush(chx, Response.connected());
             return;
         }
 
@@ -76,7 +87,7 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         Response handledResponse = handle(payload);
         log.info("answer for client: {}", handledResponse.toString());
 
-        chx.writeAndFlush(handledResponse);
+        writeAndFlush(chx, handledResponse);
 
         log.info("answer for client sent");
     }
@@ -90,9 +101,8 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
             return new Response(getHelp());
 
         // check authorization
-        if (!userService.existsByUsernameAndPassword(payload.getUsername(), payload.getPassword())) {
+        if (!userService.existsByUsernameAndPassword(payload.getUsername(), payload.getPassword()))
             return new Response("ошибка входа: неправильный логин или пароль");
-        }
 
         User user = userService.findByUsernameAndPassword(payload.getUsername(), payload.getPassword());
 
