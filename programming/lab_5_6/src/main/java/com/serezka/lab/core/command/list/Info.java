@@ -25,7 +25,7 @@ public class Info extends Command {
         final Set<Flat> collection = flatService.findAllByUserId(bridge.getUserId());
 
         bridge.send("тип: %s", collection.getClass());
-        bridge.send("хранимые данные: ", Flat.class);
+        bridge.send("хранимые данные: %s", Flat.class.getName());
         bridge.send("размер: %d", collection.size());
     }
 }

@@ -7,7 +7,10 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 @Entity @Table(name = "flats")
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -41,7 +44,7 @@ public class Flat implements Comparable<Flat>, Validatable {
      * Поле не может быть null
      */
     @NonNull
-//    @CsvBindByName todo
+//    @CsvBindByName
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coordinates", referencedColumnName = "id")
     Coordinates coordinates;
@@ -51,10 +54,10 @@ public class Flat implements Comparable<Flat>, Validatable {
      * Значение этого поля должно генерироваться автоматически
      */
     @NonNull
+    @Builder.Default
     @CsvBindByName(column = "creation_date")
     @Column(name = "creation_date")
-
-    Date creationDate = new Date();
+    Calendar creationDate = GregorianCalendar.from(ZonedDateTime.now());
 
     /**
      * Максимальное значение поля: 734

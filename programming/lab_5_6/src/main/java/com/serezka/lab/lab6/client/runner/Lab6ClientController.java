@@ -100,7 +100,7 @@ public class Lab6ClientController implements Runner {
         }
 
         public Message(String message, Set<Flat> flats, State state) {
-            this.message = message;
+            this(message);
             this.flats = flats;
             this.state = Optional.ofNullable(state).orElse(State.OK).name();
         }

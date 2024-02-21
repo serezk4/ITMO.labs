@@ -61,12 +61,10 @@ public class Lab5Controller implements Runner {
 
         public Message(String message) {
             this.message = message.replaceAll("\n", "</br>");
-//            this.message = message;
         }
 
         public void setMessage(String message) {
             this.message = message.replaceAll("\n", "</br>");
-//            this.message = message;
         }
     }
 }
