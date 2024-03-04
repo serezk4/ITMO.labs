@@ -42,7 +42,6 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
     ExecutorService handlingExecutor = Executors.newCachedThreadPool();
     ForkJoinPool answeringPool = new ForkJoinPool();
 
-
     public Server(@Qualifier("commands") List<Command> commands, @Value("${chat.help.pattern}") String helpPattern, UserService userService) {
         this.commands = commands;
         this.helpPattern = helpPattern;
