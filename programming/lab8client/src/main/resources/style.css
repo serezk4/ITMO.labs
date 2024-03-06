@@ -1,0 +1,10 @@
+.button{
+    -fx-border-color: transparent;
+    -fx-background-color: white;
+    -fx-border-radius: 2px;
+}
+.button_2{
+    -fx-background-color: transparent;
+    -fx-border-color: black;
+    -fx-border-radius: 2px;
+}

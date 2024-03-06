@@ -19,6 +19,7 @@ public interface FlatRepository extends JpaRepository<Flat, Long> {
     @NonNull Optional<Flat> findByIdAndUserId(Long id, Long userId);
 
     long countAllByUserId(Long userId);
+    long countAll();
 
     void removeByIdAndUserId(Long id, Long userId);
     void removeAllByUserId(Long userId);

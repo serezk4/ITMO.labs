@@ -2,7 +2,7 @@ package com.serezka.lab.core.database.service;
 
 import com.serezka.lab.core.database.model.Flat;
 import com.serezka.lab.core.database.repository.FlatRepository;
-import com.serezka.lab.core.io.format.FormatWorker;
+import com.serezka.lab.core.v1.io.format.FormatWorker;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -13,22 +13,14 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class FlatService {
     FlatRepository flatRepository;
-    FormatWorker<Flat> formatWorker; // todo
-    Path filePath;
 
-    public FlatService(FlatRepository flatRepository,
-                       @Qualifier("csvFormatWorker") FormatWorker<Flat> formatWorker,
-                       @Qualifier("rootFile") Path filePath) {
+    public FlatService(FlatRepository flatRepository) {
         this.flatRepository = flatRepository;
-        this.formatWorker = formatWorker;
-
-        this.filePath = filePath;
     }
 
     @Transactional
@@ -59,6 +51,11 @@ public class FlatService {
     @Transactional
     public Optional<Flat> findByIdAndUserId(Long id, Long userId) {
         return flatRepository.findByIdAndUserId(id, userId);
+    }
+
+    @Transactional
+    public long countAll() {
+        return flatRepository.countAll();
     }
 
     @Transactional

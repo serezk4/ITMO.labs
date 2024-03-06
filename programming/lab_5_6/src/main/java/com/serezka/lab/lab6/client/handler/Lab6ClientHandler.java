@@ -1,10 +1,10 @@
 package com.serezka.lab.lab6.client.handler;
 
-import com.serezka.lab.core.command.Command;
-import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.io.socket.objects.Payload;
-import com.serezka.lab.core.io.socket.objects.Response;
-import com.serezka.lab.core.io.socket.objects.State;
+import com.serezka.lab.core.v1.command.Command;
+import com.serezka.lab.core.v1.handler.Handler;
+import com.serezka.lab.core.v1.io.socket.objects.Payload;
+import com.serezka.lab.core.v1.io.socket.objects.Response;
+import com.serezka.lab.core.v1.io.socket.objects.State;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
 @Component("lab6client")
 @PropertySource("classpath:client.properties")

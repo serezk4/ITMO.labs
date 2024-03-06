@@ -1,13 +1,12 @@
 package com.serezka.lab.lab7.handler;
 
-import com.serezka.lab.core.command.Bridge;
-import com.serezka.lab.core.command.Command;
+import com.serezka.lab.core.v1.command.Bridge;
+import com.serezka.lab.core.v1.command.Command;
 import com.serezka.lab.core.database.model.User;
 import com.serezka.lab.core.database.service.UserService;
-import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.io.socket.objects.Payload;
-import com.serezka.lab.core.io.socket.objects.Response;
-import com.serezka.lab.core.io.socket.objects.State;
+import com.serezka.lab.core.v1.handler.Handler;
+import com.serezka.lab.core.v1.io.socket.objects.Payload;
+import com.serezka.lab.core.v1.io.socket.objects.Response;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -74,11 +73,6 @@ public class Server extends SimpleChannelInboundHandler<Payload> implements Hand
         if (payload.getState() == null) {
             log.warn("payload's field 'state' can't be null!");
             writeAndFlush(chx, new Response("payload's state can't be null!"));
-            return;
-        }
-
-        if (payload.getState() == State.CONNECTED) {
-            writeAndFlush(chx, Response.connected());
             return;
         }
 

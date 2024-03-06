@@ -1,12 +1,10 @@
 package com.serezka.lab.lab5.hahdler;
 
-import com.serezka.lab.core.command.Bridge;
-import com.serezka.lab.core.command.Command;
-import com.serezka.lab.core.database.service.FlatService;
-import com.serezka.lab.core.handler.Handler;
-import com.serezka.lab.core.io.socket.objects.Payload;
-import com.serezka.lab.core.io.socket.objects.Response;
-import io.netty.channel.ChannelHandler;
+import com.serezka.lab.core.v1.command.Bridge;
+import com.serezka.lab.core.v1.command.Command;
+import com.serezka.lab.core.v1.handler.Handler;
+import com.serezka.lab.core.v1.io.socket.objects.Payload;
+import com.serezka.lab.core.v1.io.socket.objects.Response;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
 

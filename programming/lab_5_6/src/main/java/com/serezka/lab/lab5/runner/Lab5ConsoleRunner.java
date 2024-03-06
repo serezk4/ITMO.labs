@@ -1,11 +1,11 @@
 package com.serezka.lab.lab5.runner;
 
 import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.io.console.ConsoleWorker;
-import com.serezka.lab.core.io.format.FormatWorker;
-import com.serezka.lab.core.io.socket.objects.Payload;
-import com.serezka.lab.core.io.socket.objects.Response;
-import com.serezka.lab.core.runner.Runner;
+import com.serezka.lab.core.v1.io.console.ConsoleWorker;
+import com.serezka.lab.core.v1.io.format.FormatWorker;
+import com.serezka.lab.core.v1.io.socket.objects.Payload;
+import com.serezka.lab.core.v1.io.socket.objects.Response;
+import com.serezka.lab.core.v1.runner.Runner;
 import com.serezka.lab.lab5.hahdler.Chat;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;

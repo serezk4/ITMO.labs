@@ -1,8 +1,8 @@
 package com.serezka.lab;
 
-import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker6;
-import com.serezka.lab.core.io.socket.server.tcp.TCPServerWorker7;
-import com.serezka.lab.core.runner.Runner;
+import com.serezka.lab.core.v1.io.socket.server.tcp.TCPServerWorker6;
+import com.serezka.lab.core.v1.io.socket.server.tcp.TCPServerWorker7;
+import com.serezka.lab.core.v1.runner.Runner;
 import lombok.AccessLevel;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;

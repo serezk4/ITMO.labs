@@ -1,11 +1,10 @@
 package com.serezka.lab.lab5.runner;
 
 import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.database.model.User;
-import com.serezka.lab.core.io.socket.objects.Payload;
-import com.serezka.lab.core.io.socket.objects.Response;
-import com.serezka.lab.core.runner.web.ChatRequest;
-import com.serezka.lab.core.runner.Runner;
+import com.serezka.lab.core.v1.io.socket.objects.Payload;
+import com.serezka.lab.core.v1.io.socket.objects.Response;
+import com.serezka.lab.core.v1.runner.web.ChatRequest;
+import com.serezka.lab.core.v1.runner.Runner;
 import com.serezka.lab.lab5.hahdler.Chat;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,7 +15,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.Charset;
 import java.util.Set;
 
 @Controller
