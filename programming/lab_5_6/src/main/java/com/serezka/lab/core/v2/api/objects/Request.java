@@ -1,6 +1,7 @@
 package com.serezka.lab.core.v2.api.objects;
 
 import com.serezka.lab.core.database.model.Flat;
+import com.serezka.lab.core.database.model.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -13,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Builder
 public class Request implements Serializable {
-    final String token;
+    User user;
 
     String command = null;
 

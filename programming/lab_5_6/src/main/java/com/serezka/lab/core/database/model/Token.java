@@ -1,5 +1,6 @@
 package com.serezka.lab.core.database.model;
 
+import com.github.f4b6a3.uuid.UuidCreator;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -17,11 +18,11 @@ public class Token {
 
     String token;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     User user;
 
-    public Token(String token, User user) {
-        this.token = token;
+    public Token(User user) {
+        this.token = UuidCreator.getRandomBased().toString() + UuidCreator.getTimeBased().toString();
         this.user = user;
     }
 }

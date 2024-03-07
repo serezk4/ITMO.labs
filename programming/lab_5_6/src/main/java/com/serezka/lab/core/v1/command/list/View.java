@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 
 @Component
@@ -23,7 +24,7 @@ public class View extends Command {
 
     @Override
     public void execute(Bridge bridge) {
-        Set<Flat> collection = flatService.findAll();
+        List<Flat> collection = flatService.findAll();
 
         if (collection.isEmpty()) {
             bridge.send("В коллекции отсутствуют элементы...");

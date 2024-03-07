@@ -13,17 +13,15 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Component("add_if_min_v2")
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class AddIfMin extends Command {
     FlatService flatService;
-    TokenService tokenService;
 
     public AddIfMin(FlatService flatService, TokenService tokenService) {
         super("add_if_min", "command.add_if_min.help", 1);
 
         this.flatService = flatService;
-        this.tokenService = tokenService;
     }
 
     @Override
@@ -31,13 +29,11 @@ public class AddIfMin extends Command {
         if (request.getFlats() == null || request.getFlats().isEmpty())
             return new Response("command.add_if_min.emptyElements");
 
-        long userId = tokenService.findByToken(request.getToken()).getUser().getId();
-
-        Optional<Flat> minFromCollection = flatService.findAllByUserId(userId)
+        Optional<Flat> minFromCollection = flatService.findAllByUserId(request.getUser().getId())
                 .stream().min(Flat::compareTo);
 
         List<Flat> toRemove = request.getFlats().stream().filter(flat -> minFromCollection.map(value -> value.compareTo(flat) > 0).orElse(true)).toList();
-        toRemove.forEach(flat -> flatService.removeByIdAndUserId(flat.getId(), userId));
+        toRemove.forEach(flat -> flatService.removeByIdAndUserId(flat.getId(), request.getUser().getId()));
 
         return new Response("command.add_if_min.response", toRemove);
     }

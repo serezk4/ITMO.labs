@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("info_v2")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Info extends Command {
     FlatService flatService;
@@ -20,6 +20,6 @@ public class Info extends Command {
 
     @Override
     public Response execute(Request request) {
-        return new Response("command.help.info", "HashSet", flatService.countAll());
+        return new Response("command.info.response", "HashSet", flatService.count());
     }
 }

@@ -45,7 +45,7 @@ public class Bridge {
     public void addNestedFlat(Flat nestedProduct) {
         this.nestedProducts.add(nestedProduct);
     }
-    public void addNestedFlats(Set<Flat> nestedProducts) {
+    public void addNestedFlats(List<Flat> nestedProducts) {
         this.nestedProducts.addAll(nestedProducts);
     }
 

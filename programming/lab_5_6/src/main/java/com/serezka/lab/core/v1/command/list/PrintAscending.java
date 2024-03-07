@@ -8,7 +8,9 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,6 +36,6 @@ public class PrintAscending extends Command {
 
         bridge.addNestedFlats(collection.stream()
                 .sorted(Flat::compareTo)
-                .collect(Collectors.toCollection(HashSet::new)));
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
 }

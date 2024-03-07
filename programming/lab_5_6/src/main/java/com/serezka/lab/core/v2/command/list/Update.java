@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("update_v2")
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class Update extends Command {
     FlatService flatService;

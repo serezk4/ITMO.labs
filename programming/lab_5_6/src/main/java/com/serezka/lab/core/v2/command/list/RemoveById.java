@@ -9,7 +9,7 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("remove_by_id_v2")
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 public class RemoveById extends Command {
     FlatService flatService;
@@ -27,7 +27,7 @@ public class RemoveById extends Command {
             return new Response("command.remove.error.invalidId");
 
         long id = Long.parseLong(request.getString());
-        flatService.removeByIdAndUserId(id, tokenService.findByToken(request.getToken()).getUser().getId());
+        flatService.removeByIdAndUserId(id, request.getUser().getId());
 
         return new Response("command.remove.response", id);
     }

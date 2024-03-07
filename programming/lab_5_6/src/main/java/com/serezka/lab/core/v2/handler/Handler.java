@@ -1,13 +1,14 @@
 package com.serezka.lab.core.v2.handler;
 
 import com.serezka.lab.core.v2.command.Command;
-import com.serezka.lab.core.v1.io.socket.objects.Payload;
-import com.serezka.lab.core.v1.io.socket.objects.Response;
+import com.serezka.lab.core.v2.api.objects.Response;
+import com.serezka.lab.core.v2.api.objects.Request;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -20,13 +21,14 @@ import java.util.stream.Collectors;
  * {@link Handler#commands} - list of commands
  * {@link Handler#requests} - deque of requests
  */
+@Component
 @Log4j2
 @FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
 @RequiredArgsConstructor
 public class Handler {
     @Getter List<Command> commands;
 
-    public static volatile Deque<Payload> requests = new ArrayDeque<>();
+    public static volatile Deque<Request> requests = new ArrayDeque<>();
 
     /**
      * Handle request and return response
@@ -34,7 +36,7 @@ public class Handler {
      * @param request - request to handle
      * @return response to request or error message
      */
-    public Response handle(Payload request) {
+    public Response handle(Request request) {
         requests.push(request);
 
         // validate query

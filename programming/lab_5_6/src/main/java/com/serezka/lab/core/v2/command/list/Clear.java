@@ -9,8 +9,8 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
-@Component
-@FieldDefaults(level = AccessLevel.PRIVATE,makeFinal = true)
+@Component("clear_v2")
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Clear extends Command {
     FlatService flatService;
     TokenService tokenService;
@@ -24,7 +24,7 @@ public class Clear extends Command {
 
     @Override
     public Response execute(Request request) {
-        flatService.removeAllByUserId(tokenService.findByToken(request.getToken()).getUser().getId());
+        flatService.removeAllByUserId(request.getUser().getId());
         return new Response("command.clear.response");
     }
 }

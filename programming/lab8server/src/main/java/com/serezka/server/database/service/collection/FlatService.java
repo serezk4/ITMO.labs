@@ -1,13 +1,12 @@
-package com.serezka.lab.core.database.service;
+package com.serezka.server.database.service.collection;
 
-import com.serezka.lab.core.database.model.Flat;
-import com.serezka.lab.core.database.repository.FlatRepository;
+import com.serezka.server.database.model.collection.Flat;
+import com.serezka.server.database.repository.collection.FlatRepository;
 import jakarta.transaction.Transactional;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;

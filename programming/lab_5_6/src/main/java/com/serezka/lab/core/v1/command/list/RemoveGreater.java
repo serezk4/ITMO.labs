@@ -9,6 +9,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -37,7 +38,7 @@ public class RemoveGreater extends Command {
         if (input.size() > 1)
             bridge.send("так как было введено больше, чем одна запись, будет взята максимальная.");
 
-        Set<Flat> toRemove = collection.stream().filter(temp -> temp.compareTo(max) > 0).collect(Collectors.toSet());
+        List<Flat> toRemove = collection.stream().filter(temp -> temp.compareTo(max) > 0).collect(Collectors.toList());
         toRemove.forEach(flat -> flatService.removeByIdAndUserId(flat.getId(), bridge.getUserId()));
         bridge.addNestedFlats(toRemove);
     }

@@ -19,11 +19,13 @@ import lombok.experimental.NonFinal;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Log4j2
+@PropertySource("classpath:client.properties")
 public class TCPClientWorker7 implements ClientWorker {
     // handler
     SimpleChannelInboundHandler<com.serezka.lab.core.v1.io.socket.objects.Response> handler;

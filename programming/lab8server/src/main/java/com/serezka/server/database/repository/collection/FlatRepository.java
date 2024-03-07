@@ -1,6 +1,6 @@
-package com.serezka.lab.core.database.repository;
+package com.serezka.server.database.repository.collection;
 
-import com.serezka.lab.core.database.model.Flat;
+import com.serezka.server.database.model.collection.Flat;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
