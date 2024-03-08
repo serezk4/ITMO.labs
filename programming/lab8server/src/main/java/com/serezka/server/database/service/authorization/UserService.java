@@ -20,9 +20,7 @@ public class UserService {
 
     @Transactional
     public User save(String username, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        User user = new User(username, encodedPassword);
-        return userRepository.save(user);
+        return userRepository.save(new User(username, passwordEncoder.encode(password)));
     }
 
     @Transactional

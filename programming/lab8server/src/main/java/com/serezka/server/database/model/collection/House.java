@@ -1,6 +1,8 @@
 package com.serezka.server.database.model.collection;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -15,22 +17,26 @@ public class House {
     /**
      * Поле может быть null
      */
+    @Size(min = 1, message = "Name must not be empty")
     String name;
 
     /**
      * Значение поля должно быть больше 0
      */
+    @Min(value = 1, message = "Year must be greater than 0")
     Integer year;
 
     /**
      * Значение поля должно быть больше 0
      */
-    @Column(name = "number_of_flats_on_floor", nullable = false)
+    @Column(name = "flats_on_floor", nullable = false)
+    @Min(value = 1, message = "Number of flats on floor must be greater than 0")
     Long numberOfFlatsOnFloor;
 
     /**
      * Значение поля должно быть больше 0
      */
-    @Column(name = "number_of_lifts")
+    @Column(name = "lifts_count")
+    @Min(value = 1, message = "Number of lifts must be greater than 0")
     int numberOfLifts;
 }

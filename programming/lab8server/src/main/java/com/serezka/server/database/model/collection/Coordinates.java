@@ -1,6 +1,7 @@
 package com.serezka.server.database.model.collection;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -17,12 +18,16 @@ public class Coordinates implements Comparable<Coordinates> {
      * Максимальное значение поля: 364
      * Поле не может быть null
      */
+    @Column(nullable = false)
+    @Max(value = 364, message = "X must be less than 364")
     Float x;
 
     /**
      * Максимальное значение поля: 182
      * Поле не может быть null
      */
+    @Column(nullable = false)
+    @Max(value = 182, message = "Y must be less than 182")
     Long y;
 
     // utils methods
