@@ -24,8 +24,8 @@ public class Localization {
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
     @RequiredArgsConstructor @Getter
     public enum Type {
-        RU("русский", Locale.of("ru")),
-        US("english", Locale.of("us"));
+        RU("русский", Locale.of("ru_RU")),
+        US("english", Locale.of("en_US"));
 
         String name;
         Locale locale;

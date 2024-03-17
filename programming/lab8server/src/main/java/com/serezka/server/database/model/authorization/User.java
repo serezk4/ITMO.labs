@@ -4,7 +4,6 @@ import com.serezka.server.localization.Localization;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Collections;
 import java.util.List;
@@ -14,7 +13,6 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @Getter @Setter @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor @NoArgsConstructor
 public class User {
     @Id

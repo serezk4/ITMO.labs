@@ -10,7 +10,6 @@ import java.util.Objects;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
 @Getter @Setter @ToString
-@RequiredArgsConstructor
 @AllArgsConstructor @NoArgsConstructor
 public class Role {
     @Id
