@@ -8,11 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/**
- * @author ru6ik
- * Сервис для регистрации пользователя и его аутентификации.
- */
-
 @Service
 public class AuthenticationService {
     
@@ -29,20 +24,11 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    /**
-     * Присваивание пользователю требуемых полей
-     */
-
     public AuthenticationResponse register(User request) {
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         return new AuthenticationResponse(jwtService.generateToken(repository.save(request)));
 
     }
-
-    /**
-     * Поле для аутентификации пользователя
-     * 
-     */
 
     public AuthenticationResponse authenticate(String username, String password) {
         authenticationManager.authenticate(
@@ -50,7 +36,6 @@ public class AuthenticationService {
         );
 
         User user = repository.findByUsername(username).orElseThrow();
-
         String token = jwtService.generateToken(user);
 
         return new AuthenticationResponse(token);

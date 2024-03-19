@@ -31,6 +31,11 @@ public class FlatService {
     }
 
     @Transactional
+    public List<Flat> saveAll(List<Flat> flats) {
+        return flatRepository.saveAll(flats);
+    }
+
+    @Transactional
     public Set<Flat> findAllByUserId(Long userId) {
         return flatRepository.findAllByUserId(userId);
     }

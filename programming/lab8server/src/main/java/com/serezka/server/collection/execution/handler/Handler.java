@@ -1,5 +1,6 @@
 package com.serezka.server.collection.execution.handler;
 
+import com.serezka.server.authorization.database.model.User;
 import com.serezka.server.collection.execution.commands.Command;
 import com.serezka.server.collection.execution.transfer.Request;
 import com.serezka.server.collection.execution.transfer.Response;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,31 +28,19 @@ public class Handler {
      * Handle request and return response
      *
      * @param request - request to handle
+     * @param user
      * @return response to request or error message
      */
-    public Response handle(Request request) {
-        // validate query
-        if (request == null)
-            return new Response("handler.error.request.null");
+    public Response handle(final Request request, final User user) {
+        if (request == null) return new Response("handler.error.request.null");
+        if (StringUtils.isBlank(request.getCommand())) return new Response("handler.error.request.command.empty");
+        if ("help".equalsIgnoreCase(request.getCommand())) return getHelp();
 
-        log.info("new request: {}", request.toString());
-
-        if (StringUtils.isBlank(request.getCommand()))
-            return new Response("handler.error.request.command.empty");
-
-        // check if user wants help
-        if ("help".equalsIgnoreCase(request.getCommand()))
-            return getHelp();
-
-        // find suitable command
-        Optional<Command> suitableCommand = commands.stream()
+        return commands.stream()
                 .filter(command -> command.getName().equals(request.getCommand()))
-                .findFirst();
-
-        if (suitableCommand.isEmpty())
-            return new Response("handler.error.request.command.unknown");
-
-        return suitableCommand.get().execute(request);
+                .findFirst()
+                .map(command -> command.execute(request, user))
+                .orElse(new Response("handler.error.request.command.unknown"));
     }
 
     /**

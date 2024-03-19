@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.List;
 
 @Configuration
-@ComponentScan("com.serezka.server.collection.execution.commands")
+@ComponentScan("com.serezka.server.collection.execution.commands.list")
 public class CommandsConfiguration {
     @Bean("commands")
     public List<Command> commands(List<Command> commands) {
