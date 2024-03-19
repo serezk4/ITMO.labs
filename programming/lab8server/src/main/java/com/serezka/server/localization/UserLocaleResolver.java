@@ -1,6 +1,6 @@
 package com.serezka.server.localization;
 
-import com.serezka.server.database.model.authorization.User;
+import com.serezka.server.authorization.database.model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;

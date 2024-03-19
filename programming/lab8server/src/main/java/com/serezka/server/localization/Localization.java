@@ -1,6 +1,6 @@
 package com.serezka.server.localization;
 
-import com.serezka.server.database.model.authorization.User;
+import com.serezka.server.authorization.database.model.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
