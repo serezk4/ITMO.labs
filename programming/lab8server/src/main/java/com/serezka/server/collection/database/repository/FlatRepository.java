@@ -12,9 +12,9 @@ import java.util.Set;
 @Repository
 public interface FlatRepository extends JpaRepository<Flat, Long> {
     @NonNull List<Flat> findAll();
-    @NonNull Set<Flat> findAllByUserId(Long userId);
-    @NonNull Set<Flat> findAllByNameAndUserId(String name, Long userId);
-    @NonNull Set<Flat> findAllByFurnitureAndUserId(boolean furniture, Long userId);
+    @NonNull List<Flat> findAllByUserId(Long userId);
+    @NonNull List<Flat> findAllByNameAndUserId(String name, Long userId);
+    @NonNull List<Flat> findAllByFurnitureAndUserId(boolean furniture, Long userId);
 
     @NonNull Optional<Flat> findByIdAndUserId(Long id, Long userId);
 

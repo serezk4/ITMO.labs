@@ -1,5 +1,6 @@
 package com.serezka.server.collection.database.service;
 
+import com.serezka.server.authorization.database.model.User;
 import com.serezka.server.collection.database.model.Flat;
 import com.serezka.server.collection.database.repository.FlatRepository;
 import jakarta.transaction.Transactional;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 
 @Service
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -26,27 +27,29 @@ public class FlatService {
     }
 
     @Transactional
-    public Flat save(Flat flat) {
+    public Flat save(Flat flat, User user) {
+        flat.setUser(user);
         return flatRepository.save(flat);
     }
 
     @Transactional
-    public List<Flat> saveAll(List<Flat> flats) {
+    public List<Flat> saveAll(List<Flat> flats, User user) {
+        flats.forEach(flat -> flat.setUser(user));
         return flatRepository.saveAll(flats);
     }
 
     @Transactional
-    public Set<Flat> findAllByUserId(Long userId) {
+    public List<Flat> findAllByUserId(Long userId) {
         return flatRepository.findAllByUserId(userId);
     }
 
     @Transactional
-    public Set<Flat> findAllByNameAndUserId(String name, Long userId) {
+    public List<Flat> findAllByNameAndUserId(String name, Long userId) {
         return flatRepository.findAllByNameAndUserId(name, userId);
     }
 
     @Transactional
-    public Set<Flat> findAllByFurnitureAndUserId(boolean furniture, Long userId) {
+    public List<Flat> findAllByFurnitureAndUserId(boolean furniture, Long userId) {
         return flatRepository.findAllByFurnitureAndUserId(furniture, userId);
     }
 
