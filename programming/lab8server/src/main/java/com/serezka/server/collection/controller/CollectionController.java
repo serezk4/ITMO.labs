@@ -26,7 +26,12 @@ public class CollectionController {
         return ResponseEntity.ok(flatService.findAll());
     }
 
-    @GetMapping("/my")
+    @GetMapping("/size")
+    public ResponseEntity<Integer> findAllSize() {
+        return ResponseEntity.ok(flatService.findAll().size());
+    }
+
+    @GetMapping("/my/all")
     public ResponseEntity<List<Flat>> findMy(@AuthenticationPrincipal User user) {
         return ResponseEntity.ok(flatService.findAllByUserId(user.getId()));
     }
@@ -36,36 +41,31 @@ public class CollectionController {
         return ResponseEntity.ok(flatService.findAllByUserId(user.getId()).size());
     }
 
-    @GetMapping("/size")
-    public ResponseEntity<Integer> findAllSize() {
-        return ResponseEntity.ok(flatService.findAll().size());
-    }
-
-    @GetMapping("/clear")
+    @GetMapping("/my/clear")
     public ResponseEntity<String> clear(@AuthenticationPrincipal User user) {
         flatService.removeAllByUserId(user.getId());
         return ResponseEntity.ok("Collection is cleared");
     }
 
-    @PostMapping("/add")
+    @PostMapping("/my/add")
     public ResponseEntity<Flat> add(@AuthenticationPrincipal User user,
                                     @RequestBody Flat flat) {
         return ResponseEntity.ok(flatService.save(flat, user));
     }
 
-    @PostMapping("/addAll")
+    @PostMapping("/my/addAll")
     public ResponseEntity<List<Flat>> addAll(@AuthenticationPrincipal User user,
                                              @RequestBody List<Flat> flats) {
         return ResponseEntity.ok(flatService.saveAll(flats, user));
     }
 
-    @PostMapping("/update")
+    @PostMapping("/my/update")
     public ResponseEntity<Flat> update(@AuthenticationPrincipal User user,
                                        @RequestBody Flat flat) {
         return ResponseEntity.ok(flatService.save(flat, user));
     }
 
-    @PostMapping("/remove")
+    @PostMapping("/my/remove")
     public ResponseEntity<String> remove(@AuthenticationPrincipal User user,
                                          @RequestParam Long id) {
         flatService.removeByIdAndUserId(id, user.getId());

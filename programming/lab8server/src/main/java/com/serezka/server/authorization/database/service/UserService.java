@@ -36,4 +36,19 @@ public class UserService {
     public List<User> findAllByUsernameContaining(String usernamePart) {
         return userRepository.findAllByUsernameContaining(usernamePart);
     }
+
+    @Transactional
+    public boolean existsByUsername(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
+    @Transactional
+    public boolean existsByMail(String mail) {
+        return userRepository.existsByMail(mail);
+    }
+
+    @Transactional
+    public boolean existsByMailOrUsername(String mail, String username) {
+        return userRepository.existsByMailOrUsername(mail, username);
+    }
 }

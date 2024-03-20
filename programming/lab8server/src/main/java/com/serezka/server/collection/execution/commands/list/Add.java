@@ -23,6 +23,6 @@ public class Add extends Command {
 
     @Override
     public Response execute(Request request, User user) {
-        return new Response(flatService.saveAll(request.getFlats()), "commands.add.response");
+        return new Response(flatService.saveAll(request.getFlats(), user), "commands.add.response");
     }
 }

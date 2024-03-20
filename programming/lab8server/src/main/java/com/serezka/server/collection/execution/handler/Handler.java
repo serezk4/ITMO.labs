@@ -28,7 +28,7 @@ public class Handler {
      * Handle request and return response
      *
      * @param request - request to handle
-     * @param user
+     * @param user -
      * @return response to request or error message
      */
     public Response handle(final Request request, final User user) {

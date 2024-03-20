@@ -8,6 +8,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class AuthenticationService {
     
@@ -27,7 +29,6 @@ public class AuthenticationService {
     public AuthenticationResponse register(User request) {
         request.setPassword(passwordEncoder.encode(request.getPassword()));
         return new AuthenticationResponse(jwtService.generateToken(repository.save(request)));
-
     }
 
     public AuthenticationResponse authenticate(String username, String password) {
@@ -35,8 +36,10 @@ public class AuthenticationService {
             new UsernamePasswordAuthenticationToken(username, password)
         );
 
-        User user = repository.findByUsername(username).orElseThrow();
-        String token = jwtService.generateToken(user);
+        Optional<User> user = repository.findByUsername(username);
+        if (user.isEmpty()) return new AuthenticationResponse(true, "incorrect username/password");
+
+        String token = jwtService.generateToken(user.get());
 
         return new AuthenticationResponse(token);
     }

@@ -4,6 +4,7 @@
 
 package com.serezka.gui;
 
+import com.serezka.net.methods.collection.FindAll;
 import com.serezka.objects.Coordinates;
 import com.serezka.objects.Flat;
 import com.serezka.objects.House;
@@ -19,6 +20,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.util.GregorianCalendar;
 
@@ -50,13 +52,11 @@ public class WorkspaceController {
 
     private final ObservableList<Flat> flatsData = FXCollections.observableArrayList();
 
+    @SneakyThrows
     public void initialize() {
-        flatsData.add(new Flat(1L, 1L, "Flat1",
-                new Coordinates(1L, 123F, 12L),
-                new GregorianCalendar(),
-                100L, 2, 50.0, true,
-                Transport.ENOUGH,
-                new House(1L, "123", 2000, 10L, 2)));
+        flatsData.addAll(new FindAll().execute());
+
+
         initializeTableColumns();
         mainTable.setItems(flatsData);
     }
