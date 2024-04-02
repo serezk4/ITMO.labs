@@ -1,23 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane fx:controller="com.serezka.gui.LoginController"
-          xmlns:fx="http://javafx.com/fxml" alignment="CENTER" hgap="10" vgap="10">
-    <padding>
-        <Insets top="25" right="25" bottom="10" left="25"/>
-    </padding>
-    <Text text="Вход в систему" GridPane.columnSpan="2" GridPane.halignment="CENTER"/>
-    <Label text="Пользователь:"/>
-    <TextField fx:id="usernameField" GridPane.columnIndex="1"/>
-    <Label text="Пароль:" GridPane.rowIndex="1"/>
-    <PasswordField fx:id="passwordField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
-    <Button text="Вход" onAction="#handleLogin" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
-    <Button text="Регистрация" onAction="#handleRegister" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
-</GridPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="920.0" style="-fx-background-color: #F1F0F4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.serezka.gui.controller.LoginController">
+   <right>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </right>
+   <center>
+      <VBox prefHeight="208.0" prefWidth="520.0" style="-fx-alignment: center;" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="login" prefHeight="25.0" prefWidth="447.0" promptText="login">
+               <VBox.margin>
+                  <Insets bottom="5.0" left="50.0" right="50.0" top="10.0" />
+               </VBox.margin>
+            </TextField>
+            <PasswordField fx:id="password" prefHeight="26.0" prefWidth="430.0" promptText="password">
+               <VBox.margin>
+                  <Insets bottom="10.0" left="50.0" right="50.0" top="5.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Button fx:id="authorize" defaultButton="true" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="136.0" style="-fx-background-color: #45334C;" text="Register" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Text fx:id="error_text" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="485.9830722808838">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </VBox>
+   </center>
+   <top>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text layoutX="141.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="637.9755859375" AnchorPane.bottomAnchor="67.0">
+               <font>
+                  <Font name="System Bold" size="50.0" />
+               </font>
+            </Text>
+            <Text layoutX="397.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="lab8" textAlignment="CENTER" wrappingWidth="126.45572853088379">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </top>
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </left>
+   <bottom>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+   </bottom>
+</BorderPane>

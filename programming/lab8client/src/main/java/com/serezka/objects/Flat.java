@@ -91,7 +91,6 @@ public class Flat implements Comparable<Flat>, Validatable {
      * Поле не может быть null
      */
     @NonNull
-//    @CsvBindByName(column = ) todo
     House house;
 
     @Override

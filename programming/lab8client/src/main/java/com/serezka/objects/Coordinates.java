@@ -3,10 +3,13 @@ package com.serezka.objects;
 import com.serezka.objects.exceptions.RequirementsException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-@AllArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
 public class Coordinates implements Serializable, Comparable<Coordinates> {
     Long id;
 

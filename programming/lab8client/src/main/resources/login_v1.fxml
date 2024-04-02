@@ -38,16 +38,17 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="920.0" style="-fx-background-color: #F1F0F4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.serezka.gui.LoginController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="583.0" prefWidth="920.0" style="-fx-background-color: #F1F0F4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.serezka.gui.controller.LoginController">
    <right>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
    </right>
    <center>
-      <VBox prefHeight="183.0" prefWidth="147.0" style="-fx-alignment: center;" BorderPane.alignment="CENTER">
+      <VBox prefHeight="208.0" prefWidth="520.0" style="-fx-alignment: center;" BorderPane.alignment="CENTER">
          <children>
             <TextField fx:id="login" prefHeight="25.0" prefWidth="447.0" promptText="login">
                <VBox.margin>
@@ -59,11 +60,23 @@
                   <Insets bottom="10.0" left="50.0" right="50.0" top="5.0" />
                </VBox.margin>
             </PasswordField>
-            <Button fx:id="authorize" defaultButton="true" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="136.0" style="-fx-background-color: #45334C;" text="Login" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </Button>
+            <HBox alignment="TOP_CENTER" prefHeight="35.0" prefWidth="520.0">
+               <children>
+                  <Button fx:id="authorize" defaultButton="true" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="136.0" style="-fx-background-color: #004930;" text="Login" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </Button>
+                  <Button fx:id="register" mnemonicParsing="false" onAction="#handleRegister" prefHeight="33.0" prefWidth="136.0" style="-fx-background-color: #45334C;" text="Register" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
             <Text fx:id="error_text" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="485.9830722808838">
                <VBox.margin>
                   <Insets top="5.0" />
@@ -78,12 +91,12 @@
    <top>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Text layoutX="141.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Authorization" textAlignment="CENTER" wrappingWidth="637.9755859375" AnchorPane.bottomAnchor="67.0">
+            <Text layoutX="141.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" textAlignment="CENTER" wrappingWidth="637.9755859375" AnchorPane.bottomAnchor="67.0">
                <font>
                   <Font name="System Bold" size="50.0" />
                </font>
             </Text>
-            <Text layoutX="397.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="lab8" textAlignment="CENTER" wrappingWidth="126.45572853088379">
+            <Text layoutX="435.0" layoutY="141.0" strokeType="OUTSIDE" strokeWidth="0.0" text="lab8" textAlignment="CENTER" wrappingWidth="126.45572853088379">
                <font>
                   <Font size="20.0" />
                </font>
