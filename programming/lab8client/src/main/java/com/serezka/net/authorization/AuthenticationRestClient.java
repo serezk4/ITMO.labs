@@ -1,6 +1,6 @@
 package com.serezka.net.authorization;
 
-import com.serezka.configuration.Configuration;
+import com.serezka.configuration.ServerConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +14,7 @@ import org.springframework.util.MultiValueMap;
 public class AuthenticationRestClient {
 
     private final RestTemplate restTemplate;
-    private final String baseUrl = Configuration.SERVER_URL;
+    private final String baseUrl = ServerConfiguration.SERVER_URL;
 
     @Autowired
     public AuthenticationRestClient(RestTemplate restTemplate) {

@@ -5,8 +5,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
@@ -23,6 +21,8 @@ public class Flat implements Comparable<Flat>, Validatable {
     Long id;
 
     Long userId;
+
+    boolean editable = false;
 
     /**
      * Поле не может быть null
@@ -41,9 +41,8 @@ public class Flat implements Comparable<Flat>, Validatable {
      * Поле не может быть null
      * Значение этого поля должно генерироваться автоматически
      */
-    @NonNull
     @Builder.Default
-    Calendar creationDate = GregorianCalendar.from(ZonedDateTime.now());
+    ZonedDateTime creationDate = ZonedDateTime.now();
 
     /**
      * Максимальное значение поля: 734

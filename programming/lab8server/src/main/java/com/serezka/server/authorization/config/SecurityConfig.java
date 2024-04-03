@@ -34,7 +34,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         req -> req.requestMatchers("/login/**", "/register/**")
                                 .permitAll()
-                                .requestMatchers("/projects/**").authenticated()
+                                .requestMatchers("/collection/**").authenticated()
+                                .requestMatchers("/execute/**").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsServiceImp)

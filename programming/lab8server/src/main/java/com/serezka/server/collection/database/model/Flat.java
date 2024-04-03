@@ -1,5 +1,6 @@
 package com.serezka.server.collection.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.serezka.server.authorization.database.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
@@ -10,8 +11,6 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.ZonedDateTime;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Objects;
 
 @Entity
@@ -20,9 +19,9 @@ import java.util.Objects;
 @Builder
 @Getter
 @Setter
-@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Flat implements Comparable<Flat> {
     /**
      * Поле не может быть null
@@ -34,10 +33,13 @@ public class Flat implements Comparable<Flat> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
-    @ToString.Exclude
     User user;
+
+    @Builder.Default
+    @Transient
+    boolean editable = false;
 
     /**
      * Поле не может быть null
@@ -60,7 +62,7 @@ public class Flat implements Comparable<Flat> {
      */
     @Builder.Default
     @Column(name = "creation_date", nullable = false, updatable = false)
-    Calendar creationDate = GregorianCalendar.from(ZonedDateTime.now());
+    ZonedDateTime creationDate = ZonedDateTime.now();
 
     /**
      * Максимальное значение поля: 734
@@ -96,8 +98,8 @@ public class Flat implements Comparable<Flat> {
     /**
      * Поле не может быть null
      */
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "houses", referencedColumnName = "id", nullable = false)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "house_id", referencedColumnName = "id", nullable = false)
     @ToString.Exclude
     House house;
 

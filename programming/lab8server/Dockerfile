@@ -1,22 +1,23 @@
-# Используем образ JDK 21
-FROM openjdk:21-jdk-slim as build
-FROM gradle:jdk21-alpine as gradle
+# Define the build stage with Gradle
+FROM gradle:jdk21-alpine as build
 
-# Устанавливаем рабочую директорию
+# Set working directory for the build stage
 WORKDIR /workspace/app
 
-# Копируем Gradle и исходный код
-COPY build.gradle build.gradle
-COPY settings.gradle settings.gradle
+# Copy Gradle configuration files and source code into the image
+COPY build.gradle settings.gradle ./
 COPY src src
 
-# Даем права на выполнение для gradlew
-#RUN chmod +x ./gradlew
+# No need to set executable permissions for gradlew when using the Gradle image
 
-# Собираем приложение
-RUN gradle bootJar
+# Build the application
+RUN gradle bootJar --no-daemon
 
-# Запуск собранного приложения
+# Define the final stage to run the application
 FROM openjdk:21-jdk-slim
+
+# Copy the built JAR from the build stage into the final image
 COPY --from=build /workspace/app/build/libs/*.jar app.jar
+
+# Specify the entry point to run the JAR
 ENTRYPOINT ["java","-jar","/app.jar"]

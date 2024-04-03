@@ -43,20 +43,20 @@ public class LoginController {
     @SneakyThrows
     private void sendLoginRequest(String username, String password) {
 
-        AuthenticationResponse authenticationResponse = authenticationRestClient.login(username, password);
-
-        if (authenticationResponse.isError()) {
-            error_text.setText(authenticationResponse.getToken());
-            return;
-        }
-
-        RuntimeConfiguration.setJwtToken(authenticationResponse.getToken());
-        error_text.setText("");
-
         try {
+            AuthenticationResponse authenticationResponse = authenticationRestClient.login(username, password);
+
+            if (authenticationResponse.isError()) {
+                error_text.setText(authenticationResponse.getToken());
+                return;
+            }
+
+            RuntimeConfiguration.setJwtToken(authenticationResponse.getToken());
+            error_text.setText("");
+
             stageHandler.showWorkspaceScene();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            error_text.setText("Server is not available");
         }
     }
 

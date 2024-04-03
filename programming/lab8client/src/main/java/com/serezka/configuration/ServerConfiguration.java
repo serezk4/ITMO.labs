@@ -1,6 +1,6 @@
 package com.serezka.configuration;
 
-public class Configuration {
+public class ServerConfiguration {
     public static final String SERVER_HOST = "localhost";
     public static final int SERVER_PORT = 8080;
     public static final String SERVER_PROTOCOL = "http";

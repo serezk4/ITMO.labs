@@ -1,5 +1,6 @@
 package com.serezka.server.authorization.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.serezka.server.localization.Localization;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,14 +12,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
-@Entity
-@Table(name = "users")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity @Table(name = "users")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Builder
+//@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@ToString
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,4 +80,16 @@ public class User implements UserDetails {
         public static final Role DEFAULT = USER;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, mail, registered, role, localization);
+    }
 }

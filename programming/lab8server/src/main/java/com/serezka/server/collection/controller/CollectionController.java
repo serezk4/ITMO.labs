@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-// todo add to filter chain /collection/** and /execute/**
+// filter chain /collection/** and /execute/**
 
 @RequestMapping("/collection")
 @RestController
@@ -22,8 +22,9 @@ public class CollectionController {
     FlatService flatService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Flat>> findAll() {
-        return ResponseEntity.ok(flatService.findAll());
+    public ResponseEntity<List<Flat>> findAll(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(flatService.findAll().stream()
+                .peek(flat -> flat.setEditable(flat.getUser().equals(user))).toList());
     }
 
     @GetMapping("/size")
@@ -31,41 +32,41 @@ public class CollectionController {
         return ResponseEntity.ok(flatService.findAll().size());
     }
 
-    @GetMapping("/my/all")
-    public ResponseEntity<List<Flat>> findMy(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(flatService.findAllByUserId(user.getId()));
-    }
+//    @GetMapping("/myall")
+//    public ResponseEntity<List<Flat>> findMy(@AuthenticationPrincipal User user) {
+//        return ResponseEntity.ok(flatService.findAllByUserId(user.getId()));
+//    }
 
-    @GetMapping("/my/size")
-    public ResponseEntity<Integer> findMySize(@AuthenticationPrincipal User user) {
-        return ResponseEntity.ok(flatService.findAllByUserId(user.getId()).size());
-    }
+//    @GetMapping("/size")
+//    public ResponseEntity<Integer> findMySize(@AuthenticationPrincipal User user) {
+//        return ResponseEntity.ok(flatService.findAllByUserId(user.getId()).size());
+//    }
 
-    @GetMapping("/my/clear")
+    @PostMapping("/clear")
     public ResponseEntity<String> clear(@AuthenticationPrincipal User user) {
         flatService.removeAllByUserId(user.getId());
         return ResponseEntity.ok("Collection is cleared");
     }
 
-    @PostMapping("/my/add")
+    @PostMapping("/add")
     public ResponseEntity<Flat> add(@AuthenticationPrincipal User user,
                                     @RequestBody Flat flat) {
         return ResponseEntity.ok(flatService.save(flat, user));
     }
 
-    @PostMapping("/my/addAll")
+    @PostMapping("/addAll")
     public ResponseEntity<List<Flat>> addAll(@AuthenticationPrincipal User user,
                                              @RequestBody List<Flat> flats) {
         return ResponseEntity.ok(flatService.saveAll(flats, user));
     }
 
-    @PostMapping("/my/update")
+    @PostMapping("/update")
     public ResponseEntity<Flat> update(@AuthenticationPrincipal User user,
                                        @RequestBody Flat flat) {
         return ResponseEntity.ok(flatService.save(flat, user));
     }
 
-    @PostMapping("/my/remove")
+    @PostMapping("/remove")
     public ResponseEntity<String> remove(@AuthenticationPrincipal User user,
                                          @RequestParam Long id) {
         flatService.removeByIdAndUserId(id, user.getId());

@@ -1,15 +1,14 @@
 package com.serezka.objects;
 
 import com.serezka.objects.exceptions.RequirementsException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
-@AllArgsConstructor @NoArgsConstructor
-@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Coordinates implements Serializable, Comparable<Coordinates> {
     Long id;
 
@@ -21,7 +20,8 @@ public class Coordinates implements Serializable, Comparable<Coordinates> {
     Float x;
 
     public void setX(Float x) {
-        if (x == null || x > 364) throw new RequirementsException("x", "Максимальное значение поля: 364, Поле не может быть null");
+        if (x == null || x > 364)
+            throw new RequirementsException("x", "Максимальное значение поля: 364, Поле не может быть null");
         this.x = x;
     }
 
@@ -33,7 +33,8 @@ public class Coordinates implements Serializable, Comparable<Coordinates> {
     Long y;
 
     public void setY(Long y) {
-        if (y == null || y > 182) throw new RequirementsException("y", "Максимальное значение поля: 182, Поле не может быть null");
+        if (y == null || y > 182)
+            throw new RequirementsException("y", "Максимальное значение поля: 182, Поле не может быть null");
         this.y = y;
     }
 
@@ -41,5 +42,10 @@ public class Coordinates implements Serializable, Comparable<Coordinates> {
     @Override
     public int compareTo(Coordinates o) {
         return x.compareTo(o.getX()) + y.compareTo(o.getY());
+    }
+
+    @Override
+    public String toString() {
+        return x + " | " + y;
     }
 }

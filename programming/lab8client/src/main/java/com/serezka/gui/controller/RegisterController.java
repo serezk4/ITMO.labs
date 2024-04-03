@@ -1,9 +1,8 @@
 package com.serezka.gui.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import com.serezka.gui.stage.StageHandler;
+import com.serezka.net.authorization.AuthenticationResponse;
+import com.serezka.net.authorization.AuthenticationRestClient;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -14,9 +13,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 @Component
 @RequiredArgsConstructor
 public class RegisterController {
+    private final AuthenticationRestClient authenticationRestClient;
     private final StageHandler stageHandler;
 
     @FXML // ResourceBundle that was given to the FXMLLoader
@@ -51,7 +54,25 @@ public class RegisterController {
 
     @FXML
     void handleRegister(ActionEvent event) {
+        String login = this.login.getText();
+        String password = this.password.getText();
+        String email = this.email.getText();
 
+        if (login.isBlank() || password.isBlank() || email.isBlank()) {
+            error_text.setText("Fill all fields");
+            return;
+        }
+
+        AuthenticationResponse response = authenticationRestClient.register(email, login, password);
+
+        if (response.isError()) {
+            error_text.setText(response.getToken());
+            return;
+        }
+
+        error_text.setText("");
+
+        stageHandler.showLoginScene();
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -62,7 +83,6 @@ public class RegisterController {
         assert login != null : "fx:id=\"login\" was not injected: check your FXML file 'register.fxml'.";
         assert password != null : "fx:id=\"password\" was not injected: check your FXML file 'register.fxml'.";
         assert register != null : "fx:id=\"register\" was not injected: check your FXML file 'register.fxml'.";
-
     }
 
 }
