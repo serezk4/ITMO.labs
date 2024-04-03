@@ -32,16 +32,6 @@ public class CollectionController {
         return ResponseEntity.ok(flatService.findAll().size());
     }
 
-//    @GetMapping("/myall")
-//    public ResponseEntity<List<Flat>> findMy(@AuthenticationPrincipal User user) {
-//        return ResponseEntity.ok(flatService.findAllByUserId(user.getId()));
-//    }
-
-//    @GetMapping("/size")
-//    public ResponseEntity<Integer> findMySize(@AuthenticationPrincipal User user) {
-//        return ResponseEntity.ok(flatService.findAllByUserId(user.getId()).size());
-//    }
-
     @PostMapping("/clear")
     public ResponseEntity<String> clear(@AuthenticationPrincipal User user) {
         flatService.removeAllByUserId(user.getId());
