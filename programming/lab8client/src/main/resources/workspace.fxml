@@ -45,26 +45,26 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="300.0" minWidth="300.0" prefHeight="656.0" prefWidth="1226.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.serezka.gui.controller.WorkspaceController">
    <children>
-      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1226.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="File">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Edit">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Help">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="About" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <AnchorPane layoutX="10.0" layoutY="22.0" prefHeight="594.0" prefWidth="1226.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="22.0">
+<!--      <MenuBar layoutY="2.0" prefHeight="25.0" prefWidth="1226.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">-->
+<!--         <menus>-->
+<!--            <Menu mnemonicParsing="false" text="File">-->
+<!--               <items>-->
+<!--                  <MenuItem mnemonicParsing="false" text="Close" />-->
+<!--               </items>-->
+<!--            </Menu>-->
+<!--            <Menu mnemonicParsing="false" text="Edit">-->
+<!--               <items>-->
+<!--                  <MenuItem mnemonicParsing="false" text="Delete" />-->
+<!--               </items>-->
+<!--            </Menu>-->
+<!--            <Menu mnemonicParsing="false" text="Help">-->
+<!--               <items>-->
+<!--                  <MenuItem mnemonicParsing="false" text="About" />-->
+<!--               </items>-->
+<!--            </Menu>-->
+<!--         </menus>-->
+<!--      </MenuBar>-->
+      <AnchorPane layoutX="10.0" layoutY="22.0" prefHeight="594.0" prefWidth="1226.0" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0"> <!--AnchorPane.topAnchor="22.0"-->
          <children>
             <TableView fx:id="mainTable" editable="true" prefHeight="492.0" prefWidth="1182.0" style="-fx-background-color: #f0f0f0;" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <columns>
@@ -87,7 +87,7 @@
       </AnchorPane>
       <AnchorPane layoutX="2.0" layoutY="613.0" prefHeight="25.0" prefWidth="1226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <ToggleButton fx:id="show_onlyredactable" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#setViewOnlyRedactable" prefHeight="25.0" prefWidth="162.0" text="Only Redactable" AnchorPane.bottomAnchor="9.0" AnchorPane.topAnchor="9.0" />
+            <ToggleButton fx:id="showOnlyRedactable" layoutX="14.0" layoutY="9.0" mnemonicParsing="false" onAction="#setViewOnlyRedactable" prefHeight="25.0" prefWidth="162.0" text="Only Redactable" AnchorPane.bottomAnchor="9.0" AnchorPane.topAnchor="9.0" />
             <Button fx:id="add" layoutX="182.0" layoutY="9.0" mnemonicParsing="false" onAction="#add" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: darkgreen;" text="Add" textFill="WHITE" />
             <Button fx:id="remove" layoutX="294.0" layoutY="9.0" mnemonicParsing="false" onAction="#removeSelected" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: darkred;" text="Remove" textFill="WHITE" />
             <Button fx:id="removeAll" layoutX="405.0" layoutY="9.0" mnemonicParsing="false" onAction="#removeAll" prefHeight="25.0" prefWidth="105.0" style="-fx-background-color: black;" text="Clear All" textFill="WHITE" />

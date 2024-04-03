@@ -10,30 +10,24 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginController {
     private final AuthenticationRestClient authenticationRestClient;
     private final StageHandler stageHandler;
 
-    @FXML // fx:id="authorize"
-    private Button authorize; // Value injected by FXMLLoader
-
-    @FXML // fx:id="error_text"
-    private Text error_text; // Value injected by FXMLLoader
-
-    @FXML // fx:id="login"
-    private TextField login; // Value injected by FXMLLoader
-
-    @FXML // fx:id="password"
-    private PasswordField password; // Value injected by FXMLLoader
-
-    @FXML // fx:id="register"
-    private Button register; // Value injected by FXMLLoader
+    @FXML Button authorize;
+    @FXML Text errorText;
+    @FXML TextField login;
+    @FXML PasswordField password;
+    @FXML Button register;
 
     @FXML
     void login(ActionEvent event) {
@@ -42,26 +36,25 @@ public class LoginController {
 
     @SneakyThrows
     private void sendLoginRequest(String username, String password) {
-
         try {
             AuthenticationResponse authenticationResponse = authenticationRestClient.login(username, password);
 
             if (authenticationResponse.isError()) {
-                error_text.setText(authenticationResponse.getToken());
+                errorText.setText(authenticationResponse.getToken());
                 return;
             }
 
             RuntimeConfiguration.setJwtToken(authenticationResponse.getToken());
-            error_text.setText("");
+            errorText.setText("");
 
             stageHandler.showWorkspaceScene();
         } catch (Exception e) {
-            error_text.setText("Server is not available");
+            errorText.setText("Server is not available");
         }
     }
 
     public void handleLogin(ActionEvent actionEvent) {
-
+        
     }
 
     @FXML

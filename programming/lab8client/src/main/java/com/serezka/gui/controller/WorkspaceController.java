@@ -61,7 +61,7 @@ public class WorkspaceController {
     @FXML TableView<Flat> mainTable;
     @FXML Button remove;
     @FXML Button removeAll;
-    @FXML ToggleButton show_onlyredactable;
+    @FXML ToggleButton showOnlyRedactable;
     @FXML Label status;
     @FXML MenuItem console;
     @FXML ChoiceBox<String> language;
@@ -101,6 +101,7 @@ public class WorkspaceController {
         });
 
         updateTable();
+        refreshUI();
     }
 
     private void refreshUI() {
@@ -111,7 +112,7 @@ public class WorkspaceController {
         logout.setText(localization.get("button.logout"));
         remove.setText(localization.get("button.remove"));
         removeAll.setText(localization.get("button.removeAll"));
-        show_onlyredactable.setText(localization.get("toggle.showOnlyEditable"));
+        showOnlyRedactable.setText(localization.get("toggle.showOnlyEditable"));
     }
 
     /**
@@ -124,7 +125,7 @@ public class WorkspaceController {
 
         mainTable.getColumns().clear();
         initializeTableColumns();
-        if (show_onlyredactable.isSelected())
+        if (showOnlyRedactable.isSelected())
             flatsData.removeIf(flat -> !flat.isEditable());
         mainTable.setItems(flatsData);
         mainTable.refresh();
@@ -249,8 +250,19 @@ public class WorkspaceController {
 
         houseBox.getChildren().addAll(houseLine1, houseLine2);
 
-        Button saveButton = new Button(localization.get("button.edit"));
-        saveButton.setOnAction(e -> {
+        HBox buttonsBox = new HBox(5);
+
+        Button editButton = new Button(localization.get("button.edit"));
+        editButton.setDefaultButton(true);
+
+        Button closeButton = new Button(localization.get("button.close"));
+        closeButton.setCancelButton(true);
+
+        buttonsBox.getChildren().addAll(editButton, closeButton);
+
+        closeButton.setOnAction(e -> popup.close());
+
+        editButton.setOnAction(e -> {
             try {
                 Flat flat = new Flat();
 
@@ -292,7 +304,7 @@ public class WorkspaceController {
             }
         });
 
-        VBox layout = new VBox(5, infoBox, coordinatesBox, flatInfo, selectors, houseBox, saveButton);
+        VBox layout = new VBox(5, infoBox, coordinatesBox, flatInfo, selectors, houseBox, buttonsBox);
         layout.setPadding(new Insets(10, 10, 10, 10));
         popup.setScene(new javafx.scene.Scene(layout, 300, 250));
         popup.showAndWait();
@@ -351,7 +363,18 @@ public class WorkspaceController {
 
         houseBox.getChildren().addAll(houseLine1, houseLine2);
 
+        HBox buttonsBox = new HBox(5);
+
         Button saveButton = new Button(localization.get("button.save"));
+        saveButton.setDefaultButton(true);
+
+        Button closeButton = new Button(localization.get("button.close"));
+        closeButton.setCancelButton(true);
+
+        buttonsBox.getChildren().addAll(saveButton, closeButton);
+
+        closeButton.setOnAction(e -> popup.close());
+
         saveButton.setOnAction(e -> {
             try {
                 Flat flat = new Flat();
@@ -392,7 +415,7 @@ public class WorkspaceController {
             }
         });
 
-        VBox layout = new VBox(5, infoBox, coordinatesBox, flatInfo, selectors, houseBox, saveButton);
+        VBox layout = new VBox(5, infoBox, coordinatesBox, flatInfo, selectors, houseBox, buttonsBox);
         layout.setPadding(new Insets(10, 10, 10, 10));
         popup.setScene(new javafx.scene.Scene(layout, 300, 250));
         popup.showAndWait();
@@ -420,7 +443,7 @@ public class WorkspaceController {
 
     @FXML
     void setViewOnlyRedactable(ActionEvent event) {
-        if (show_onlyredactable.isSelected()) {
+        if (showOnlyRedactable.isSelected()) {
             flatsData.clear();
             flatsData.addAll(collectionRestClient.findAll());
             flatsData.removeIf(flat -> !flat.isEditable());

@@ -9,8 +9,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
@@ -18,33 +20,19 @@ import java.util.ResourceBundle;
 
 @Component
 @RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterController {
     private final AuthenticationRestClient authenticationRestClient;
     private final StageHandler stageHandler;
 
-    @FXML // ResourceBundle that was given to the FXMLLoader
-    private ResourceBundle resources;
-
-    @FXML // URL location of the FXML file that was given to the FXMLLoader
-    private URL location;
-
-    @FXML // fx:id="authorize1"
-    private Button authorize1; // Value injected by FXMLLoader
-
-    @FXML // fx:id="email"
-    private PasswordField email; // Value injected by FXMLLoader
-
-    @FXML // fx:id="error_text"
-    private Text error_text; // Value injected by FXMLLoader
-
-    @FXML // fx:id="login"
-    private TextField login; // Value injected by FXMLLoader
-
-    @FXML // fx:id="password"
-    private PasswordField password; // Value injected by FXMLLoader
-
-    @FXML // fx:id="register"
-    private Button register; // Value injected by FXMLLoader
+    @FXML ResourceBundle resources;
+    @FXML URL location;
+    @FXML Button authorize1;
+    @FXML TextField email;
+    @FXML Text error_text;
+    @FXML TextField login;
+    @FXML PasswordField password;
+    @FXML Button register;
 
     @SneakyThrows
     @FXML

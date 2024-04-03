@@ -60,11 +60,11 @@
                   <Insets bottom="10.0" left="50.0" right="50.0" top="5.0" />
                </VBox.margin>
             </PasswordField>
-            <PasswordField fx:id="email" prefHeight="26.0" prefWidth="430.0" promptText="email">
+            <TextField fx:id="email" prefHeight="26.0" prefWidth="430.0" promptText="email">
                <VBox.margin>
                   <Insets bottom="10.0" left="50.0" right="50.0" />
                </VBox.margin>
-            </PasswordField>
+            </TextField>
             <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="register" defaultButton="true" mnemonicParsing="false" onAction="#handleRegister" prefHeight="33.0" prefWidth="136.0" style="-fx-background-color: #004930;" text="Register" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">

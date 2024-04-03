@@ -64,7 +64,7 @@
                   <Insets />
                </opaqueInsets>
             </Button>
-            <Text fx:id="error_text" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="485.9830722808838">
+            <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="485.9830722808838">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
