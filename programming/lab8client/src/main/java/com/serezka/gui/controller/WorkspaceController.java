@@ -80,7 +80,7 @@ public class WorkspaceController {
         language.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 RuntimeConfiguration.setLocalizationType(Localization.Type.fromString(newValue));
-                refreshUI(); // A method to refresh UI texts
+                refreshUI();
             }
         });
 
@@ -302,7 +302,7 @@ public class WorkspaceController {
         Stage popup = new Stage();
 
         popup.initModality(Modality.APPLICATION_MODAL);
-        popup.setTitle("New Element");
+        popup.setTitle(localization.get("popup.addElement"));
 
         HBox infoBox = new HBox(5);
 

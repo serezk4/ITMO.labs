@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
@@ -16,7 +18,9 @@ import java.util.Locale;
  * Allows to get localized messages
  * @version 1.0
  */
+@Component @Scope("singleton")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 @Log4j2
 public class Localization {
     @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
@@ -40,22 +44,6 @@ public class Localization {
     }
 
     ResourceBundleMessageSource messageSource;
-
-    private Localization() {
-        ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename("lang");
-        messageSource.setDefaultLocale(Type.DEFAULT.getLocale());
-        messageSource.setDefaultEncoding("UTF-8");
-
-        this.messageSource = messageSource;
-    }
-
-    private static Localization instance = null;
-
-    public static Localization getInstance() {
-        if (instance == null) instance = new Localization();
-        return instance;
-    }
 
     /**
      * Get localized message
@@ -81,7 +69,7 @@ public class Localization {
      */
     public String get(String code) {
         try {
-            return messageSource.getMessage(code, null, RuntimeConfiguration.getLocalizationType().getLocale());
+            return messageSource.getMessage(code, new Object[0], RuntimeConfiguration.getLocalizationType().getLocale());
         } catch (NoSuchMessageException e) {
             log.warn(e.getMessage());
             return code;

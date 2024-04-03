@@ -63,7 +63,6 @@ public class StageHandler {
             primaryStage.show();
         } catch (Exception ex) {
             log.warn(ex.getMessage());
-            ex.printStackTrace();
         }
     }
 }
