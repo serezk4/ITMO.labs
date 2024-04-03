@@ -15,7 +15,7 @@
 
 ## Лабы
 
-* #### Прога: [Лаба 2](programming/lab2), [Лаба 3](programming/lab3), [Лаба 4](programming/lab4), [Лаба 5-8](programming/lab_5_6)
+* #### Прога: [Лаба 2](programming/lab2), [Лаба 3](programming/lab3), [Лаба 4](programming/lab4), [Лаба 5-7](programming/lab_5_6), [Лаба 8 Сервер](programming/lab8server), [Лаба 8 Клиент](programming/lab8client) 
 * #### Инфа: [Лаба 1](informatics/lab1), [Лаба 2](informatics/lab2), [Лаба 3](informatics/lab3py), [Лаба 4](informatics/lab4py), [Лаба 5](informatics/lab5), [Лаба 6](informatics/lab6)
 * #### ОПД: [Лаба 1](OPD/lab1), [Лаба 2](OPD/lab2)
 
