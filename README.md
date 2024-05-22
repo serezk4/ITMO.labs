@@ -1,4 +1,4 @@
-# ITMO.labs
+# ITMO.labs [![CodeFactor](https://www.codefactor.io/repository/github/serezk4/itmo.labs/badge/master)](https://www.codefactor.io/repository/github/serezk4/itmo.labs/overview/master)
 
 [@serezkk](https://t.me/serezkk) - для связи
 
