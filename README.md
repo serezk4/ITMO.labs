@@ -1,6 +1,6 @@
 # ITMO.labs [![CodeFactor](https://www.codefactor.io/repository/github/serezk4/itmo.labs/badge/master)](https://www.codefactor.io/repository/github/serezk4/itmo.labs/overview/master)
 
-[@serezkk](https://t.me/serezkk) - для связи
+прокладка труб в Самаре - [@serezkk](https://t.me/serezkk)
 
 ### Здесь собраны (все) лабораторные работы 1 и 2 семестра направления СППО 09.03.04
 
