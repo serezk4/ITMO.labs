@@ -96,7 +96,7 @@ import java.util.*;
 public class Test {
     public static void main(String[] args) throws Exception {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
-        cfg.setClassForTemplateLoading(FreemarkerExample.class, "/");
+        cfg.setClassForTemplateLoading(Test.class, "/");
         Template template = cfg.getTemplate("template.ftl");
         Map<String, Object> data = Map.of("user", "John", "tasks", List.of("Task 1", "Task 2"));
         template.process(data, new java.io.OutputStreamWriter(System.out));
